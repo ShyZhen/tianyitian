@@ -1,0 +1,10 @@
+{
+  "disableScroll": true,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "tui-button": "/components/tui/button",
+    "tui-list-cell": "/components/tui/list-cell",
+    "tui-dropdown-list": "/components/tui/dropdown-list",
+    "tui-icon": "/components/tui/icon"
+  }
+}

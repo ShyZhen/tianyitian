@@ -1,0 +1,26 @@
+
+.content-wrapper.data-v-92c79dbc {
+	margin-top: 150rpx;
+}
+.about-actions.data-v-92c79dbc{
+	/* position: fixed; */
+	/* bottom: 80px; */
+	width: 500rpx;
+	/* left: 125rpx; */
+}
+.card-menu.data-v-92c79dbc {
+	margin-left: auto;
+	margin-right: auto;
+}
+.free-btn-bordernone.data-v-92c79dbc {
+	background: none !important;
+	color: #000 !important;
+	display: inline-block !important;
+}
+.free-btn-bordernone.data-v-92c79dbc::after {
+	border: none;
+}
+.ad-container.data-v-92c79dbc {
+	width: 690rpx;
+}
+

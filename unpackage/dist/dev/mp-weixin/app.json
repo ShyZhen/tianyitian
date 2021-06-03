@@ -1,0 +1,57 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/mask/add-mask",
+    "pages/slogan/add-slogan",
+    "pages/about/about",
+    "pages/crop/crop",
+    "pages/text/add-text"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "添一添",
+    "navigationBarBackgroundColor": "#FFF",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "selectedColor": "#3ABA94",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/image/tabbar/home-off.png",
+        "selectedIconPath": "static/image/tabbar/home-on.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/mask/add-mask",
+        "iconPath": "static/image/tabbar/mask-off.png",
+        "selectedIconPath": "static/image/tabbar/mask-on.png",
+        "text": "戴口罩"
+      },
+      {
+        "pagePath": "pages/slogan/add-slogan",
+        "iconPath": "static/image/tabbar/fight-off.png",
+        "selectedIconPath": "static/image/tabbar/fight-on.png",
+        "text": "加口号"
+      },
+      {
+        "pagePath": "pages/text/add-text",
+        "iconPath": "static/image/tabbar/font-off.png",
+        "selectedIconPath": "static/image/tabbar/font-on.png",
+        "text": "加V字"
+      }
+    ]
+  },
+  "plugins": {
+    "tucao": {
+      "version": "1.1.5",
+      "provider": "wx8abaf00ee8c3202e"
+    }
+  },
+  "usingComponents": {
+    "cu-custom": "/colorui/components/cu-custom"
+  }
+}
