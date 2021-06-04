@@ -1,8 +1,5 @@
 <template>
   <view class="container" :style="{height:windowHeight+'px'}">
-    <!--  背景图  -->
-    <!-- <image class="page-bg" :style="{height:windowHeight+'px'}" mode="aspectFill" src="/static/image/page-bg.png"></image>-->
-
     <view v-if="SHOW_TIP">
       <add-tips :statusBarHeight="statusBarHeight" />
     </view>
@@ -63,12 +60,12 @@
 
     </view>
 
-    <scroll-view class="scrollView mask-scroll-view" scroll-x="true">
-      <view v-for="(item,index) in imgList" :key="index" style="display: inline-flex;">
+    <scroll-view class="scrollView mask-scroll-view" scroll-x="true" v-if="dateType">
+      <view v-for="(item,index) in dataImgList.christmas" :key="index" style="display: inline-flex;">
         <text v-if="currentMaskId == index && isAndroid" class="cuIcon-order cancel circle" @click="flipHorizontal" id="cancel"
               :style="{transform: 'rotate(' +90+ 'deg)'}"></text>
         <!--				<text v-if="currentMaskId == index" style="margin-left: 55px;" class="cuIcon-question cancel circle" @click="showTips" id="cancel"></text>-->
-        <image class="imgList" :src="'/static/image/mask/'+ index +'.png'" :data-mask-id="index" @tap="changeMask"></image>
+        <image class="imgList" :src="'/static/image/date/'+ dateType + '/' + index +'.png'" :data-mask-id="index" @tap="changeMask"></image>
       </view>
     </scroll-view>
 
@@ -97,17 +94,18 @@
 import {
   mapState,
   mapMutations
-} from "vuex";
-import tuiFooter from "@/components/tui/footer";
-import addTips from "@/components/add-tips";
+} from "vuex"
+import tuiFooter from "@/components/tui/footer"
+import addTips from "@/components/add-tips"
+import { getShareObj } from "@/utils/share.js"
 
 // 在页面中定义激励视频广告
 let videoAd = null;
 // 在页面中定义插屏广告
 let interstitialAd = null
 
-const range = (start, end, step) => {
-  return Array.from(Array.from(Array(Math.ceil((end - start) / step)).keys()), x => start + x * step);
+const range = (start, count, step) => {
+  return Array.from(Array.from(Array(Math.ceil((count - start) / step)).keys()), x => start + x * step);
 }
 const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY';
 
@@ -128,7 +126,7 @@ export default {
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
       avatarPath: '/static/image/mask/avatar_mask.jpg',
-      imgList: range(0, 29, 1), // 第二个参数是个数
+      imgList: range(0, 29, 1),
       currentMaskId: -1,
       showBorder: false,
       maskCenterX: wx.getSystemInfoSync().windowWidth / 2,
@@ -153,6 +151,12 @@ export default {
       touch_target: "",
       start_x: 0,
       start_y: 0,
+
+      // 节日挂件封装
+      dateType: '',
+      dataImgList: {
+        christmas: range(0, 10, 1),
+      }
     }
   },
   computed: {
@@ -160,7 +164,7 @@ export default {
       userInfo: 'userInfo'
     }),
     maskPic: function() {
-      return '/static/image/mask/' + this.currentMaskId + '.png';
+      return '/static/image/date/' + this.dateType +'/'+ this.currentMaskId + '.png';
     }
   },
   onLoad(option) {
@@ -168,6 +172,9 @@ export default {
     if (!!getApp().globalData.userAvatarFilePath) {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
     }
+
+    // 初始化当前date
+    this.dateType = 'christmas'
 
     // 在页面onLoad回调事件中创建插屏广告实例
     /*
@@ -213,6 +220,9 @@ export default {
     */
   },
   onReady() {
+
+    uni.vibrateShort();
+
     // 判断是否已经显示过
     let cache = uni.getStorageSync(STORAGE_KEY);
     if (!cache) {
@@ -241,20 +251,16 @@ export default {
       this.paint();
     }
   },
-  onShareAppMessage() {
-    return {
-      title: '我换上了口罩头像，防止疫情蔓延，30款口罩、护目镜任你选！',
-      desc: '防传染、戴口罩，从我做起！',
-      imageUrl: '/static/image/mask/avatar_mask.png',
-      path: '/pages/index/index',
-      success: function(res) {
-        console.log(res);
-      }
-    }
+  onShareAppMessage(res) {
+    return getShareObj()
+  },
+  onShareTimeline(res) {
+    return getShareObj()
   },
   methods: {
     ...mapMutations(["saveLoginUserInfo"]),
-    paint() {},
+    paint() {
+    },
     showTips() {
       this.modalName = 'tips'
     },
@@ -439,7 +445,7 @@ export default {
                       title: '请勿使用违法违规内容',
                       content: '图片含有违法违规内容',
                       showCancel: false,
-                      confirmText: '知道了',
+                      confirmText: '朕知道了',
                     });
                     console.log("bad")
                   } else {
@@ -572,11 +578,7 @@ export default {
                 })
               }
               that.savedCounts++;
-              uni.vibrateShort({
-                success: function() {
-                  console.log('vibrateShort');
-                }
-              });
+              uni.vibrateShort();
             },
             fail(res) {
               if (res.errMsg.indexOf("fail")) {

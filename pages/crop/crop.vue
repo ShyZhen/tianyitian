@@ -457,7 +457,7 @@
 												title: '请勿使用违法违规内容',
 												content: '图片含有违法违规内容',
 												showCancel: false,
-												confirmText: '知道了',
+												confirmText: '朕知道了',
 											});
 											console.log("bad")
 										} else {

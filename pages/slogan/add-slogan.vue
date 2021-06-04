@@ -66,6 +66,7 @@
 	import tuiButton from "@/components/tui/button"
 	import tuiListCell from "@/components/tui/list-cell"
 	import tuiDropdownList from "@/components/tui/dropdown-list"
+  import { getShareObj } from "@/utils/share.js"
 
 	export default {
 		components: {
@@ -91,39 +92,19 @@
 						color: "#000",
 						icon: "attestation",
 						size: 20
-					}, {
-						name: "武汉加油",
-						color: "#000",
-						icon: "attestation",
-						size: 20
-					}, {
-						name: "加油2021",
-						color: "#000",
-						icon: "attestation",
-						size: 20
-					}, {
-						name: "奋斗2021",
-						color: "#000",
-						icon: "attestation",
-						size: 20
-					}, {
-						name: "努力2021",
-						color: "#000",
-						icon: "attestation",
-						size: 20
 					},
-					{
-						name: "拒绝聚会",
-						color: "#000",
-						icon: "attestation",
-						size: 20
-					},
-					{
-						name: "拒绝野味",
-						color: "#000",
-						icon: "attestation",
-						size: 20
-					},
+          {
+            name: "众志成城",
+            color: "#000",
+            icon: "attestation",
+            size: 20
+          },
+          {
+            name: "饮茶先啦",
+            color: "#000",
+            icon: "attestation",
+            size: 20
+          },
           {
             name: "我要减肥",
             color: "#000",
@@ -131,7 +112,19 @@
             size: 20
           },
           {
-            name: "我要脱单",
+            name: "我想脱单",
+            color: "#000",
+            icon: "attestation",
+            size: 20
+          },
+          {
+            name: "拒绝暧昧",
+            color: "#000",
+            icon: "attestation",
+            size: 20
+          },
+          {
+            name: "只想搞钱",
             color: "#000",
             icon: "attestation",
             size: 20
@@ -149,17 +142,34 @@
             size: 20
           },
           {
+            name: "我是富婆",
+            color: "#000",
+            icon: "attestation",
+            size: 20
+          },
+          {
+            name: "我是帅哥",
+            color: "#000",
+            icon: "attestation",
+            size: 20
+          },
+          {
             name: "叔叔不约",
             color: "#000",
             icon: "attestation",
             size: 20
           },
+         {
+            name: "奋斗2021",
+            color: "#000",
+            icon: "attestation",
+            size: 20
+          }
 				],
 				dropdownShow: false,
 				avatarPath: '/static/image/mask/avatar_mask.jpg',
 				happinessPathList: [],
 				happinessIndex: 0,
-				copyright: " Copyright © 2021 干饭组",
 				modalName: null,
 				//首先定义一下，全局变量
 				lastTime: 0, //此变量用来记录上次摇动的时间
@@ -232,17 +242,12 @@
 			} else {}
 		},
 		onHide() {},
-		onShareAppMessage() {
-			return {
-				title: '武汉加油，中国加油！',
-				desc: '武汉加油，中国加油，加油2021，不动如山，拒绝聚会，拒绝野味。',
-				// imageUrl: '/static/image/redirect-cover.jpg',
-				path: '/pages/index/index',
-				success: function(res) {
-					console.log(res);
-				}
-			}
-		},
+    onShareAppMessage(res) {
+      return getShareObj()
+    },
+    onShareTimeline(res) {
+      return getShareObj()
+    },
 		methods: {
 			...mapMutations(["saveLoginUserInfo"]),
 			dropDownList(index) {
@@ -263,11 +268,7 @@
 				this.drawTextBg();
 				// this.drawHappiness(happinessFilePath);
 				this.drawDefaultText();
-				uni.vibrateShort({
-					success: function() {
-						console.log('vibrateShort');
-					}
-				});
+        uni.vibrateShort();
 			},
 			drawCansBgImg(imageFilePath) {
 				this.ctx.drawImage(imageFilePath, 0, 0, this.cansWidth, this.cansHeight);
@@ -296,11 +297,7 @@
 					lineHeight: 12
 				};
 				this._drawText(textOption);
-				uni.vibrateShort({
-					success: function() {
-						console.log('vibrateShort');
-					}
-				});
+        uni.vibrateShort();
 			},
 			/**
 			 *  绘制圆形边框
@@ -469,11 +466,7 @@
 								uni.showToast({
 									title: '请至相册查看'
 								})
-								uni.vibrateShort({
-									success: function() {
-										console.log('vibrateShort');
-									}
-								});
+                uni.vibrateShort();
 								that.savedCounts++;
 
 								console.log('保存成功')
@@ -545,7 +538,7 @@
 												title: '请勿使用违法违规内容',
 												content: '图片含有违法违规内容',
 												showCancel: false,
-												confirmText: '知道了',
+												confirmText: '朕知道了',
 											});
 										} else {
 											//图片合规则进行进一步处理

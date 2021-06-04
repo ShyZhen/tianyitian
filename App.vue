@@ -24,7 +24,6 @@
 			userAvatarUrl: null,
 			userAvatarFilePath: null,
 			maskAvatarSavedTempPath: null
-			
 		},
 		onLaunch: function() {
 			console.log('App Launch');

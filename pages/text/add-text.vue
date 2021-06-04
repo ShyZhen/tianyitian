@@ -40,9 +40,10 @@ import {
   mapState,
   mapMutations
 } from "vuex";
-import tuiFooter from "@/components/tui/footer";
-import tuiFab from "@/components/tui/tui-fab";
-import addTips from "@/components/add-tips";
+import tuiFooter from "@/components/tui/footer"
+import tuiFab from "@/components/tui/tui-fab"
+import addTips from "@/components/add-tips"
+import { getShareObj } from "@/utils/share.js"
 
 // 在页面中定义激励视频广告
 let videoAd = null;
@@ -186,16 +187,11 @@ export default {
     this.windowHeight = getApp().globalData.windowHeight;
   },
   onHide() {},
-  onShareAppMessage() {
-    return {
-      title: '我换上了口罩头像，防止疫情蔓延，30款口罩、护目镜任你选！',
-      desc: '防传染、戴口罩，从我做起！',
-      imageUrl: '/static/image/mask/avatar_mask.png',
-      path: '/pages/index/index',
-      success: function(res) {
-        console.log(res);
-      }
-    }
+  onShareAppMessage(res) {
+    return getShareObj()
+  },
+  onShareTimeline(res) {
+    return getShareObj()
   },
   methods: {
     ...mapMutations(["saveLoginUserInfo"]),
@@ -219,11 +215,7 @@ export default {
       this.drawCornerBg();
       // this.drawHappiness(happinessFilePath);
       this.drawDefaultText();
-      uni.vibrateShort({
-        success: function() {
-          console.log('vibrateShort');
-        }
-      });
+      uni.vibrateShort();
     },
     drawCansBgImg(imageFilePath) {
       this.ctx.drawImage(imageFilePath, 0, 0, this.cansWidth, this.cansHeight);
@@ -252,11 +244,7 @@ export default {
         lineHeight: 12
       };
       this._drawText(textOption);
-      uni.vibrateShort({
-        success: function() {
-          console.log('vibrateShort');
-        }
-      });
+      uni.vibrateShort();
     },
     /**
      *  绘制圆形边框
@@ -463,11 +451,7 @@ export default {
               uni.showToast({
                 title: '请至相册查看'
               })
-              uni.vibrateShort({
-                success: function() {
-                  console.log('vibrateShort');
-                }
-              });
+              uni.vibrateShort();
               that.savedCounts++;
               // 保存时，如果没有激励广告则展示一次插屏广告，因为一个完整操作流程已结束，提升广告曝光
               if (interstitialAd && that.enableInterstitialAd && !that.interstitialAdAlreadyShow &&
@@ -547,7 +531,7 @@ export default {
                       title: '请勿使用违法违规内容',
                       content: '图片含有违法违规内容',
                       showCancel: false,
-                      confirmText: '知道了',
+                      confirmText: '朕知道了',
                     });
                     console.log("bad")
                   } else {

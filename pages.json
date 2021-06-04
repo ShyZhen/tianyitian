@@ -62,6 +62,12 @@
 				"text": "首页"
 			},
 			{
+				"pagePath": "pages/date/date",
+				"iconPath": "static/image/tabbar/date-off.png",
+				"selectedIconPath": "static/image/tabbar/date-on.png",
+				"text": "节日ING"
+			},
+			{
 				"pagePath": "pages/mask/add-mask",
 				"iconPath": "static/image/tabbar/mask-off.png",
 				"selectedIconPath": "static/image/tabbar/mask-on.png",

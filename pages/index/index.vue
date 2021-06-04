@@ -10,7 +10,29 @@
       <!--				<ad unit-id="adunit-7301464a68a1e24e" ad-type="video" ad-theme="white"></ad>-->
       <!--			</view>-->
 
-      <view class="cu-card article" @click="addMask" >
+      <view class="cu-card article" @click="dateHandle">
+        <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx;">
+          <view class="title">
+            <view class="text-cut">限时节日挂件</view>
+          </view>
+          <view class="content">
+            <image style="width: 180rpx;" src="/static/image/logo/date.jpg" mode="aspectFill"></image>
+            <view class="desc">
+              <view class="text-content">春节,七夕,中秋等限时节日挂件,让你的头像引领潮流</view>
+              <view>
+                <view class="grid justify-between">
+                  <view>
+                    <view class="cu-tag bg-red light sm round">限时制作</view>
+                    <view class="cu-tag bg-green light sm round">根据日期动态更新</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="cu-card article" @click="addMask">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx;">
           <view class="title">
             <view class="text-cut">头像戴口罩</view>
@@ -18,11 +40,11 @@
           <view class="content">
             <image style="width: 180rpx;" src="/static/image/logo/mask-logo.jpg" mode="aspectFill"></image>
             <view class="desc">
-              <view class="text-content">换上口罩头像，防止疫情蔓延。超过30款口罩、护目镜任你选!</view>
+              <view class="text-content">换上口罩头像,防止疫情蔓延。超过30款口罩、护目镜任你选</view>
               <view>
                 <view class="grid justify-between">
                   <view>
-                    <view class="cu-tag bg-red light sm round">防疫情，保健康</view>
+                    <view class="cu-tag bg-red light sm round">防疫情,保健康</view>
                     <!--										 <view class="cu-tag bg-green light sm round">保健康</view>-->
                   </view>
                 </view>
@@ -40,7 +62,7 @@
           <view class="content">
             <image style="width: 180rpx;" src="/static/image/logo/ganfanzu.jpg" mode="aspectFill"></image>
             <view class="desc">
-              <view class="text-content">干饭组小程序，可每日领取饿了么、美团外卖红包</view>
+              <view class="text-content">干饭组小程序,可每日领取饿了么、美团外卖红包</view>
               <view>
                 <view class="grid justify-between">
                   <view>
@@ -60,9 +82,9 @@
             <view class="text-cut">头像横幅口号</view>
           </view>
           <view class="content">
-            <image style="width: 180rpx;" src="/static/image/logo/slogan-logo.jpeg" mode="aspectFill"></image>
+            <image style="width: 180rpx;" src="/static/image/logo/slogan-logo.jpg" mode="aspectFill"></image>
             <view class="desc">
-              <view class="text-content">武汉加油，中国加油，加油2021，拒绝聚会，拒绝野味，买房买车。</view>
+              <view class="text-content">饮茶先啦,只想搞钱,买房买车,我要减肥,拒绝暧昧</view>
               <view>
                 <view class="grid justify-between">
                   <view>
@@ -84,7 +106,7 @@
           <view class="content">
             <image style="width: 180rpx;" src="/static/image/logo/text-logo.jpg" mode="aspectFill"></image>
             <view class="desc">
-              <view class="text-content">头像一键加字，加V字，制作姓氏头像，让你在朋友圈脱颖而出。</view>
+              <view class="text-content">头像一键加字,加V字,制作姓氏头像,让你在朋友圈脱颖而出</view>
               <view>
                 <view class="grid justify-between">
                   <view>
@@ -125,9 +147,10 @@
 </template>
 
 <script>
-import tuiIcon from "@/components/tui/icon";
-import addTips from "@/components/add-tips";
-import Config from "../../config/config";
+import tuiIcon from "@/components/tui/icon"
+import addTips from "@/components/add-tips"
+import Config from "../../config/config"
+import { getShareObj } from "@/utils/share.js"
 
 // 在页面中定义插屏广告
 let interstitialAd = null;
@@ -169,17 +192,18 @@ export default {
       })
     }
   },
-  onShareAppMessage() {
-    return {
-      title: '我换上了口罩头像，防止疫情蔓延，30款口罩、护目镜任你选！',
-      desc: '防传染、戴口罩，从我做起！',
-      imageUrl: '/static/image/mask/avatar_mask.png',
-      path: '/pages/index/index',
-      success: function(res) {
-      }
-    }
+  onShareAppMessage(res) {
+    return getShareObj()
+  },
+  onShareTimeline(res) {
+    return getShareObj()
   },
   methods: {
+    dateHandle: function() {
+      uni.switchTab({
+        url: '/pages/date/date'
+      })
+    },
     addMask: function() {
       uni.switchTab({
         url: '/pages/mask/add-mask'

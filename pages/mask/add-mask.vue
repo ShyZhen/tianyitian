@@ -80,15 +80,8 @@
             <text class="cuIcon-close text-red"></text>
           </view>
         </view>
-        <view class="padding-xl">
-          预防千万条，口罩第一条。
-          健康第一位，不要吃野味。
-          不往人群挤，病毒不找你。
-          洗手很重要，胜过吃补药。
-          通风也要紧，疾病无踪影。
-        </view>
         <view class="padding">
-          祝大家平安过节！戴口罩，勤洗手，早睡早起，健康美丽！
+          祝大家健康快乐！有需求可以进行反馈。
         </view>
         <view class="cu-bar bg-white justify-end">
           <view class="action">
@@ -104,9 +97,10 @@
 import {
   mapState,
   mapMutations
-} from "vuex";
-import tuiFooter from "@/components/tui/footer";
-import addTips from "@/components/add-tips";
+} from "vuex"
+import tuiFooter from "@/components/tui/footer"
+import addTips from "@/components/add-tips"
+import { getShareObj } from "@/utils/share.js"
 
 // 在页面中定义激励视频广告
 let videoAd = null;
@@ -220,6 +214,9 @@ export default {
     */
   },
   onReady() {
+
+    uni.vibrateShort();
+
     // 判断是否已经显示过
     let cache = uni.getStorageSync(STORAGE_KEY);
     if (!cache) {
@@ -248,16 +245,11 @@ export default {
       this.paint();
     }
   },
-  onShareAppMessage() {
-    return {
-      title: '我换上了口罩头像，防止疫情蔓延，30款口罩、护目镜任你选！',
-      desc: '防传染、戴口罩，从我做起！',
-      imageUrl: '/static/image/mask/avatar_mask.png',
-      path: '/pages/index/index',
-      success: function(res) {
-        console.log(res);
-      }
-    }
+  onShareAppMessage(res) {
+    return getShareObj()
+  },
+  onShareTimeline(res) {
+    return getShareObj()
   },
   methods: {
     ...mapMutations(["saveLoginUserInfo"]),
@@ -446,7 +438,7 @@ export default {
                       title: '请勿使用违法违规内容',
                       content: '图片含有违法违规内容',
                       showCancel: false,
-                      confirmText: '知道了',
+                      confirmText: '朕知道了',
                     });
                     console.log("bad")
                   } else {
@@ -579,11 +571,7 @@ export default {
                 })
               }
               that.savedCounts++;
-              uni.vibrateShort({
-                success: function() {
-                  console.log('vibrateShort');
-                }
-              });
+              uni.vibrateShort();
             },
             fail(res) {
               if (res.errMsg.indexOf("fail")) {
