@@ -33,7 +33,7 @@
 
     <view class="flex-sub text-center">
       <view class="solid-bottom">
-        <text class="text-white text-bold">戴上口罩 远离病毒 从你我做起</text>
+        <text class="text-white text-bold">{{ dateSlogan }}</text>
       </view>
     </view>
     <view class="grid justify-around action-wrapper">
@@ -154,6 +154,7 @@ export default {
 
       // 节日挂件封装
       dateType: '',
+      dateSlogan: '',
       dataImgList: {
         christmas: range(0, 10, 1),
       }
@@ -175,6 +176,7 @@ export default {
 
     // 初始化当前date
     this.dateType = 'christmas'
+    this.dateSlogan = '添一添祝全体考生，金榜题名'
 
     // 在页面onLoad回调事件中创建插屏广告实例
     /*
