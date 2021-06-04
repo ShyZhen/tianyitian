@@ -41,6 +41,13 @@
 				"disableScroll": true,
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/date/date",
+			"style": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
 		}
 
 	],

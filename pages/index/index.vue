@@ -202,7 +202,7 @@ export default {
       })
     },
     addText: function(){
-      uni.navigateTo({
+      uni.switchTab({
         url: '/pages/text/add-text'
       })
     },

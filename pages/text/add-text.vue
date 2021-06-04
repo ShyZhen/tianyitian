@@ -100,6 +100,10 @@ export default {
     }
   },
   onLoad(option) {
+    if (!!getApp().globalData.userAvatarFilePath) {
+      this.avatarPath = getApp().globalData.userAvatarFilePath;
+    }
+
     this.ctx = uni.createCanvasContext('cans-id-happines', this);
     this.paint();
 
@@ -147,15 +151,12 @@ export default {
 
   },
   onReady() {
-    console.log("onReady");
     // 判断是否已经显示过
     let cache = uni.getStorageSync(getApp().globalData.STORAGE_KEY);
-    console.log('cache', cache);
     if (!cache) {
       this.statusBarHeight = getApp().globalData.statusBarHeight;
       // 没显示过，则进行展示
       this.SHOW_TIP = true;
-      console.log('SHOW_TIP', this.SHOW_TIP);
       // 关闭时间
       let that = this;
       setTimeout(() => {
@@ -164,7 +165,6 @@ export default {
     }
   },
   onShow() {
-    console.log("onshow");
     // let defaultAvatarIndex = Math.round(Math.random());
     // console.log(defaultAvatarIndex);
     if (getApp().globalData.rapaintAfterCrop) {

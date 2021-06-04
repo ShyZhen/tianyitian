@@ -80,15 +80,8 @@
             <text class="cuIcon-close text-red"></text>
           </view>
         </view>
-        <view class="padding-xl">
-          预防千万条，口罩第一条。
-          健康第一位，不要吃野味。
-          不往人群挤，病毒不找你。
-          洗手很重要，胜过吃补药。
-          通风也要紧，疾病无踪影。
-        </view>
         <view class="padding">
-          祝大家平安过节！戴口罩，勤洗手，早睡早起，健康美丽！
+          祝大家健康快乐！有需求可以进行反馈。
         </view>
         <view class="cu-bar bg-white justify-end">
           <view class="action">
