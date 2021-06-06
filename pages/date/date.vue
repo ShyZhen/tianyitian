@@ -60,8 +60,8 @@
 
     </view>
 
-    <scroll-view class="scrollView mask-scroll-view" scroll-x="true" v-if="dateType">
-      <view v-for="(item,index) in dataImgList.christmas" :key="index" style="display: inline-flex;">
+    <scroll-view class="scrollView mask-scroll-view" scroll-x="true" v-if="dataImgListCur.length">
+      <view v-for="(item,index) in dataImgListCur" :key="index" style="display: inline-flex;">
         <text v-if="currentMaskId == index && isAndroid" class="cuIcon-order cancel circle" @click="flipHorizontal" id="cancel"
               :style="{transform: 'rotate(' +90+ 'deg)'}"></text>
         <!--				<text v-if="currentMaskId == index" style="margin-left: 55px;" class="cuIcon-question cancel circle" @click="showTips" id="cancel"></text>-->
@@ -91,15 +91,13 @@
   </view>
 </template>
 <script>
-import {
-  mapState,
-  mapMutations
-} from "vuex"
-import tuiFooter from "@/components/tui/footer"
-import addTips from "@/components/add-tips"
-import { getShareObj } from "@/utils/share.js"
+  import {mapMutations, mapState} from "vuex"
+  import tuiFooter from "@/components/tui/footer"
+  import addTips from "@/components/add-tips"
+  import { getShareObj } from "@/utils/share"
+  import Calendar from "../../utils/calendar"
 
-// 在页面中定义激励视频广告
+  // 在页面中定义激励视频广告
 let videoAd = null;
 // 在页面中定义插屏广告
 let interstitialAd = null
@@ -126,7 +124,6 @@ export default {
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
       avatarPath: '/static/image/mask/avatar_mask.jpg',
-      imgList: range(0, 29, 1),
       currentMaskId: -1,
       showBorder: false,
       maskCenterX: wx.getSystemInfoSync().windowWidth / 2,
@@ -155,9 +152,30 @@ export default {
       // 节日挂件封装
       dateType: '',
       dateSlogan: '',
+      dateTtlStr: '',
+      // 每个dateType中的文件夹名字(与dateType一样)和素材数量
       dataImgList: {
-        christmas: range(0, 10, 1),
-      }
+        yuandan: range(0, 10, 1),
+        qingren: range(0, 10, 1),
+        nvshen: range(0, 10, 1),
+        qingming: range(0, 10, 1),
+        laodong: range(0, 10, 1),
+        ertong: range(0, 10, 1),
+        gaokao: range(0, 10, 1),
+        jiandang: range(0, 10, 1),
+        jianjun: range(0, 10, 1),
+        jiaoshi: range(0, 10, 1),
+        guoqing: range(0, 10, 1),
+        shengdan: range(0, 10, 1),
+        chunjie: range(0, 10, 1),
+        yuanxiao: range(0, 10, 1),
+        duanwu: range(0, 10, 1),
+        qixi: range(0, 10, 1),
+        zhongqiu: range(0, 10, 1),
+        muqinjie: range(0, 10, 1),
+        fuqinjie: range(0, 10, 1),
+      },
+      dataImgListCur: []
     }
   },
   computed: {
@@ -175,8 +193,7 @@ export default {
     }
 
     // 初始化当前date
-    this.dateType = 'christmas'
-    this.dateSlogan = '添一添祝全体考生，金榜题名'
+    this.getHolidayKey()
 
     // 在页面onLoad回调事件中创建插屏广告实例
     /*
@@ -328,6 +345,108 @@ export default {
       this.start_x = current_x;
       this.start_y = current_y;
     },
+
+    getHolidayKey() {
+      let calendar = new Date()
+      let year = calendar.getFullYear()
+      let month = calendar.getMonth() + 1   // 1-12
+      let date = calendar.getDate()         // 1-31
+
+      // 处理字符串
+      let yearStr = year.toString()
+      let monthStr = this.handleSingleDate(month)
+      let dateStr = this.handleSingleDate(date)
+      let currentDate = yearStr + monthStr + dateStr
+
+      let springFestival = Calendar.lunar2solar(year,1,1)       //除夕春节
+      let lanternFestival = Calendar.lunar2solar(year,1,15)     //元宵节
+      let dragonBoatFestival = Calendar.lunar2solar(year,5,5)   //端午
+      let chineseValentineDay = Calendar.lunar2solar(year,7,7)  //七夕
+      let midAutumn = Calendar.lunar2solar(year,8,15)           //中秋
+      let motherDay = this.getMothersDay(calendar)              //母亲节
+      let fatherDay = this.getFathersDay(calendar)              //父亲节
+
+      // 转成阳历后进行排序
+      let springM = this.handleSingleDate(springFestival.cMonth)
+      let springD = this.handleSingleDate(springFestival.cDay)
+      let lanternM = this.handleSingleDate(lanternFestival.cMonth)
+      let lanternD = this.handleSingleDate(lanternFestival.cDay)
+      let dragonM = this.handleSingleDate(dragonBoatFestival.cMonth)
+      let dragonD = this.handleSingleDate(dragonBoatFestival.cDay)
+      let chineseValentineM = this.handleSingleDate(chineseValentineDay.cMonth)
+      let chineseValentineD = this.handleSingleDate(chineseValentineDay.cDay)
+      let midAutumnM = this.handleSingleDate(midAutumn.cMonth)
+      let midAutumnD = this.handleSingleDate(midAutumn.cDay)
+
+      let DateList = [
+        {key: 'yuandan', slogan: '爆竹声中一岁除，春风送暖入屠苏', val: yearStr  + '01' + '01'},    //元旦
+        {key: 'qingren', slogan: '一生一世执子手，不离不弃共白头', val: yearStr  + '02' + '14'},    //情人节
+        {key: 'nvshen', slogan: '沉鱼落雁鸟惊喧，羞花闭月花愁颤', val: yearStr  + '03' + '08'},    //女神节
+        {key: 'qingming', slogan: '燕子来时新社，梨花落后清明', val: yearStr  + '04' + '05'},    //清明节
+        {key: 'laodong', slogan: '田家少闲月，五月人倍忙。夜来南风起，小麦覆陇黄', val: yearStr  + '05' + '01'},    //劳动节
+        {key: 'ertong', slogan: '儿童散学归来早，忙趁东风放纸鸢', val: yearStr  + '06' + '01'},    //儿童节
+        {key: 'gaokao', slogan: '会当凌绝顶，一览众山小，祝大家金榜题名', val: yearStr  + '06' + '08'},    //高考
+        {key: 'jiandang', slogan: '镰锤闪光红旗染，理想信念心灵燃', val: yearStr  + '07' + '01'},    //党的生日
+        {key: 'jianjun', slogan: '哪有什么岁月静好，不过是有人替你负重前行', val: yearStr  + '08' + '01'},    //建军节
+        {key: 'jiaoshi', slogan: '鹤发银丝映日月，丹心热血沃新花', val: yearStr  + '09' + '10'},    //教师节
+        {key: 'guoqing', slogan: '红旗烈焰燃苍穹，火纱一片换新彤', val: yearStr  + '10' + '01'},    //国庆
+        {key: 'shengdan', slogan: '圣诞老人童趣乐，平安之夜舞蹁跹', val: yearStr  + '12' + '25'},    //圣诞
+        {key: 'chunjie', slogan: '大家沈醉对芳筵，愿新年，胜旧年', val: yearStr + springM + springD},    //春节除夕
+        {key: 'yuanxiao', slogan: '元宵争看采莲船，宝马香车拾坠钿', val: yearStr + lanternM + lanternD},     //元宵节
+        {key: 'duanwu', slogan: '亿兆同归寿，群公共保昌', val: yearStr + dragonM + dragonD},    //端午节
+        {key: 'qixi', slogan: '金风玉露一相逢，便胜却人间无数', val: yearStr + chineseValentineM + chineseValentineD},    //七夕
+        {key: 'zhongqiu', slogan: '但愿人长久，千里共婵娟', val: yearStr + midAutumnM + midAutumnD},    //中秋
+        {key: 'muqinjie', slogan: '慈母手中线，游子身上衣', val: motherDay},    //母亲节
+        {key: 'fuqinjie', slogan: '惟愿孩儿愚且鲁，无灾无难到公卿', val: fatherDay},    //父亲节
+      ]
+
+      // 排序
+      let sortDateList = DateList.sort(function(a,b){return a.val - b.val})
+      // console.log('当前日期:', currentDate)
+      // console.log('所有节日排序:', sortDateList)
+
+      // for循环从头遍历，获取离当前日期最近的节日，最差o(n)
+      for (let i = 0; i < sortDateList.length; i++) {
+        let cur = sortDateList[i];
+        if (cur.val > currentDate) {
+          // console.log('最近节日', cur)
+          this.dateType = cur.key
+          this.dateSlogan= cur.slogan
+          this.dataImgListCur = this.dataImgList[this.dateType]
+
+          // 下次预告
+          if (i <= sortDateList.length -1) {
+            let ttl = sortDateList[i+1].val - currentDate
+            this.dateTtlStr = '距离下次更新还有' + ttl.toString() + '天'
+          }
+
+          return
+        }
+      }
+    },
+
+    getMothersDay(d) {
+      d = d || new Date();
+      let dd = new Date("May 01 "+d.getFullYear())
+      let res = new Date("May " + (1 + (7 - dd.getDay()) + 7) + " " + d.getFullYear())
+      let handleMonth = this.handleSingleDate(res.getMonth())
+      let handleDate = this.handleSingleDate(res.getDate())
+      return res.getFullYear().toString() + handleMonth + handleDate
+    },
+    getFathersDay(d) {
+      d = d || new Date();
+      let dd = new Date("Jun 01 "+d.getFullYear())
+      let res = new Date("Jun " + (1 + (7 - dd.getDay()) + 14) + " " + d.getFullYear())
+      let handleMonth = this.handleSingleDate(res.getMonth())
+      let handleDate = this.handleSingleDate(res.getDate())
+      return res.getFullYear().toString() + handleMonth + handleDate
+    },
+    // 处理单字日期
+    handleSingleDate(number) {
+      return number.toString().length === 1 ? '0' + number.toString() : number.toString()
+    },
+
+
     /**
      *  获取用户信息回调方法
      * @param {Object} result

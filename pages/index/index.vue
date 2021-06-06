@@ -23,7 +23,7 @@
                 <view class="grid justify-between">
                   <view>
                     <view class="cu-tag bg-red light sm round">限时制作</view>
-                    <view class="cu-tag bg-green light sm round">根据日期动态更新</view>
+                    <view class="cu-tag bg-green light sm round">根据节日动态更新</view>
                   </view>
                 </view>
               </view>
@@ -248,7 +248,7 @@ export default {
 
 <style scoped>
 .container-index{
-  height: 1700rpx;
+  height: 1950rpx;
 }
 
 .logo-area{
