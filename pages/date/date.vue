@@ -35,6 +35,9 @@
       <view class="solid-bottom">
         <text class="text-white text-bold">{{ dateSlogan }}</text>
       </view>
+      <view class="solid-bottom">
+        <text class="text-white">距离下次节日更新还有<text class="margin-lr-xs">{{ dateTtlStr }}</text>天</text>
+      </view>
     </view>
     <view class="grid justify-around action-wrapper">
       <view class="grid col-1">
@@ -416,8 +419,7 @@ export default {
 
           // 下次预告
           if (i <= sortDateList.length -1) {
-            let ttl = sortDateList[i+1].val - currentDate
-            this.dateTtlStr = '距离下次更新还有' + ttl.toString() + '天'
+            this.dateTtlStr = sortDateList[i+1].val - currentDate
           }
 
           return
