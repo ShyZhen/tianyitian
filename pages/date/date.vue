@@ -137,7 +137,6 @@ export default {
       cancelCenterY: 200,
       handleCenterX: wx.getSystemInfoSync().windowWidth / 2 + 50 - 2,
       handleCenterY: 300,
-
       maskSize: 100,
       scale: 1,
       rotate: 0,
@@ -174,7 +173,6 @@ export default {
   onLoad(option) {
     // 初始化网络素材
     this.cdnUrl = Config.imageCdn
-    this.imgList = ImgList.mask
 
     this.windowHeight = getApp().globalData.windowHeight
     if (!!getApp().globalData.userAvatarFilePath) {
@@ -407,7 +405,6 @@ export default {
           if (i <= sortDateList.length -1) {
             this.dateTtlStr = sortDateList[i+1].val - currentDate
           }
-
           return
         }
       }
