@@ -6,9 +6,11 @@ const env = {
 
     version: 'Version 1.0.0',
 
-    // 跳转小程序配置
+    // 首页跳转小程序配置
     jumpAppId: 'wxf6d3a6785014c8ad',
     jumpAppPath: 'pages/index/index',
+
+    imageCdn: 'https://cdn.xxx.com',
 }
 
 export default env

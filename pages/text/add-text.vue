@@ -68,7 +68,7 @@ export default {
       r: 40,
       boarderWidth: 15,
       wishText: '萌',
-      avatarPath: '/static/image/mask/avatar_mask.jpg',
+      avatarPath: '/static/image/logo/avatar_mask.jpg',
       happinessPathList: [],
       happinessIndex: 0,
       x: 0,

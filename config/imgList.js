@@ -1,0 +1,36 @@
+// 使用需要 cdnUrl + mask[0]
+const imgList = {
+    mask: [
+        '/MPTian/mask/0.png',
+        '/MPTian/mask/1.png',
+        '/MPTian/mask/2.png',
+        '/MPTian/mask/3.png',
+        '/MPTian/mask/4.png',
+        '/MPTian/mask/5.png',
+        '/MPTian/mask/6.png',
+        '/MPTian/mask/7.png',
+        '/MPTian/mask/8.png',
+        '/MPTian/mask/9.png',
+        '/MPTian/mask/10.png',
+        '/MPTian/mask/11.png',
+        '/MPTian/mask/12.png',
+        '/MPTian/mask/13.png',
+        '/MPTian/mask/14.png',
+        '/MPTian/mask/15.png',
+        '/MPTian/mask/16.png',
+        '/MPTian/mask/17.png',
+        '/MPTian/mask/18.png',
+        '/MPTian/mask/19.png',
+        '/MPTian/mask/20.png',
+        '/MPTian/mask/21.png',
+        '/MPTian/mask/22.png',
+        '/MPTian/mask/23.png',
+        '/MPTian/mask/24.png',
+        '/MPTian/mask/25.png',
+        '/MPTian/mask/26.png',
+        '/MPTian/mask/27.png',
+        '/MPTian/mask/28.png',
+    ],
+}
+
+export default imgList

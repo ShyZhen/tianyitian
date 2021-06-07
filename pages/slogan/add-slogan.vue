@@ -167,7 +167,7 @@
           }
 				],
 				dropdownShow: false,
-				avatarPath: '/static/image/mask/avatar_mask.jpg',
+				avatarPath: '/static/image/logo/avatar_mask.jpg',
 				happinessPathList: [],
 				happinessIndex: 0,
 				modalName: null,
