@@ -1,4 +1,5 @@
 // 使用需要 cdnUrl + mask[0]
+// 上传前缀 `MPTian/{mask}/`
 const imgList = {
     mask: [
         '/MPTian/mask/0.png',
@@ -31,6 +32,38 @@ const imgList = {
         '/MPTian/mask/27.png',
         '/MPTian/mask/28.png',
     ],
+    yuandan: [],
+    qingren: [],
+    nvshen: [],
+    qingming: [],
+    laodong: [],
+    ertong: [],
+    gaokao: [
+
+    ],
+    jiandang: [],
+    jianjun: [],
+    jiaoshi: [],
+    guoqing: [],
+    shengdan: [
+        '/MPTian/shengdan/0.png',
+        '/MPTian/shengdan/1.png',
+        '/MPTian/shengdan/2.png',
+        '/MPTian/shengdan/3.png',
+        '/MPTian/shengdan/4.png',
+        '/MPTian/shengdan/5.png',
+        '/MPTian/shengdan/6.png',
+        '/MPTian/shengdan/7.png',
+        '/MPTian/shengdan/8.png',
+        '/MPTian/shengdan/9.png',
+    ],
+    chunjie: [],
+    yuanxiao: [],
+    duanwu: [],
+    qixi: [],
+    zhongqiu: [],
+    muqinjie: [],
+    fuqinjie: [],
 }
 
 export default imgList

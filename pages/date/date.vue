@@ -16,7 +16,7 @@
       <!--			 <text class="cuIcon-order cancel circle" @click="flipHorizontal" id="cancel" :style="{top:cancelCenterY-10 + 'px', left:cancelterX-10 +'px'}"></text>-->
 
       <!-- 口罩图片 -->
-      <image v-if="currentMaskId > -1" class="mask flip-horizontal" :class="{maskWithBorder: showBorder}" id='mask' :src="maskPic"
+      <image v-if="currentMaskUrl !== ''" class="mask flip-horizontal" :class="{maskWithBorder: showBorder}" id='mask' :src="maskPic"
              :style="{top:maskCenterY-maskSize/2-2+'px', left:maskCenterX-maskSize/2-2+'px',
 				transform: 'rotate(' +rotate+ 'deg)' + 'scale(' +scale+')' + 'rotateY('+ rotateY +'deg)'}"></image>
 
@@ -63,12 +63,12 @@
 
     </view>
 
-    <scroll-view class="scrollView mask-scroll-view" scroll-x="true" v-if="dataImgListCur.length">
-      <view v-for="(item,index) in dataImgListCur" :key="index" style="display: inline-flex;">
-        <text v-if="currentMaskId == index && isAndroid" class="cuIcon-order cancel circle" @click="flipHorizontal" id="cancel"
+    <scroll-view class="scrollView mask-scroll-view" scroll-x="true">
+      <view v-for="(item, index) in dataImgListCur" :key="index" style="display: inline-flex;">
+        <text v-if="currentMaskUrl && isAndroid" class="cuIcon-order cancel circle" @click="flipHorizontal" id="cancel"
               :style="{transform: 'rotate(' +90+ 'deg)'}"></text>
         <!--				<text v-if="currentMaskId == index" style="margin-left: 55px;" class="cuIcon-question cancel circle" @click="showTips" id="cancel"></text>-->
-        <image class="imgList" :src="'/static/image/date/'+ dateType + '/' + index +'.png'" :data-mask-id="index" @tap="changeMask"></image>
+        <image class="imgList" :src="cdnUrl + item" :data-mask-id="index" @tap="changeMask(item)"></image>
       </view>
     </scroll-view>
 
@@ -99,6 +99,8 @@
   import addTips from "@/components/add-tips"
   import { getShareObj } from "@/utils/share"
   import Calendar from "../../utils/calendar"
+  import Config from "@/config/config"
+  import ImgList from "@/config/imgList"
 
   // 在页面中定义激励视频广告
 let videoAd = null;
@@ -126,8 +128,8 @@ export default {
       savedCounts: 0,
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
-      avatarPath: '/static/image/mask/avatar_mask.jpg',
-      currentMaskId: -1,
+      avatarPath: '/static/image/logo/avatar_mask.jpg',
+      currentMaskUrl: '',
       showBorder: false,
       maskCenterX: wx.getSystemInfoSync().windowWidth / 2,
       maskCenterY: 250,
@@ -151,33 +153,12 @@ export default {
       touch_target: "",
       start_x: 0,
       start_y: 0,
+      cdnUrl: '',
 
       // 节日挂件封装
       dateType: '',
       dateSlogan: '',
       dateTtlStr: '',
-      // 每个dateType中的文件夹名字(与dateType一样)和素材数量
-      dataImgList: {
-        yuandan: range(0, 10, 1),
-        qingren: range(0, 10, 1),
-        nvshen: range(0, 10, 1),
-        qingming: range(0, 10, 1),
-        laodong: range(0, 10, 1),
-        ertong: range(0, 10, 1),
-        gaokao: range(0, 10, 1),
-        jiandang: range(0, 10, 1),
-        jianjun: range(0, 10, 1),
-        jiaoshi: range(0, 10, 1),
-        guoqing: range(0, 10, 1),
-        shengdan: range(0, 10, 1),
-        chunjie: range(0, 10, 1),
-        yuanxiao: range(0, 10, 1),
-        duanwu: range(0, 10, 1),
-        qixi: range(0, 10, 1),
-        zhongqiu: range(0, 10, 1),
-        muqinjie: range(0, 10, 1),
-        fuqinjie: range(0, 10, 1),
-      },
       dataImgListCur: []
     }
   },
@@ -186,10 +167,15 @@ export default {
       userInfo: 'userInfo'
     }),
     maskPic: function() {
-      return '/static/image/date/' + this.dateType +'/'+ this.currentMaskId + '.png';
+      // return '/static/image/date/' + this.dateType +'/'+ this.currentMaskId + '.png'
+      return Config.imageCdn + this.currentMaskUrl
     }
   },
   onLoad(option) {
+    // 初始化网络素材
+    this.cdnUrl = Config.imageCdn
+    this.imgList = ImgList.mask
+
     this.windowHeight = getApp().globalData.windowHeight
     if (!!getApp().globalData.userAvatarFilePath) {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
@@ -415,7 +401,7 @@ export default {
           // console.log('最近节日', cur)
           this.dateType = cur.key
           this.dateSlogan= cur.slogan
-          this.dataImgListCur = this.dataImgList[this.dateType]
+          this.dataImgListCur = ImgList[this.dateType]
 
           // 下次预告
           if (i <= sortDateList.length -1) {
@@ -596,13 +582,13 @@ export default {
         }
       })
     },
-    changeMask(e) {
-      this.currentMaskId = e.target.dataset.maskId;
-      this.showBorder = true;
+    changeMask(url) {
+      this.currentMaskUrl = url
+      this.showBorder = true
     },
     draw() {
       // 宝哥看看这里，第一次进来，直接保存，就是一个空图
-      if (this.currentMaskId === -1) {
+      if (this.currentMaskUrl === '') {
         this.$toast('您还没选择您的口罩哦')
         return
       }
@@ -611,61 +597,67 @@ export default {
       let mask_center_x = this.mask_center_x;
       let mask_center_y = this.mask_center_y;
       let that = this;
-      // 创建节点选择器
-      // 口罩中心位置的计算是从屏幕左上角开始，所以我们需要获取头像图片的位置，来得到口罩相对头像的位置
-      var query = wx.createSelectorQuery();
-      query.select('#avatar-bg').boundingClientRect()
-      query.exec(function(res) {
-        //res就是 所有标签为#的元素的信息的数组
-        mask_center_x = mask_center_x - res[0].left;
-        mask_center_y = mask_center_y - res[0].top;
-        const pc = wx.createCanvasContext('cans-id-mask');
-        const windowWidth = wx.getSystemInfoSync().windowWidth;
-        const mask_size = 100 * scale;
 
-        pc.clearRect(0, 0, that.cansWidth, that.cansHeight);
-        pc.drawImage(that.avatarPath, 0, 0, that.cansWidth, that.cansHeight);
-        pc.translate(mask_center_x, mask_center_y);
-        pc.rotate(rotate * Math.PI / 180);
-        if (that.isAndroid) {
-          that.rotateY == 180 && pc.scale(-1, 1);
-        }
+      uni.getImageInfo({
+        src: that.maskPic,
+        success: function (image) {
+          // 创建节点选择器
+          // 口罩中心位置的计算是从屏幕左上角开始，所以我们需要获取头像图片的位置，来得到口罩相对头像的位置
+          var query = wx.createSelectorQuery()
+          query.select('#avatar-bg').boundingClientRect()
+          query.exec(function(res) {
+            //res就是 所有标签为#的元素的信息的数组
+            mask_center_x = mask_center_x - res[0].left
+            mask_center_y = mask_center_y - res[0].top
+            const pc = wx.createCanvasContext('cans-id-mask')
+            const windowWidth = wx.getSystemInfoSync().windowWidth
+            const mask_size = 100 * scale
 
-        pc.drawImage(that.maskPic, -mask_size / 2, -mask_size / 2, mask_size, mask_size);
-        pc.draw();
-
-        // 有成功加载的激励视频，才展现提示框
-        if (!!videoAd && that.rewardedVideoAdLoaded) {
-          uni.showModal({
-            title: '获取无限制使用',
-            content: '观看完视频可以自动保存哦',
-            success: function(res) {
-              if (res.confirm) {
-                console.log('用户点击确定');
-                // 用户触发广告后，显示激励视频广告
-                if (videoAd) {
-                  that.rewardedVideoAdAlreadyShow = true;
-                  videoAd.show().catch(() => {
-                    // 失败重试
-                    videoAd.load()
-                        .then(() => {
-                          videoAd.show();
-                        })
-                        .catch(err => {
-                          console.log(err);
-                          console.log('激励视频 广告显示失败')
-                        })
-                  })
-                }
-              } else if (res.cancel) {
-                console.log('用户点击取消');
-                that.saveCans();
-                return;
-              }
+            pc.clearRect(0, 0, that.cansWidth, that.cansHeight);
+            pc.drawImage(that.avatarPath, 0, 0, that.cansWidth, that.cansHeight);
+            pc.translate(mask_center_x, mask_center_y);
+            pc.rotate(rotate * Math.PI / 180);
+            if (that.isAndroid) {
+              that.rotateY == 180 && pc.scale(-1, 1);
             }
-          });
-        } else {
-          that.saveCans();
+
+            pc.drawImage(image.path, -mask_size / 2, -mask_size / 2, mask_size, mask_size);
+            pc.draw();
+
+            // 有成功加载的激励视频，才展现提示框
+            if (!!videoAd && that.rewardedVideoAdLoaded) {
+              uni.showModal({
+                title: '获取无限制使用',
+                content: '观看完视频可以自动保存哦',
+                success: function(res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定');
+                    // 用户触发广告后，显示激励视频广告
+                    if (videoAd) {
+                      that.rewardedVideoAdAlreadyShow = true;
+                      videoAd.show().catch(() => {
+                        // 失败重试
+                        videoAd.load()
+                            .then(() => {
+                              videoAd.show();
+                            })
+                            .catch(err => {
+                              console.log(err);
+                              console.log('激励视频 广告显示失败')
+                            })
+                      })
+                    }
+                  } else if (res.cancel) {
+                    console.log('用户点击取消');
+                    that.saveCans();
+                    return;
+                  }
+                }
+              });
+            } else {
+              that.saveCans();
+            }
+          })
         }
       })
     },

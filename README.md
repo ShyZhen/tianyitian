@@ -1,3 +1,4 @@
 # 添一添
-### DATE 动态更新
-如果需要更新static/date中的文件，记得更新以及date.vue中date中的dataImgList参数(数量)
+### 素材添加
+1. 上传到七牛（或其他图床）
+2. 更新config.imgList.js，图床uri部分添加到对应的节日数组内
