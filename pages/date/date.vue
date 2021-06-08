@@ -36,7 +36,10 @@
         <text class="text-white text-bold">{{ dateSlogan }}</text>
       </view>
       <view class="solid-bottom">
-        <text class="text-white">距离下次节日更新还有<text class="margin-lr-xs">{{ dateTtlStr }}</text>天</text>
+        <text class="text-white">
+          {{ dateTitle }}头像制作截止至：
+          <text class="margin-lr-xs">{{dateTtlStr.slice(0, 4)}}-{{dateTtlStr.slice(4, 6)}}-{{dateTtlStr.slice(6, 8)}}</text>
+        </text>
       </view>
     </view>
     <view class="grid justify-around action-wrapper">
@@ -156,8 +159,10 @@ export default {
 
       // 节日挂件封装
       dateType: '',
+      dateTitle: '',
       dateSlogan: '',
       dateTtlStr: '',
+      dateNextTtlStr: '',
       dataImgListCur: []
     }
   },
@@ -258,10 +263,10 @@ export default {
     }
   },
   onShareAppMessage(res) {
-    return getShareObj()
+    return this.shareData()
   },
   onShareTimeline(res) {
-    return getShareObj()
+    return this.shareData()
   },
   methods: {
     ...mapMutations(["saveLoginUserInfo"]),
@@ -366,25 +371,25 @@ export default {
       let midAutumnD = this.handleSingleDate(midAutumn.cDay)
 
       let DateList = [
-        {key: 'yuandan', slogan: '爆竹声中一岁除，春风送暖入屠苏', val: yearStr  + '01' + '01'},    //元旦
-        {key: 'qingren', slogan: '一生一世执子手，不离不弃共白头', val: yearStr  + '02' + '14'},    //情人节
-        {key: 'nvshen', slogan: '沉鱼落雁鸟惊喧，羞花闭月花愁颤', val: yearStr  + '03' + '08'},    //女神节
-        {key: 'qingming', slogan: '燕子来时新社，梨花落后清明', val: yearStr  + '04' + '05'},    //清明节
-        {key: 'laodong', slogan: '田家少闲月，五月人倍忙。夜来南风起，小麦覆陇黄', val: yearStr  + '05' + '01'},    //劳动节
-        {key: 'ertong', slogan: '儿童散学归来早，忙趁东风放纸鸢', val: yearStr  + '06' + '01'},    //儿童节
-        {key: 'gaokao', slogan: '会当凌绝顶，一览众山小，祝大家金榜题名', val: yearStr  + '06' + '08'},    //高考
-        {key: 'jiandang', slogan: '镰锤闪光红旗染，理想信念心灵燃', val: yearStr  + '07' + '01'},    //党的生日
-        {key: 'jianjun', slogan: '哪有什么岁月静好，不过是有人替你负重前行', val: yearStr  + '08' + '01'},    //建军节
-        {key: 'jiaoshi', slogan: '鹤发银丝映日月，丹心热血沃新花', val: yearStr  + '09' + '10'},    //教师节
-        {key: 'guoqing', slogan: '红旗烈焰燃苍穹，火纱一片换新彤', val: yearStr  + '10' + '01'},    //国庆
-        {key: 'shengdan', slogan: '圣诞老人童趣乐，平安之夜舞蹁跹', val: yearStr  + '12' + '25'},    //圣诞
-        {key: 'chunjie', slogan: '大家沈醉对芳筵，愿新年，胜旧年', val: yearStr + springM + springD},    //春节除夕
-        {key: 'yuanxiao', slogan: '元宵争看采莲船，宝马香车拾坠钿', val: yearStr + lanternM + lanternD},     //元宵节
-        {key: 'duanwu', slogan: '亿兆同归寿，群公共保昌', val: yearStr + dragonM + dragonD},    //端午节
-        {key: 'qixi', slogan: '金风玉露一相逢，便胜却人间无数', val: yearStr + chineseValentineM + chineseValentineD},    //七夕
-        {key: 'zhongqiu', slogan: '但愿人长久，千里共婵娟', val: yearStr + midAutumnM + midAutumnD},    //中秋
-        {key: 'muqinjie', slogan: '慈母手中线，游子身上衣', val: motherDay},    //母亲节
-        {key: 'fuqinjie', slogan: '惟愿孩儿愚且鲁，无灾无难到公卿', val: fatherDay},    //父亲节
+        {key: 'yuandan', title: '元旦', slogan: '爆竹声中一岁除，春风送暖入屠苏', val: yearStr  + '01' + '03'},
+        {key: 'qingren', title: '情人节', slogan: '一生一世执子手，不离不弃共白头', val: yearStr  + '02' + '14'},
+        {key: 'nvshen', title: '女神节', slogan: '沉鱼落雁鸟惊喧，羞花闭月花愁颤', val: yearStr  + '03' + '08'},
+        {key: 'qingming', title: '清明节', slogan: '燕子来时新社，梨花落后清明', val: yearStr  + '04' + '05'},
+        {key: 'laodong', title: '劳动节', slogan: '田家少闲月，五月人倍忙。夜来南风起，小麦覆陇黄', val: yearStr  + '05' + '05'},
+        {key: 'ertong', title: '儿童节', slogan: '儿童散学归来早，忙趁东风放纸鸢', val: yearStr  + '06' + '01'},
+        {key: 'gaokao', title: '高考', slogan: '会当凌绝顶，一览众山小，祝大家金榜题名', val: yearStr  + '06' + '08'},
+        {key: 'jiandang', title: '党的生日', slogan: '镰锤闪光红旗染，理想信念心灵燃', val: yearStr  + '07' + '01'},
+        {key: 'jianjun', title: '建军节', slogan: '哪有什么岁月静好，不过是有人替你负重前行', val: yearStr  + '08' + '01'},
+        {key: 'jiaoshi', title: '教师节', slogan: '鹤发银丝映日月，丹心热血沃新花', val: yearStr  + '09' + '10'},
+        {key: 'guoqing', title: '国庆', slogan: '红旗烈焰燃苍穹，火纱一片换新彤', val: yearStr  + '10' + '07'},
+        {key: 'shengdan', title: '圣诞', slogan: '圣诞老人童趣乐，平安之夜舞蹁跹', val: yearStr  + '12' + '25'},
+        {key: 'chunjie', title: '春节', slogan: '大家沈醉对芳筵，愿新年，胜旧年', val: yearStr + springM + springD},
+        {key: 'yuanxiao', title: '元宵节', slogan: '元宵争看采莲船，宝马香车拾坠钿', val: yearStr + lanternM + lanternD},
+        {key: 'duanwu', title: '端午', slogan: '亿兆同归寿，群公共保昌', val: yearStr + dragonM + dragonD},
+        {key: 'qixi', title: '七夕', slogan: '金风玉露一相逢，便胜却人间无数', val: yearStr + chineseValentineM + chineseValentineD},
+        {key: 'zhongqiu', title: '中秋', slogan: '但愿人长久，千里共婵娟', val: yearStr + midAutumnM + midAutumnD},
+        {key: 'muqinjie', title: '母亲节', slogan: '慈母手中线，游子身上衣', val: motherDay},
+        {key: 'fuqinjie', title: '父亲节', slogan: '惟愿孩儿愚且鲁，无灾无难到公卿', val: fatherDay},
       ]
 
       // 排序
@@ -395,16 +400,21 @@ export default {
       // for循环从头遍历，获取离当前日期最近的节日，最差o(n)
       for (let i = 0; i < sortDateList.length; i++) {
         let cur = sortDateList[i];
-        if (cur.val > currentDate) {
+        if (cur.val >= currentDate) {
           // console.log('最近节日', cur)
           this.dateType = cur.key
+          this.dateTitle = cur.title
           this.dateSlogan= cur.slogan
           this.dataImgListCur = ImgList[this.dateType]
 
+          // 本次截止日期
+          this.dateTtlStr = cur.val
+
           // 下次预告
-          if (i <= sortDateList.length -1) {
-            this.dateTtlStr = sortDateList[i+1].val - currentDate
-          }
+          // if (i <= sortDateList.length -1) {
+          //   this.dateNextTtlStr = sortDateList[i+1].val
+          // }
+
           return
         }
       }
@@ -431,6 +441,18 @@ export default {
       return number.toString().length === 1 ? '0' + number.toString() : number.toString()
     },
 
+    shareData() {
+      return {
+        title: this.dateTitle + '限时头像制作',
+        desc: this.dateSlogan,
+        imageUrl: '/static/image/logo/avatar_mask.jpg',
+        path: '/pages/date/date',
+        success(res) {
+        },
+        fail(res) {
+        }
+      }
+    },
 
     /**
      *  获取用户信息回调方法

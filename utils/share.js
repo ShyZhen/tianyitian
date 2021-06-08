@@ -2,7 +2,7 @@ function getShareObj(res) {
     return {
         title: getShareMessage(),
         desc: '你想要的样子我都有',
-        imageUrl: '/static/image/mask/avatar_mask.jpg',
+        imageUrl: '/static/image/logo/avatar_mask.jpg',
         path: '/pages/index/index',
         success(res) {
         },
