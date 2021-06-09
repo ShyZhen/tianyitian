@@ -443,7 +443,7 @@ export default {
 
     shareData() {
       return {
-        title: this.dateTitle + '限时头像制作',
+        title: this.dateTitle + '头像限时制作',
         desc: this.dateSlogan,
         imageUrl: '/static/image/logo/avatar_mask.jpg',
         path: '/pages/date/date',
