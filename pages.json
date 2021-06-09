@@ -22,13 +22,6 @@
 			}
 		},
 		{
-			"path": "pages/about/about",
-			"style": {
-				"disableScroll": true,
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path": "pages/crop/crop",
 			"style": {
 				"disableScroll": true,

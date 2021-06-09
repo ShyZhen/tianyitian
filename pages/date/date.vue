@@ -68,7 +68,7 @@
 
     <scroll-view class="scrollView mask-scroll-view" scroll-x="true">
       <view v-for="(item, index) in dataImgListCur" :key="index" style="display: inline-flex;">
-        <text v-if="currentMaskUrl && isAndroid" class="cuIcon-order cancel circle" @click="flipHorizontal" id="cancel"
+        <text v-if="currentMaskUrl === item && isAndroid" class="cuIcon-order cancel circle" @click="flipHorizontal" id="cancel"
               :style="{transform: 'rotate(' +90+ 'deg)'}"></text>
         <!--				<text v-if="currentMaskId == index" style="margin-left: 55px;" class="cuIcon-question cancel circle" @click="showTips" id="cancel"></text>-->
         <image class="imgList" :src="cdnUrl + item" :data-mask-id="index" @tap="changeMask(item)"></image>
