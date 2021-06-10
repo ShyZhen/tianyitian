@@ -327,45 +327,50 @@ export default {
       this.start_x = current_x;
       this.start_y = current_y;
     },
+    downloadAvatarAndPaintAll(imageUrl) {
+      this.$loading('头像加载中...')
+      let that = this;
+      uni.downloadFile({
+        url: imageUrl,
+        success: function(res) {
+          that.$loading(false)
+          that.avatarPath = res.tempFilePath;
+          getApp().globalData.userAvatarFilePath = res.tempFilePath;
+          that.paint();
+        },
+        fail: function(e) {
+          console.log(e);
+          that.$loading(false)
+          uni.showModal({
+            title: '图片加载超时',
+            content: '检查网络，点击确定重新加载',
+            success(res) {
+              if (res.confirm) {
+                that.downloadAvatarAndPaintAll(imageUrl);
+              } else if (res.cancel) {
+                console.log('用户点击取消');
+              }
+            }
+          })
+        }
+      })
+    },
     /**
      *  获取用户信息回调方法
      * @param {Object} result
      */
     getUserInfo() {
+      let that = this
+      this.$loading('头像加载中...')
       uni.getUserProfile({
         desc: '用于完善个人资料',
         success: (res) => {
           if (res.userInfo) {
-
             let userInfo = res.userInfo
-            userInfo.avatarUrl = userInfo.avatarUrl.replace("132", "0"); // 使用最大分辨率头像 959 * 959
-            getApp().globalData.userAvatarUrl = userInfo.avatarUrl;
-
-            this.$loading('头像加载中...')
-            let that = this;
-            uni.downloadFile({
-              url: userInfo.avatarUrl,
-              success: function(res) {
-                that.$loading(false)
-                that.avatarPath = res.tempFilePath;
-                getApp().globalData.userAvatarFilePath = res.tempFilePath;
-              },
-              fail: function(e) {
-                console.log(e);
-                that.$loading(false)
-                uni.showModal({
-                  title: '图片加载超时',
-                  content: '检查网络，点击确定重新加载',
-                  success(res) {
-                    if (res.confirm) {
-                      that.downloadAvatarAndPaintAll(imageUrl);
-                    } else if (res.cancel) {
-                      console.log('用户点击取消');
-                    }
-                  }
-                })
-              }
-            })
+            userInfo.avatarUrl = userInfo.avatarUrl.replace("132", "0") // 使用最大分辨率头像 959 * 959
+            getApp().globalData.userAvatarUrl = userInfo.avatarUrl
+            this.downloadAvatarAndPaintAll(userInfo.avatarUrl)
+            this.saveLoginUserInfo(userInfo)
           } else {
             uni.showModal({
               title: '获取用户头像失败',
@@ -374,6 +379,9 @@ export default {
             });
           }
         },
+        complete: (res) => {
+          this.$loading(false)
+        }
       })
     },
 
@@ -382,13 +390,18 @@ export default {
      */
     chooseImage() {
       let that = this;
+      that.$loading('加载中...')
       uni.chooseImage({
         count: 1, // 默认9
         sizeType: ['compressed'],
         sourceType: ['album', 'camera'],
         success: function(res) {
+          that.$loading(false)
           let tempImagePath = res.tempFilePaths[0];
           that.imageCheck(tempImagePath, that.loadRecImageOrStartToCrop);
+        },
+        complete: (res) => {
+          this.$loading(false)
         }
       });
     },
@@ -489,6 +502,7 @@ export default {
       let mask_center_y = this.mask_center_y;
       let that = this;
 
+      that.$loading('合成中...')
       uni.getImageInfo({
         src: that.maskPic,
         success: function (image) {
@@ -548,6 +562,9 @@ export default {
               that.saveCans()
             }
           })
+        },
+        complete() {
+          that.$loading(false)
         }
       })
     },
@@ -558,7 +575,7 @@ export default {
      * 保存
      */
     saveCans() {
-      let that = this;
+      let that = this
 
       that.$loading('保存中...')
       uni.canvasToTempFilePath({
@@ -570,7 +587,6 @@ export default {
         destHeight: this.cansHeight * 3,
         canvasId: 'cans-id-mask',
         success: function(res) {
-          that.$loading('拼命加载中')
           getApp().globalData.maskAvatarSavedTempPath = res.tempFilePath;
           uni.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
@@ -604,12 +620,9 @@ export default {
                 })
               }
             },
-            complete(res) {
-              that.$loading(false)
-            }
           });
         },
-        fail(res) {
+        complete(res) {
           that.$loading(false)
         }
       }, this)

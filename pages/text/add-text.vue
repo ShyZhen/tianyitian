@@ -21,7 +21,7 @@
     <view>
       <view class="uni-form-item uni-column">
         <view class="title uni-inline-item" style="margin: 10px;color: #FFF">输入一个字:
-          <input class="uni-inline-item" style="margin: 10px" confirm-type="done" @blur="onKeyInput" @confirm="onKeyInput" maxlength="1" placeholder="白,富,美,萌,忙,帅,萌,矮,丑,穷" />
+          <input class="uni-inline-item" style="margin: 10px" confirm-type="done" @blur="onKeyInput" @confirm="onKeyInput" maxlength="4" placeholder="白,富,美,萌,忙,帅,萌,矮,丑,穷" />
         </view>
       </view>
     </view>
@@ -201,8 +201,9 @@ export default {
       this.paint();
     },
     onKeyInput: function(event) {
-      this.wishText = event.target.value;
-      this.paint();
+      // 解决ios下的bug：https://developers.weixin.qq.com/community/develop/doc/000c862f33c7b85a565ae91b556400?_at=1589312743359
+      this.wishText = event.target.value.substr(0, 1)
+      this.paint()
     },
     paint(avatarFilePath, happinessFilePath) {
       if (!avatarFilePath) {
@@ -296,21 +297,20 @@ export default {
       this.ctx.restore()
     },
     downloadAvatarAndPaintAll(imageUrl) {
-      uni.showLoading({
-        title: '加载中...'
-      });
-      let that = this;
+      let that = this
+      this.$loading('头像加载中...')
+
       uni.downloadFile({
         url: imageUrl,
         success: function(res) {
-          uni.hideLoading();
+          that.$loading(false)
           that.avatarPath = res.tempFilePath;
           getApp().globalData.userAvatarFilePath = res.tempFilePath;
           that.paint();
         },
         fail: function(e) {
           console.log(e);
-          uni.hideLoading();
+          that.$loading(false)
           uni.showModal({
             title: '图片加载超时',
             content: '检查网络，点击确定重新加载',
@@ -329,17 +329,18 @@ export default {
      *  获取用户信息回调方法
      */
     getUserInfo(e) {
+      let that = this
+      this.$loading('头像加载中...')
       uni.getUserProfile({
         desc: '用于完善个人资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
         success: (res) => {
-          this.$loading('拼命加载中...')
           if (res.userInfo) {
-            this.ownImageUsed = true;
+            this.ownImageUsed = true
             let userInfo = res.userInfo
-            userInfo.avatarUrl = userInfo.avatarUrl.replace("132", "0"); // 使用最大分辨率头像 959 * 959
-            getApp().globalData.userAvatarUrl = userInfo.avatarUrl;
-            this.downloadAvatarAndPaintAll(userInfo.avatarUrl);
-            this.saveLoginUserInfo(userInfo);
+            userInfo.avatarUrl = userInfo.avatarUrl.replace("132", "0") // 使用最大分辨率头像 959 * 959
+            getApp().globalData.userAvatarUrl = userInfo.avatarUrl
+            this.downloadAvatarAndPaintAll(userInfo.avatarUrl)
+            this.saveLoginUserInfo(userInfo)
           } else {
             uni.showModal({
               title: '获取用户头像失败',
@@ -348,24 +349,31 @@ export default {
             })
           }
         },
+        complete: (res) => {
+          this.$loading(false)
+        }
       })
     },
     /**
      *  选择图片
      */
     chooseImage() {
-      let that = this;
+      let that = this
+      that.$loading('加载中...')
       uni.chooseImage({
         count: 1, // 默认9
         sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'],
         success: function(res) {
-          console.log(res);
+          that.$loading(false)
           let tempImagePath = res.tempFilePaths[0];
           that.imageCheck(tempImagePath, that.loadRecImageOrStartToCrop);
           // that.loadRecImageOrStartToCrop(tempImagePath);
+        },
+        complete: (res) => {
+          this.$loading(false)
         }
-      });
+      })
     },
     loadRecImageOrStartToCrop(tempImagePath) {
       this.ownImageUsed = true;
@@ -430,11 +438,8 @@ export default {
      */
     saveCans() {
       console.log('保存...')
-      let that = this;
-      uni.showLoading({
-        title: '保存...',
-        mask: true
-      })
+      let that = this
+      that.$loading('保存中...')
       uni.canvasToTempFilePath({
         x: 0,
         y: 0,
@@ -444,7 +449,6 @@ export default {
         destHeight: this.cansHeight * 3,
         canvasId: 'cans-id-happines',
         success: function(res) {
-          uni.hideLoading()
           uni.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
             success: function(res) {
@@ -470,7 +474,6 @@ export default {
                       console.error(err)
                     })
               }
-              console.log('保存成功')
             },
             fail(res) {
               console.log(res)
@@ -494,8 +497,8 @@ export default {
             }
           });
         },
-        fail(res) {
-          uni.hideLoading()
+        complete(res) {
+          that.$loading(false)
         }
       }, this)
     },
