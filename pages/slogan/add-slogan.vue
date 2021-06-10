@@ -381,8 +381,8 @@
               let userInfo = res.userInfo;
               userInfo.avatarUrl = userInfo.avatarUrl.replace("132", "0") // 使用最大分辨率头像 959 * 959
               getApp().globalData.userAvatarUrl = userInfo.avatarUrl
-              this.downloadAvatarAndPaintAll(userInfo.avatarUrl)
-              this.saveLoginUserInfo(userInfo)
+              that.downloadAvatarAndPaintAll(userInfo.avatarUrl)
+              that.saveLoginUserInfo(userInfo)
             } else {
               uni.showModal({
                 title: '获取用户头像失败',

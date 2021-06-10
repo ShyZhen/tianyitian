@@ -350,7 +350,7 @@ export default {
       let dateStr = this.handleSingleDate(date)
       let currentDate = yearStr + monthStr + dateStr
 
-      let springFestival = Calendar.lunar2solar(year,1,1)       //除夕春节
+      let springFestival = Calendar.lunar2solar(year,1,6)       //除夕春节
       let lanternFestival = Calendar.lunar2solar(year,1,15)     //元宵节
       let dragonBoatFestival = Calendar.lunar2solar(year,5,5)   //端午
       let chineseValentineDay = Calendar.lunar2solar(year,7,7)  //七夕
@@ -495,8 +495,8 @@ export default {
             let userInfo = res.userInfo
             userInfo.avatarUrl = userInfo.avatarUrl.replace("132", "0"); // 使用最大分辨率头像 959 * 959
             getApp().globalData.userAvatarUrl = userInfo.avatarUrl
-            this.downloadAvatarAndPaintAll(userInfo.avatarUrl)
-            this.saveLoginUserInfo(userInfo)
+            that.downloadAvatarAndPaintAll(userInfo.avatarUrl)
+            that.saveLoginUserInfo(userInfo)
           } else {
             uni.showModal({
               title: '获取用户头像失败',
