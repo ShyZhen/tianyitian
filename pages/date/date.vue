@@ -131,7 +131,7 @@ export default {
       savedCounts: 0,
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
-      avatarPath: '/static/image/logo/avatar_mask.jpg',
+      avatarPath: '/static/image/head/'+ Math.floor(Math.random()*12) + '.jpg',
       currentMaskUrl: '',
       showBorder: false,
       maskCenterX: wx.getSystemInfoSync().windowWidth / 2,
@@ -445,7 +445,7 @@ export default {
       return {
         title: this.dateTitle + '头像限时制作',
         desc: this.dateSlogan,
-        imageUrl: '/static/image/logo/avatar_mask.jpg',
+        imageUrl: this.avatarPath,
         path: '/pages/date/date',
         success(res) {
         },

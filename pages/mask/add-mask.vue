@@ -130,7 +130,7 @@ export default {
       savedCounts: 0,
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
-      avatarPath: '/static/image/logo/avatar_mask.jpg',
+      avatarPath: '/static/image/head/'+ Math.floor(Math.random()*12) + '.jpg',
       imgList:[],
       currentMaskUrl: '',
       showBorder: false,
