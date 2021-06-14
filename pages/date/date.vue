@@ -36,10 +36,18 @@
         <text class="text-white text-bold">{{ dateSlogan }}</text>
       </view>
       <view class="solid-bottom">
+        <view>
         <text class="text-white">
           {{ dateTitle }}头像制作截止至：
           <text class="margin-lr-xs">{{dateTtlStr.slice(0, 4)}}-{{dateTtlStr.slice(4, 6)}}-{{dateTtlStr.slice(6, 8)}}</text>
         </text>
+        </view>
+        <view>
+        <text class="text-white">
+          下期节日关键字：
+          <text class="margin-lr-xs">{{dateNext.title}}</text>
+        </text>
+        </view>
       </view>
     </view>
     <view class="grid justify-around action-wrapper">
@@ -162,7 +170,8 @@ export default {
       dateTitle: '',
       dateSlogan: '',
       dateTtlStr: '',
-      dateNextTtlStr: '',
+      datePre: {},
+      dateNext: {},
       dataImgListCur: []
     }
   },
@@ -378,6 +387,7 @@ export default {
         {key: 'laodong', title: '劳动节', slogan: '田家少闲月，五月人倍忙。夜来南风起，小麦覆陇黄', val: yearStr  + '05' + '05'},
         {key: 'ertong', title: '儿童节', slogan: '儿童散学归来早，忙趁东风放纸鸢', val: yearStr  + '06' + '01'},
         {key: 'gaokao', title: '高考', slogan: '会当凌绝顶，一览众山小，祝大家金榜题名', val: yearStr  + '06' + '08'},
+        {key: 'biyeji', title: '毕业季', slogan: '长风破浪会有时，直挂云帆济沧海', val: yearStr  + '06' + '26'},
         {key: 'jiandang', title: '党的生日', slogan: '镰锤闪光红旗染，理想信念心灵燃', val: yearStr  + '07' + '01'},
         {key: 'jianjun', title: '建军节', slogan: '哪有什么岁月静好，不过是有人替你负重前行', val: yearStr  + '08' + '01'},
         {key: 'jiaoshi', title: '教师节', slogan: '鹤发银丝映日月，丹心热血沃新花', val: yearStr  + '09' + '10'},
@@ -410,10 +420,14 @@ export default {
           // 本次截止日期
           this.dateTtlStr = cur.val
 
+          // 上期回顾
+          if (i !== 0) {
+            this.datePre = sortDateList[i-1]
+          }
           // 下次预告
-          // if (i <= sortDateList.length -1) {
-          //   this.dateNextTtlStr = sortDateList[i+1].val
-          // }
+          if (i <= sortDateList.length -1) {
+            this.dateNext = sortDateList[i+1]
+          }
 
           return
         }
@@ -424,7 +438,7 @@ export default {
       d = d || new Date();
       let dd = new Date("May 01 "+d.getFullYear())
       let res = new Date("May " + (1 + (7 - dd.getDay()) + 7) + " " + d.getFullYear())
-      let handleMonth = this.handleSingleDate(res.getMonth())
+      let handleMonth = this.handleSingleDate(res.getMonth() + 1)
       let handleDate = this.handleSingleDate(res.getDate())
       return res.getFullYear().toString() + handleMonth + handleDate
     },
@@ -432,7 +446,7 @@ export default {
       d = d || new Date();
       let dd = new Date("Jun 01 "+d.getFullYear())
       let res = new Date("Jun " + (1 + (7 - dd.getDay()) + 14) + " " + d.getFullYear())
-      let handleMonth = this.handleSingleDate(res.getMonth())
+      let handleMonth = this.handleSingleDate(res.getMonth() + 1)
       let handleDate = this.handleSingleDate(res.getDate())
       return res.getFullYear().toString() + handleMonth + handleDate
     },
