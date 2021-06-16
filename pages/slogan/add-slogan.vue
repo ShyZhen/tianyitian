@@ -3,8 +3,6 @@
     <view v-if="SHOW_TIP">
       <add-tips :statusBarHeight="statusBarHeight" />
     </view>
-    <!--  背景图  -->
-    <!-- <image class="page-bg" :style="{height:windowHeight+'px'}" mode="aspectFill" src="/static/image/page-bg.png"></image>-->
 
 		<view id="avatar-section" @click="nextHappiness">
 			<canvas canvas-id="cans-id-happines" style="width:270px; height:270px;" class="isCan"></canvas>
@@ -48,9 +46,9 @@
 			</view>
 		</view>
 
-<!--		<view class="grid justify-around share-wrapper">-->
-<!--			<ad unit-id="adunit-9eaa632f3263c819"></ad>-->
-<!--		</view>-->
+		<view class="grid justify-around share-wrapper">
+			<ad unit-id="adunit-c42c8c8ce8b6106d"></ad>
+		</view>
 
 <!--    <tui-footer copyright="赛尔教育咨询服务有限公司"></tui-footer>-->
 
@@ -67,6 +65,11 @@
 	import tuiListCell from "@/components/tui/list-cell"
 	import tuiDropdownList from "@/components/tui/dropdown-list"
   import { getShareObj } from "@/utils/share.js"
+
+  // 在页面中定义激励视频广告
+  let videoAd = null;
+  // 在页面中定义插屏广告
+  let interstitialAd = null
 
 	export default {
 		components: {
@@ -181,8 +184,13 @@
 				lastZ: 0, //此组变量分别记录对应 x、y、z 三轴的数值和上次的数值
 				lastChangeTime: 0,
 				showGentleMessage: false,
+
 				savedCounts: 0,
-				freeCount: 1,
+				freeCount: 3,
+        enableInterstitialAd: true,
+        rewardedVideoAdLoaded: false,
+        rewardedVideoAdAlreadyShow: false,
+
 				ownImageUsed: false,
 				showQuestion: false,
 				envId: 'happiness-production-yy81s',
@@ -190,8 +198,7 @@
 				docId: 'add_happiness_rwzc',
 				statusBarHeight: 0,
 				SHOW_TIP: false,
-				duration: 20
-
+				duration: 20,
 			}
 		},
 		computed: {
@@ -209,6 +216,8 @@
 			}
 		},
 		onLoad(option) {
+      let that = this;
+
 			this.windowHeight = getApp().globalData.windowHeight;
 			if (!!getApp().globalData.userAvatarFilePath) {
 				this.avatarPath = getApp().globalData.userAvatarFilePath;
@@ -217,6 +226,41 @@
 			this.ctx = uni.createCanvasContext('cans-id-happines', this);
 			this.paint();
 
+      // 在页面onLoad回调事件中创建插屏广告实例
+      if (wx.createInterstitialAd) {
+        interstitialAd = wx.createInterstitialAd({
+          adUnitId: 'adunit-ae132e93d50f453f'
+        })
+        interstitialAd.onLoad(() => {})
+        interstitialAd.onError((err) => {})
+        interstitialAd.onClose(() => {})
+      }
+
+      // 在页面onLoad回调事件中创建激励视频广告实例
+      if (wx.createRewardedVideoAd) {
+        videoAd = wx.createRewardedVideoAd({
+          adUnitId: 'adunit-c9f0e42fec4aa9be'
+        })
+        videoAd.onLoad(() => {
+          that.rewardedVideoAdLoaded = true;
+        })
+        videoAd.onError((err) => {
+          // 广告组件出现错误，直接允许用户保存，不做其他复杂处理
+          that.rewardedVideoAdLoaded = false;
+        })
+        videoAd.onClose((res) => {
+          if (res && res.isEnded || res === undefined) {
+            // 正常播放结束，下发奖励
+            that.rewardedVideoAdAlreadyShow = true; // 本次使用不再展现激励广告
+            that.saveCans();
+          } else {
+            // 播放中途退出，进行提示
+            that.$toast('请完整观看哦')
+            that.rewardedVideoAdAlreadyShow = false;
+            // that.checkAdBeforeSave();
+          }
+        })
+      }
 		},
 		onReady() {
 			// 判断是否已经显示过
@@ -450,7 +494,40 @@
 				this.paint();
 			},
 			checkAdBeforeSave() {
-				this.saveCans();
+        let that = this;
+        if (!!videoAd && this.rewardedVideoAdLoaded &&
+            !this.rewardedVideoAdAlreadyShow) {
+          uni.showModal({
+            title: '获取无限使用次数',
+            content: '请完整观看趣味广告视频',
+            success: function(res) {
+              if (res.confirm) {
+                console.log('用户点击确定');
+                // 用户触发广告后，显示激励视频广告
+                if (videoAd) {
+                  videoAd.show().catch(() => {
+                    // 失败重试
+                    videoAd.load()
+                        .then(() => {
+                          videoAd.show();
+                        })
+                        .catch(err => {
+                          console.log(err);
+                          console.log('激励视频 广告显示失败')
+                        })
+                  })
+                }
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+                that.$toast('视频很短的 (✪ω✪)')
+                // that.saveCans()
+                return
+              }
+            }
+          });
+        } else {
+          this.saveCans();
+        }
 			},
 			/**
 			 * 保存
@@ -467,15 +544,16 @@
 					destHeight: this.cansHeight * 3,
 					canvasId: 'cans-id-happines',
 					success: function(res) {
+            getApp().globalData.maskAvatarSavedTempPath = res.tempFilePath
 						uni.saveImageToPhotosAlbum({
 							filePath: res.tempFilePath,
 							success: function(res) {
 								uni.showToast({
 									title: '请至相册查看'
 								})
-                uni.vibrateShort();
-								that.savedCounts++;
-							},
+								that.savedCounts++
+                uni.vibrateShort()
+              },
 							fail(res) {
 								console.log(res)
 								if (res.errMsg.indexOf("fail")) {
@@ -632,7 +710,7 @@
 	}
 
 	.share-wrapper {
-		padding-top: 50rpx;
+		padding-top: 10rpx;
 		padding-left: 100rpx;
 		padding-right: 100rpx;
 		font-weight: 800;

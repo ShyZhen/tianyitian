@@ -5,10 +5,10 @@
     </view>
 
     <view class="menu-list" :style="{'margin-top': statusBarHeight+40+'px' }">
-      <!--			<view class="ad-container margin-top cu-list menu sm-border card-menu">-->
-      <!--				<ad unit-id="adunit-28338c7d91d145af"></ad>-->
-      <!--				<ad unit-id="adunit-7301464a68a1e24e" ad-type="video" ad-theme="white"></ad>-->
-      <!--			</view>-->
+      <!--   banner广告    -->
+      <view class="ad-container margin-top cu-list menu sm-border card-menu">
+        <ad unit-id="adunit-71fc3d4c859b6b63"></ad>
+      </view>
 
       <view class="cu-card article" @click="dateHandle">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx;">
@@ -76,6 +76,11 @@
         </view>
       </view>
 
+      <!--   banner广告    -->
+      <view class="ad-container margin-top cu-list menu sm-border card-menu">
+        <ad unit-id="adunit-999663d8258f1111"></ad>
+      </view>
+
       <view class="cu-card article" @click="addSlogan">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx; ">
           <view class="title">
@@ -118,6 +123,11 @@
             </view>
           </view>
         </view>
+      </view>
+
+      <!--   视频广告    -->
+      <view class="ad-container margin-top cu-list menu sm-border card-menu">
+        <ad unit-id="adunit-88e7b3ed90d66294" ad-type="video" ad-theme="white"></ad>
       </view>
 
       <view class="about-actions margin-top cu-list menu sm-border card-menu animation-shake animation-speed-2 animation-delay-3">
@@ -248,7 +258,7 @@ export default {
 
 <style scoped>
 .container-index{
-  height: 1950rpx;
+  height: 3000rpx;
 }
 
 .logo-area{

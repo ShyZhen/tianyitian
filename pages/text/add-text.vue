@@ -1,5 +1,5 @@
 <template>
-  <view class="container" :style="{height:windowHeight+'px'}">
+  <view class="container" style="overflow-y: scroll;" :style="{height:windowHeight+'px'}">
     <view id="avatar-section">
       <canvas canvas-id="cans-id-happines" style="width:270px; height:270px;" class="isCan"></canvas>
     </view>
@@ -32,6 +32,10 @@
           <button @click="changeColor" :data-color="item.color" class="cu-btn round" :class="['bg-' + item.name , shadow?'shadow':'']">{{item.title}}</button>
         </view>
       </view>
+    </view>
+
+    <view class="grid justify-around share-wrapper">
+      <ad unit-id="adunit-5df4999be4aa8961"></ad>
     </view>
   </view>
 </template>
@@ -75,16 +79,19 @@ export default {
       x: 0,
       y: 0,
       z: 0,
+
       savedCounts: 0,
-      freeCount: 1,
+      freeCount: 3,
       enableRewardedVideoAd: true,
       enableInterstitialAd: true,
+      rewardedVideoAdLoaded: false,
       rewardedVideoAdAlreadyShow: false,
       interstitialAdAlreadyShow: false,
+
       ownImageUsed: false,
       statusBarHeight: 0,
       SHOW_TIP: false,
-      duration: 20
+      duration: 20,
     }
   },
   computed: {
@@ -102,6 +109,8 @@ export default {
     }
   },
   onLoad(option) {
+    let that = this;
+
     if (!!getApp().globalData.userAvatarFilePath) {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
     }
@@ -109,48 +118,42 @@ export default {
     this.ctx = uni.createCanvasContext('cans-id-happines', this);
     this.paint();
 
-    let that = this;
 
-    // // 在页面onLoad回调事件中创建插屏广告实例
-    // if (wx.createInterstitialAd) {
-    // 	interstitialAd = wx.createInterstitialAd({
-    // 		adUnitId: 'adunit-0eed22f1c6e7d39e'
-    // 	})
-    // 	interstitialAd.onLoad(() => {})
-    // 	interstitialAd.onError((err) => {})
-    // 	interstitialAd.onClose(() => {})
-    // }
+    // 在页面onLoad回调事件中创建插屏广告实例
+    if (wx.createInterstitialAd) {
+    	interstitialAd = wx.createInterstitialAd({
+    		adUnitId: 'adunit-ae132e93d50f453f'
+    	})
+    	interstitialAd.onLoad(() => {})
+    	interstitialAd.onError((err) => {})
+    	interstitialAd.onClose(() => {})
+    }
 
-    // // 在页面onLoad回调事件中创建激励视频广告实例
-    // if (wx.createRewardedVideoAd) {
-    // 	videoAd = wx.createRewardedVideoAd({
-    // 		adUnitId: 'adunit-e9dfe89f3616833e'
-    // 	})
-    // 	videoAd.onLoad(() => {
-    // 		that.rewardedVideoAdLoaded = true;
-    // 	})
-    // 	videoAd.onError((err) => {
-    // 		// 广告组件出现错误，直接允许用户保存，不做其他复杂处理
-    // 		console.log('videoAd.onError', err);
-    // 		that.rewardedVideoAdLoaded = false;
-    // 	})
-    // 	videoAd.onClose((res) => {
-    // 		if (res && res.isEnded || res === undefined) {
-    // 			// 正常播放结束，下发奖励
-    // 			console.log('正常播放结束，下发奖励');
-    // 			that.rewardedVideoAdAlreadyShow = true; // 本次使用不再展现激励广告
-    // 			that.saveCans();
-    // 		} else {
-    // 			// 播放中途退出，进行提示
-    // 			console.log('播放中途退出，重新提示');
-    // 			console.log('rewardedVideoAdAlreadyShow', that.rewardedVideoAdAlreadyShow);
-    // 			that.rewardedVideoAdAlreadyShow = false;
-    // 			that.checkAdBeforeSave();
-    // 		}
-
-    // 	})
-    // }
-
+    // 在页面onLoad回调事件中创建激励视频广告实例
+    if (wx.createRewardedVideoAd) {
+    	videoAd = wx.createRewardedVideoAd({
+    		adUnitId: 'adunit-8296f48990df1b7f'
+    	})
+    	videoAd.onLoad(() => {
+    		that.rewardedVideoAdLoaded = true;
+    	})
+    	videoAd.onError((err) => {
+    		// 广告组件出现错误，直接允许用户保存，不做其他复杂处理
+    		that.rewardedVideoAdLoaded = false;
+    	})
+    	videoAd.onClose((res) => {
+    		if (res && res.isEnded || res === undefined) {
+    			// 正常播放结束，下发奖励
+    			that.rewardedVideoAdAlreadyShow = true; // 本次使用不再展现激励广告
+    			that.saveCans();
+    		} else {
+    			// 播放中途退出，进行提示
+          that.$toast('请完整观看哦')
+    			that.rewardedVideoAdAlreadyShow = false;
+    			// that.checkAdBeforeSave();
+    		}
+    	})
+    }
   },
   onReady() {
     // 判断是否已经显示过
@@ -402,7 +405,7 @@ export default {
     checkAdBeforeSave() {
       let that = this;
       if (!!videoAd && this.enableRewardedVideoAd && this.rewardedVideoAdLoaded &&
-          !this.rewardedVideoAdAlreadyShow && this.savedCounts >= this.freeCount) {
+          !this.rewardedVideoAdAlreadyShow) {
         uni.showModal({
           title: '获取无限使用次数',
           content: '请完整观看趣味广告视频',
@@ -424,9 +427,10 @@ export default {
                 })
               }
             } else if (res.cancel) {
-              console.log('用户点击取消');
-              // that.saveCans();
-              return;
+              console.log('用户点击取消')
+              that.$toast('视频很短的 (✪ω✪)')
+              // that.saveCans()
+              return
             }
           }
         });
@@ -438,7 +442,6 @@ export default {
      * 保存
      */
     saveCans() {
-      console.log('保存...')
       let that = this
       that.$loading('保存中...')
       uni.canvasToTempFilePath({
@@ -450,34 +453,17 @@ export default {
         destHeight: this.cansHeight * 3,
         canvasId: 'cans-id-happines',
         success: function(res) {
+          getApp().globalData.maskAvatarSavedTempPath = res.tempFilePath
           uni.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
             success: function(res) {
               uni.showToast({
                 title: '请至相册查看'
               })
-              uni.vibrateShort();
               that.savedCounts++;
-              // 保存时，如果没有激励广告则展示一次插屏广告，因为一个完整操作流程已结束，提升广告曝光
-              if (interstitialAd && that.enableInterstitialAd && !that.interstitialAdAlreadyShow &&
-                  !that.rewardedVideoAdAlreadyShow) { // 没有激励广告才在保存时展示插屏广告
-                interstitialAd.show()
-                    .then(() => {
-                      that.interstitialAdAlreadyShow = true;
-                    })
-                    .catch((err) => {
-                      interstitialAd.load().then(() => {
-                        interstitialAd.show();
-                      }).catch(err => {
-                        console.log(err);
-                        console.log('插屏广告显示失败')
-                      })
-                      console.error(err)
-                    })
-              }
+              uni.vibrateShort();
             },
             fail(res) {
-              console.log(res)
               if (res.errMsg.indexOf("fail")) {
                 uni.showModal({
                   title: '您需要授权相册权限',
@@ -495,7 +481,7 @@ export default {
                   }
                 })
               }
-            }
+            },
           });
         },
         complete(res) {
@@ -607,7 +593,7 @@ export default {
 // }
 
 .share-wrapper {
-  padding-top: 50rpx;
+  padding-top: 10rpx;
   padding-left: 100rpx;
   padding-right: 100rpx;
   font-weight: 800;

@@ -65,13 +65,12 @@
     </view>
     <view class="grid justify-around share-wrapper">
 
-      <!--			<view class="grid col-2 animation-shake animation-speed-2 animation-delay-3">-->
-      <!--				<button class="cu-btn block line-orange lg share-btn" open-type="share">-->
-      <!--					<text class="cuIcon-upload"></text> <text class="text-yellow">分享给好友</text> </button>-->
-      <!--			</view>-->
+<!--      			<view class="grid col-2 animation-shake animation-speed-2 animation-delay-3">-->
+<!--      				<button class="cu-btn block line-orange lg share-btn" open-type="share">-->
+<!--      					<text class="cuIcon-upload"></text> <text class="text-yellow">分享给好友</text> </button>-->
+<!--      			</view>-->
 
-      <!--			<ad unit-id="adunit-85230d6cd9a1beee"></ad>-->
-
+      <ad unit-id="adunit-346d9c4e59829e53"></ad>
     </view>
 
     <scroll-view class="scrollView mask-scroll-view" scroll-x="true">
@@ -105,13 +104,12 @@
   </view>
 </template>
 <script>
-  import {mapMutations, mapState} from "vuex"
-  import tuiFooter from "@/components/tui/footer"
-  import addTips from "@/components/add-tips"
-  import { getShareObj } from "@/utils/share"
-  import Calendar from "../../utils/calendar"
-  import Config from "@/config/config"
-  import ImgList from "@/config/imgList"
+import {mapMutations, mapState} from "vuex"
+import tuiFooter from "@/components/tui/footer"
+import addTips from "@/components/add-tips"
+import Calendar from "../../utils/calendar"
+import Config from "@/config/config"
+import ImgList from "@/config/imgList"
 
   // 在页面中定义激励视频广告
 let videoAd = null;
@@ -136,7 +134,6 @@ export default {
       windowHeight: 0,
       isAndroid: getApp().globalData.IS_ANDROID,
       modalName: null,
-      savedCounts: 0,
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
       avatarPath: '/static/image/head/'+ Math.floor(Math.random()*12) + '.jpg',
@@ -165,6 +162,12 @@ export default {
       start_y: 0,
       cdnUrl: '',
 
+      savedCounts: 0,
+      freeCount: 3,
+      enableInterstitialAd: true,
+      rewardedVideoAdLoaded: false,
+      rewardedVideoAdAlreadyShow: false,
+
       // 节日挂件封装
       dateType: '',
       dateTitle: '',
@@ -180,11 +183,12 @@ export default {
       userInfo: 'userInfo'
     }),
     maskPic: function() {
-      // return '/static/image/date/' + this.dateType +'/'+ this.currentMaskId + '.png'
       return Config.imageCdn + this.currentMaskUrl
     }
   },
   onLoad(option) {
+    let that = this;
+
     // 初始化网络素材
     this.cdnUrl = Config.imageCdn
 
@@ -197,11 +201,9 @@ export default {
     this.getHolidayKey()
 
     // 在页面onLoad回调事件中创建插屏广告实例
-    /*
-    let that = this;
     if (wx.createInterstitialAd) {
       interstitialAd = wx.createInterstitialAd({
-        adUnitId: 'adunit-2bf7cf186785bfda'
+        adUnitId: 'adunit-ae132e93d50f453f'
       })
       interstitialAd.onLoad(() => {})
       interstitialAd.onError((err) => {
@@ -213,7 +215,7 @@ export default {
     // 在页面onLoad回调事件中创建激励视频广告实例
     if (wx.createRewardedVideoAd) {
       videoAd = wx.createRewardedVideoAd({
-        adUnitId: 'adunit-9a8af70b40e15f29'
+        adUnitId: 'adunit-c6b865803c79b3f2'
       })
       videoAd.onLoad(() => {
         that.rewardedVideoAdLoaded = true;
@@ -230,14 +232,10 @@ export default {
         } else {
           // 播放中途退出，进行提示
           that.rewardedVideoAdAlreadyShow = false;
-          uni.showToast({
-            title: '请完整观看哦'
-          })
+          that.$toast('请完整观看哦')
         }
-
       })
     }
-    */
   },
   onReady() {
 
@@ -642,7 +640,6 @@ export default {
       let mask_center_y = this.mask_center_y;
       let that = this;
 
-      that.$loading('合成中...')
       uni.getImageInfo({
         src: that.maskPic,
         success: function (image) {
@@ -670,7 +667,7 @@ export default {
             pc.draw();
 
             // 有成功加载的激励视频，才展现提示框
-            if (!!videoAd && that.rewardedVideoAdLoaded) {
+            if (!!videoAd && that.rewardedVideoAdLoaded && !this.rewardedVideoAdAlreadyShow) {
               uni.showModal({
                 title: '获取无限制使用',
                 content: '观看完视频可以自动保存哦',
@@ -693,9 +690,10 @@ export default {
                       })
                     }
                   } else if (res.cancel) {
-                    console.log('用户点击取消');
-                    that.saveCans();
-                    return;
+                    console.log('用户点击取消')
+                    that.$toast('视频很短的 (✪ω✪)')
+                    //that.saveCans()
+                    return
                   }
                 }
               });
@@ -729,7 +727,7 @@ export default {
           uni.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
             success: function(res) {
-              if (that.savedCounts == 0) {
+              if (that.savedCounts === 0) {
                 that.modalName = 'saveTip';
               } else {
                 uni.showToast({

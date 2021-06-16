@@ -59,8 +59,7 @@
       <!--					<text class="cuIcon-upload"></text> <text class="text-yellow">分享给好友</text> </button>-->
       <!--			</view>-->
 
-      <!--			<ad unit-id="adunit-85230d6cd9a1beee"></ad>-->
-
+      <ad unit-id="adunit-f185ab11a9a8b6df"></ad>
     </view>
 
     <scroll-view class="scrollView mask-scroll-view" scroll-x="true">
@@ -127,7 +126,6 @@ export default {
       windowHeight: 0,
       isAndroid: getApp().globalData.IS_ANDROID,
       modalName: null,
-      savedCounts: 0,
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
       avatarPath: '/static/image/head/'+ Math.floor(Math.random()*12) + '.jpg',
@@ -156,7 +154,13 @@ export default {
       touch_target: "",
       start_x: 0,
       start_y: 0,
-      cdnUrl: ''
+      cdnUrl: '',
+
+      savedCounts: 0,
+      freeCount: 3,
+      enableInterstitialAd: true,
+      rewardedVideoAdLoaded: false,
+      rewardedVideoAdAlreadyShow: false,
     }
   },
   computed: {
@@ -169,6 +173,8 @@ export default {
     }
   },
   onLoad(option) {
+    let that = this;
+
     // 初始化网络素材
     this.cdnUrl = Config.imageCdn
     this.imgList = ImgList.mask
@@ -179,11 +185,9 @@ export default {
     }
 
     // 在页面onLoad回调事件中创建插屏广告实例
-    /*
-    let that = this;
     if (wx.createInterstitialAd) {
       interstitialAd = wx.createInterstitialAd({
-        adUnitId: 'adunit-2bf7cf186785bfda'
+        adUnitId: 'adunit-ae132e93d50f453f'
       })
       interstitialAd.onLoad(() => {})
       interstitialAd.onError((err) => {
@@ -195,7 +199,7 @@ export default {
     // 在页面onLoad回调事件中创建激励视频广告实例
     if (wx.createRewardedVideoAd) {
       videoAd = wx.createRewardedVideoAd({
-        adUnitId: 'adunit-9a8af70b40e15f29'
+        adUnitId: 'adunit-236eff9d951106ed'
       })
       videoAd.onLoad(() => {
         that.rewardedVideoAdLoaded = true;
@@ -212,14 +216,10 @@ export default {
         } else {
           // 播放中途退出，进行提示
           that.rewardedVideoAdAlreadyShow = false;
-          uni.showToast({
-            title: '请完整观看哦'
-          })
+          that.$toast('请完整观看哦')
         }
-
       })
     }
-    */
   },
   onReady() {
 
@@ -502,7 +502,6 @@ export default {
       let mask_center_y = this.mask_center_y;
       let that = this;
 
-      that.$loading('合成中...')
       uni.getImageInfo({
         src: that.maskPic,
         success: function (image) {
@@ -529,7 +528,7 @@ export default {
             pc.draw()
 
             // 有成功加载的激励视频，才展现提示框
-            if (!!videoAd && that.rewardedVideoAdLoaded) {
+            if (!!videoAd && that.rewardedVideoAdLoaded && !this.rewardedVideoAdAlreadyShow) {
               uni.showModal({
                 title: '获取无限制使用',
                 content: '观看完视频可以自动保存哦',
@@ -552,9 +551,10 @@ export default {
                       })
                     }
                   } else if (res.cancel) {
-                    console.log('用户点击取消');
-                    that.saveCans();
-                    return;
+                    console.log('用户点击取消')
+                    that.$toast('视频很短的 (✪ω✪)')
+                    // that.saveCans()
+                    return
                   }
                 }
               });
@@ -591,7 +591,7 @@ export default {
           uni.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
             success: function(res) {
-              if (that.savedCounts == 0) {
+              if (that.savedCounts === 0) {
                 that.modalName = 'saveTip';
               } else {
                 uni.showToast({
