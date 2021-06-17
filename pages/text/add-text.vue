@@ -80,8 +80,8 @@ export default {
       y: 0,
       z: 0,
 
-      // 默认没次数，有广告加载时候判断次数，看完广告加5次
-      savedCounts: 0,
+      // 默认1次保存，有广告加载时候判断次数，看完广告加5次
+      savedCounts: 1,
       enableInterstitialAd: true,
       rewardedVideoAdLoaded: false,
       interstitialAdAlreadyShow: false,
@@ -400,8 +400,11 @@ export default {
       });
     },
     checkAdBeforeSave() {
-      let that = this;
+      let that = this
+      that.$loading('合成中...')
+
       if (!!videoAd && this.rewardedVideoAdLoaded && this.savedCounts <= 0) {
+        that.$loading(false)
         uni.showModal({
           title: '获取使用次数',
           content: '请完整观看趣味广告视频',
@@ -431,7 +434,8 @@ export default {
           }
         });
       } else {
-        this.saveCans();
+        that.$loading(false)
+        this.saveCans()
       }
     },
     /**

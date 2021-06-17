@@ -143,8 +143,8 @@ export default {
       start_y: 0,
       cdnUrl: '',
 
-      // 默认没次数，有广告加载时候判断次数，看完广告加5次
-      savedCounts: 0,
+      // 默认1次保存，有广告加载时候判断次数，看完广告加5次
+      savedCounts: 1,
       enableInterstitialAd: true,
       rewardedVideoAdLoaded: false,
 
@@ -619,6 +619,7 @@ export default {
       let mask_center_y = this.mask_center_y;
       let that = this;
 
+      that.$loading('合成中...')
       uni.getImageInfo({
         src: that.maskPic,
         success: function (image) {
@@ -646,7 +647,8 @@ export default {
             pc.draw();
 
             // 有成功加载的激励视频，才展现提示框
-            if (!!videoAd && that.rewardedVideoAdLoaded && this.savedCounts <= 0) {
+            if (!!videoAd && that.rewardedVideoAdLoaded && that.savedCounts <= 0) {
+              that.$loading(false)
               uni.showModal({
                 title: '获取使用次数',
                 content: '观看完视频可以自动保存哦',
@@ -676,6 +678,7 @@ export default {
                 }
               });
             } else {
+              that.$loading(false)
               that.saveCans();
             }
           })
