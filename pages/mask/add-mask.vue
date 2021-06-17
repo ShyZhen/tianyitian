@@ -71,24 +71,26 @@
       </view>
     </scroll-view>
 
-    <view class="cu-modal" :class="modalName=='saveTip'?'show':''">
-      <view class="cu-dialog">
-        <view class="cu-bar bg-white justify-end">
-          <view class="content">已保存至相册</view>
-          <view class="action" @tap="hideModal">
-            <text class="cuIcon-close text-red"></text>
+    <!--
+      <view class="cu-modal" :class="modalName=='saveTip'?'show':''">
+        <view class="cu-dialog">
+          <view class="cu-bar bg-white justify-end">
+            <view class="content">已保存至相册</view>
+            <view class="action" @tap="hideModal">
+              <text class="cuIcon-close text-red"></text>
+            </view>
           </view>
-        </view>
-        <view class="padding">
-          祝大家健康快乐！有需求可以进行反馈。
-        </view>
-        <view class="cu-bar bg-white justify-end">
-          <view class="action">
-            <button class="cu-btn line-green text-green" @tap="hideModal">朕知道了</button>
+          <view class="padding">
+            祝大家健康快乐！有需求可以进行反馈。
+          </view>
+          <view class="cu-bar bg-white justify-end">
+            <view class="action">
+              <button class="cu-btn line-green text-green" @tap="hideModal">朕知道了</button>
+            </view>
           </view>
         </view>
       </view>
-    </view>
+    -->
 
   </view>
 </template>
@@ -156,11 +158,10 @@ export default {
       start_y: 0,
       cdnUrl: '',
 
+      // 默认没次数，有广告加载时候判断次数，看完广告加3次
       savedCounts: 0,
-      freeCount: 3,
       enableInterstitialAd: true,
       rewardedVideoAdLoaded: false,
-      rewardedVideoAdAlreadyShow: false,
     }
   },
   computed: {
@@ -211,11 +212,10 @@ export default {
       videoAd.onClose((res) => {
         if (res && res.isEnded || res === undefined) {
           // 正常播放结束，下发奖励
-          that.rewardedVideoAdAlreadyShow = true; // 本次使用不再展现激励广告
-          that.saveCans();
+          that.savedCounts = 5
+          that.saveCans()
         } else {
           // 播放中途退出，进行提示
-          that.rewardedVideoAdAlreadyShow = false;
           that.$toast('请完整观看哦')
         }
       })
@@ -528,16 +528,15 @@ export default {
             pc.draw()
 
             // 有成功加载的激励视频，才展现提示框
-            if (!!videoAd && that.rewardedVideoAdLoaded && !this.rewardedVideoAdAlreadyShow) {
+            if (!!videoAd && that.rewardedVideoAdLoaded && this.savedCounts <= 0) {
               uni.showModal({
-                title: '获取无限制使用',
+                title: '获取使用次数',
                 content: '观看完视频可以自动保存哦',
                 success: function(res) {
                   if (res.confirm) {
                     console.log('用户点击确定');
                     // 用户触发广告后，显示激励视频广告
                     if (videoAd) {
-                      that.rewardedVideoAdAlreadyShow = true;
                       videoAd.show().catch(() => {
                         // 失败重试
                         videoAd.load()
@@ -591,15 +590,12 @@ export default {
           uni.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
             success: function(res) {
-              if (that.savedCounts === 0) {
-                that.modalName = 'saveTip';
-              } else {
-                uni.showToast({
-                  title: '请至相册查看'
-                })
-              }
-              that.savedCounts++;
-              uni.vibrateShort();
+              uni.showToast({
+                title: '请至相册查看'
+              })
+              that.savedCounts--
+              console.log('剩余次数：',that.savedCounts)
+              uni.vibrateShort()
             },
             fail(res) {
               if (res.errMsg.indexOf("fail")) {

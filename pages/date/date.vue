@@ -37,16 +37,16 @@
       </view>
       <view class="solid-bottom">
         <view>
-        <text class="text-white">
-          {{ dateTitle }}头像制作截止至：
-          <text class="margin-lr-xs">{{dateTtlStr.slice(0, 4)}}-{{dateTtlStr.slice(4, 6)}}-{{dateTtlStr.slice(6, 8)}}</text>
-        </text>
+          <text class="text-white">
+            {{ dateTitle }}头像制作截止至：
+            <text class="margin-lr-xs">{{dateTtlStr.slice(0, 4)}}-{{dateTtlStr.slice(4, 6)}}-{{dateTtlStr.slice(6, 8)}}</text>
+          </text>
         </view>
         <view>
-        <text class="text-white">
-          下期节日关键字：
-          <text class="margin-lr-xs">{{dateNext.title}}</text>
-        </text>
+          <text class="text-white">
+            下期节日关键字：
+            <text class="margin-lr-xs">{{dateNext.title}}</text>
+          </text>
         </view>
       </view>
     </view>
@@ -65,10 +65,10 @@
     </view>
     <view class="grid justify-around share-wrapper">
 
-<!--      			<view class="grid col-2 animation-shake animation-speed-2 animation-delay-3">-->
-<!--      				<button class="cu-btn block line-orange lg share-btn" open-type="share">-->
-<!--      					<text class="cuIcon-upload"></text> <text class="text-yellow">分享给好友</text> </button>-->
-<!--      			</view>-->
+      <!--      			<view class="grid col-2 animation-shake animation-speed-2 animation-delay-3">-->
+      <!--      				<button class="cu-btn block line-orange lg share-btn" open-type="share">-->
+      <!--      					<text class="cuIcon-upload"></text> <text class="text-yellow">分享给好友</text> </button>-->
+      <!--      			</view>-->
 
       <ad unit-id="adunit-346d9c4e59829e53"></ad>
     </view>
@@ -82,25 +82,6 @@
       </view>
     </scroll-view>
 
-    <view class="cu-modal" :class="modalName=='saveTip'?'show':''">
-      <view class="cu-dialog">
-        <view class="cu-bar bg-white justify-end">
-          <view class="content">已保存至相册</view>
-          <view class="action" @tap="hideModal">
-            <text class="cuIcon-close text-red"></text>
-          </view>
-        </view>
-        <view class="padding">
-          祝大家健康快乐！有需求可以进行反馈。
-        </view>
-        <view class="cu-bar bg-white justify-end">
-          <view class="action">
-            <button class="cu-btn line-green text-green" @tap="hideModal">朕知道了</button>
-          </view>
-        </view>
-      </view>
-    </view>
-
   </view>
 </template>
 <script>
@@ -111,7 +92,7 @@ import Calendar from "../../utils/calendar"
 import Config from "@/config/config"
 import ImgList from "@/config/imgList"
 
-  // 在页面中定义激励视频广告
+// 在页面中定义激励视频广告
 let videoAd = null;
 // 在页面中定义插屏广告
 let interstitialAd = null
@@ -162,11 +143,10 @@ export default {
       start_y: 0,
       cdnUrl: '',
 
+      // 默认没次数，有广告加载时候判断次数，看完广告加5次
       savedCounts: 0,
-      freeCount: 3,
       enableInterstitialAd: true,
       rewardedVideoAdLoaded: false,
-      rewardedVideoAdAlreadyShow: false,
 
       // 节日挂件封装
       dateType: '',
@@ -227,11 +207,10 @@ export default {
       videoAd.onClose((res) => {
         if (res && res.isEnded || res === undefined) {
           // 正常播放结束，下发奖励
-          that.rewardedVideoAdAlreadyShow = true; // 本次使用不再展现激励广告
+          that.savedCounts = 5
           that.saveCans();
         } else {
           // 播放中途退出，进行提示
-          that.rewardedVideoAdAlreadyShow = false;
           that.$toast('请完整观看哦')
         }
       })
@@ -667,16 +646,15 @@ export default {
             pc.draw();
 
             // 有成功加载的激励视频，才展现提示框
-            if (!!videoAd && that.rewardedVideoAdLoaded && !this.rewardedVideoAdAlreadyShow) {
+            if (!!videoAd && that.rewardedVideoAdLoaded && this.savedCounts <= 0) {
               uni.showModal({
-                title: '获取无限制使用',
+                title: '获取使用次数',
                 content: '观看完视频可以自动保存哦',
                 success: function(res) {
                   if (res.confirm) {
                     console.log('用户点击确定');
                     // 用户触发广告后，显示激励视频广告
                     if (videoAd) {
-                      that.rewardedVideoAdAlreadyShow = true;
                       videoAd.show().catch(() => {
                         // 失败重试
                         videoAd.load()
@@ -727,15 +705,12 @@ export default {
           uni.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
             success: function(res) {
-              if (that.savedCounts === 0) {
-                that.modalName = 'saveTip';
-              } else {
-                uni.showToast({
-                  title: '请至相册查看'
-                })
-              }
-              that.savedCounts++;
-              uni.vibrateShort();
+              uni.showToast({
+                title: '请至相册查看'
+              })
+              that.savedCounts--
+              console.log('剩余次数：',that.savedCounts)
+              uni.vibrateShort()
             },
             fail(res) {
               if (res.errMsg.indexOf("fail")) {

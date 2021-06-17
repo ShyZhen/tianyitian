@@ -80,12 +80,10 @@ export default {
       y: 0,
       z: 0,
 
+      // 默认没次数，有广告加载时候判断次数，看完广告加5次
       savedCounts: 0,
-      freeCount: 3,
-      enableRewardedVideoAd: true,
       enableInterstitialAd: true,
       rewardedVideoAdLoaded: false,
-      rewardedVideoAdAlreadyShow: false,
       interstitialAdAlreadyShow: false,
 
       ownImageUsed: false,
@@ -121,38 +119,37 @@ export default {
 
     // 在页面onLoad回调事件中创建插屏广告实例
     if (wx.createInterstitialAd) {
-    	interstitialAd = wx.createInterstitialAd({
-    		adUnitId: 'adunit-ae132e93d50f453f'
-    	})
-    	interstitialAd.onLoad(() => {})
-    	interstitialAd.onError((err) => {})
-    	interstitialAd.onClose(() => {})
+      interstitialAd = wx.createInterstitialAd({
+        adUnitId: 'adunit-ae132e93d50f453f'
+      })
+      interstitialAd.onLoad(() => {})
+      interstitialAd.onError((err) => {})
+      interstitialAd.onClose(() => {})
     }
 
     // 在页面onLoad回调事件中创建激励视频广告实例
     if (wx.createRewardedVideoAd) {
-    	videoAd = wx.createRewardedVideoAd({
-    		adUnitId: 'adunit-8296f48990df1b7f'
-    	})
-    	videoAd.onLoad(() => {
-    		that.rewardedVideoAdLoaded = true;
-    	})
-    	videoAd.onError((err) => {
-    		// 广告组件出现错误，直接允许用户保存，不做其他复杂处理
-    		that.rewardedVideoAdLoaded = false;
-    	})
-    	videoAd.onClose((res) => {
-    		if (res && res.isEnded || res === undefined) {
-    			// 正常播放结束，下发奖励
-    			that.rewardedVideoAdAlreadyShow = true; // 本次使用不再展现激励广告
-    			that.saveCans();
-    		} else {
-    			// 播放中途退出，进行提示
+      videoAd = wx.createRewardedVideoAd({
+        adUnitId: 'adunit-8296f48990df1b7f'
+      })
+      videoAd.onLoad(() => {
+        that.rewardedVideoAdLoaded = true;
+      })
+      videoAd.onError((err) => {
+        // 广告组件出现错误，直接允许用户保存，不做其他复杂处理
+        that.rewardedVideoAdLoaded = false;
+      })
+      videoAd.onClose((res) => {
+        if (res && res.isEnded || res === undefined) {
+          // 正常播放结束，下发奖励
+          that.savedCounts = 5
+          that.saveCans()
+        } else {
+          // 播放中途退出，进行提示
           that.$toast('请完整观看哦')
-    			that.rewardedVideoAdAlreadyShow = false;
-    			// that.checkAdBeforeSave();
-    		}
-    	})
+          // that.checkAdBeforeSave();
+        }
+      })
     }
   },
   onReady() {
@@ -404,10 +401,9 @@ export default {
     },
     checkAdBeforeSave() {
       let that = this;
-      if (!!videoAd && this.enableRewardedVideoAd && this.rewardedVideoAdLoaded &&
-          !this.rewardedVideoAdAlreadyShow) {
+      if (!!videoAd && this.rewardedVideoAdLoaded && this.savedCounts <= 0) {
         uni.showModal({
-          title: '获取无限使用次数',
+          title: '获取使用次数',
           content: '请完整观看趣味广告视频',
           success: function(res) {
             if (res.confirm) {
@@ -460,8 +456,9 @@ export default {
               uni.showToast({
                 title: '请至相册查看'
               })
-              that.savedCounts++;
-              uni.vibrateShort();
+              that.savedCounts--
+              console.log('剩余次数：',that.savedCounts)
+              uni.vibrateShort()
             },
             fail(res) {
               if (res.errMsg.indexOf("fail")) {
