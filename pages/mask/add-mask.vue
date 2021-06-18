@@ -1,5 +1,5 @@
 <template>
-  <view class="container" :style="{height:windowHeight+'px'}">
+  <view class="container" :style="{height:windowHeight+'px'}" style="overflow-x: hidden">
     <!--  背景图  -->
     <!-- <image class="page-bg" :style="{height:windowHeight+'px'}" mode="aspectFill" src="/static/image/page-bg.png"></image>-->
 
@@ -739,8 +739,10 @@ export default {
   margin: 10px 10px 10px 10px;
 }
 
+// cavans 真机上无法隐藏
 .cans-id-mask {
   position: absolute;
+  left: 1000px;
 }
 
 .flip-horizontal {

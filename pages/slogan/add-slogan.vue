@@ -1,5 +1,5 @@
 <template>
-  <view class="container" :style="{height:windowHeight+'px'}">
+  <view class="container" :style="{height:windowHeight+'px'}" style="overflow-x: hidden">
     <view v-if="SHOW_TIP">
       <add-tips :statusBarHeight="statusBarHeight" />
     </view>

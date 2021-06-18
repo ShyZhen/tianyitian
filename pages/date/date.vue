@@ -1,5 +1,5 @@
 <template>
-  <view class="container" :style="{height:windowHeight+'px'}">
+  <view class="container" :style="{height:windowHeight+'px'}" style="overflow-x: hidden">
     <view v-if="SHOW_TIP">
       <add-tips :statusBarHeight="statusBarHeight" />
     </view>
@@ -854,8 +854,10 @@ export default {
   margin: 10px 10px 10px 10px;
 }
 
+// cavans 真机上无法隐藏
 .cans-id-mask {
   position: absolute;
+  left: 1000px;
 }
 
 .flip-horizontal {

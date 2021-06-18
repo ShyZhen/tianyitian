@@ -1,5 +1,5 @@
 <template>
-  <view class="container" :style="{height:windowHeight+'px'}">
+  <view class="container" :style="{height:windowHeight+'px'}" style="overflow-x: hidden">
     <view id="avatar-section">
       <canvas canvas-id="cans-id-happines" style="width:270px; height:270px;" class="isCan"></canvas>
     </view>
