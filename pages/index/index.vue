@@ -7,7 +7,7 @@
     <view class="menu-list" :style="{'margin-top': statusBarHeight+40+'px' }">
       <!--   banner广告    -->
       <view class="ad-container margin-top cu-list menu sm-border card-menu">
-        <ad unit-id="adunit-71fc3d4c859b6b63"></ad>
+        <ad unit-id="adunit-71fc3d4c859b6b63" style="z-index: 9"></ad>
       </view>
 
       <view class="cu-card article" @click="dateHandle">
@@ -77,9 +77,9 @@
       </view>
 
       <!--   banner广告    -->
-      <view class="ad-container margin-top cu-list menu sm-border card-menu">
-        <ad unit-id="adunit-999663d8258f1111"></ad>
-      </view>
+<!--      <view class="ad-container margin-top cu-list menu sm-border card-menu">-->
+<!--        <ad unit-id="adunit-999663d8258f1111" style="z-index: 9"></ad>-->
+<!--      </view>-->
 
       <view class="cu-card article" @click="addSlogan">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx; ">
@@ -125,11 +125,6 @@
         </view>
       </view>
 
-      <!--   视频广告    -->
-      <view class="ad-container margin-top cu-list menu sm-border card-menu">
-        <ad unit-id="adunit-88e7b3ed90d66294" ad-type="video" ad-theme="white"></ad>
-      </view>
-
       <view class="about-actions margin-top cu-list menu sm-border card-menu animation-shake animation-speed-2 animation-delay-3">
         <view class="cu-item arrow feedback-btn">
           <view class="content">
@@ -151,6 +146,11 @@
             </button>
           </view>
         </view>
+      </view>
+
+      <!--   视频广告    -->
+      <view class="ad-container margin-top cu-list menu sm-border card-menu">
+        <ad unit-id="adunit-88e7b3ed90d66294" style="z-index: 9" ad-type="video" ad-theme="white"></ad>
       </view>
     </view>
   </scroll-view>
@@ -258,7 +258,7 @@ export default {
 
 <style scoped>
 .container-index{
-  height: 3000rpx;
+  height: 2700rpx;
 }
 
 .logo-area{

@@ -10,35 +10,30 @@
 		{
 			"path": "pages/mask/add-mask",
 			"style": {
-				"disableScroll": true,
 				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/slogan/add-slogan",
 			"style": {
-				"disableScroll": true,
 				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/crop/crop",
 			"style": {
-				"disableScroll": true,
 				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/text/add-text",
 			"style": {
-				"disableScroll": true,
 				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/date/date",
 			"style": {
-				"disableScroll": true,
 				"navigationStyle": "custom"
 			}
 		}

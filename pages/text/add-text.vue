@@ -1,5 +1,5 @@
 <template>
-  <view class="container" style="overflow-y: scroll;" :style="{height:windowHeight+'px'}">
+  <view class="container" :style="{height:windowHeight+'px'}">
     <view id="avatar-section">
       <canvas canvas-id="cans-id-happines" style="width:270px; height:270px;" class="isCan"></canvas>
     </view>
@@ -20,10 +20,20 @@
 
     <view>
       <view class="uni-form-item uni-column">
-        <view class="title uni-inline-item" style="margin: 10px;color: #FFF">输入一个字:
-          <input class="uni-inline-item" style="margin: 10px" confirm-type="done" @blur="onKeyInput" @confirm="onKeyInput" :maxlength="isAndroid ? 1 : 7" placeholder="白,富,美,萌,忙,帅,萌,矮,丑,穷" />
+        <view class="title uni-inline-item" style="margin: 10px;text-align: center">
+          <input class="uni-inline-item"
+                 style="margin:10px;text-align:center;color:#fff;width:100%;"
+                 confirm-type="done"
+                 @blur="onKeyInput" @confirm="onKeyInput" :maxlength="isAndroid ? 1 : 7"
+                 placeholder-style="margin-left:10px;text-align:center;color:#fff;"
+                 placeholder="点此输入一个字如富,美,萌,忙,帅,萌,穷"
+          />
         </view>
       </view>
+    </view>
+
+    <view class="grid justify-around share-wrapper">
+      <ad unit-id="adunit-5df4999be4aa8961"></ad>
     </view>
 
     <view>
@@ -34,9 +44,6 @@
       </view>
     </view>
 
-    <view class="grid justify-around share-wrapper">
-      <ad unit-id="adunit-5df4999be4aa8961"></ad>
-    </view>
   </view>
 </template>
 <script>
@@ -108,6 +115,10 @@ export default {
   },
   onLoad(option) {
     let that = this;
+    this.windowHeight = getApp().globalData.windowHeight;
+    if (this.windowHeight < 705) {
+      this.windowHeight += 166
+    }
 
     if (!!getApp().globalData.userAvatarFilePath) {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
@@ -185,7 +196,6 @@ export default {
             })
       }
     }
-    this.windowHeight = getApp().globalData.windowHeight;
   },
   onHide() {},
   onShareAppMessage(res) {

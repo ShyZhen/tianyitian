@@ -59,7 +59,7 @@
       <!--					<text class="cuIcon-upload"></text> <text class="text-yellow">分享给好友</text> </button>-->
       <!--			</view>-->
 
-      <ad unit-id="adunit-f185ab11a9a8b6df"></ad>
+      <ad unit-id="adunit-f185ab11a9a8b6df" style="z-index: 9"></ad>
     </view>
 
     <scroll-view class="scrollView mask-scroll-view" scroll-x="true">
@@ -181,6 +181,9 @@ export default {
     this.imgList = ImgList.mask
 
     this.windowHeight = getApp().globalData.windowHeight
+    if (this.windowHeight < 705) {
+      this.windowHeight += 18
+    }
     if (!!getApp().globalData.userAvatarFilePath) {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
     }
@@ -738,8 +741,6 @@ export default {
 
 .cans-id-mask {
   position: absolute;
-  top: 2000px;
-  left: 1000px;
 }
 
 .flip-horizontal {
