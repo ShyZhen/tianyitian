@@ -1,7 +1,5 @@
 <template>
   <view class="container" :style="{height:windowHeight+'px'}" style="overflow-x: hidden">
-    <!--  背景图  -->
-    <!-- <image class="page-bg" :style="{height:windowHeight+'px'}" mode="aspectFill" src="/static/image/page-bg.png"></image>-->
 
     <view v-if="SHOW_TIP">
       <add-tips :statusBarHeight="statusBarHeight" />
@@ -169,7 +167,6 @@ export default {
       userInfo: 'userInfo'
     }),
     maskPic: function() {
-      // return '/static/image/mask/' + this.currentMaskId + '.png';
       return Config.imageCdn + this.currentMaskUrl
     }
   },
