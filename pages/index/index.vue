@@ -136,16 +136,16 @@
             </button>
           </view>
         </view>
-        <view class="cu-item arrow feedback-btn" @click="tucao">
-          <view class="content">
-            <button class="free-btn-bordernone">
-              <tui-icon name="message" color="green" :size="20"></tui-icon>
-              <text style="color: grey; padding-left: 10px;" class="text-sm">
-                产品建议
-              </text>
-            </button>
-          </view>
-        </view>
+<!--        <view class="cu-item arrow feedback-btn" @click="tucao">-->
+<!--          <view class="content">-->
+<!--            <button class="free-btn-bordernone">-->
+<!--              <tui-icon name="message" color="green" :size="20"></tui-icon>-->
+<!--              <text style="color: grey; padding-left: 10px;" class="text-sm">-->
+<!--                产品建议-->
+<!--              </text>-->
+<!--            </button>-->
+<!--          </view>-->
+<!--        </view>-->
       </view>
 
       <!--   视频广告    -->
