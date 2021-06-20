@@ -46,9 +46,9 @@
       </view>
     </view>
 
-    <view class="grid justify-around share-wrapper">
-      <ad unit-id="adunit-c42c8c8ce8b6106d"></ad>
-    </view>
+<!--    <view class="grid justify-around share-wrapper">-->
+<!--      <ad unit-id="adunit-c42c8c8ce8b6106d"></ad>-->
+<!--    </view>-->
 
     <!--    <tui-footer copyright="赛尔教育咨询服务有限公司"></tui-footer>-->
 
@@ -225,6 +225,7 @@ export default {
     this.ctx = uni.createCanvasContext('cans-id-happines', this);
     this.paint();
 
+    /*
     // 在页面onLoad回调事件中创建插屏广告实例
     if (wx.createInterstitialAd) {
       interstitialAd = wx.createInterstitialAd({
@@ -259,6 +260,7 @@ export default {
         }
       })
     }
+    */
   },
   onReady() {
     // 判断是否已经显示过

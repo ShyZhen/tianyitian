@@ -32,9 +32,9 @@
       </view>
     </view>
 
-    <view class="grid justify-around share-wrapper">
-      <ad unit-id="adunit-5df4999be4aa8961"></ad>
-    </view>
+<!--    <view class="grid justify-around share-wrapper">-->
+<!--      <ad unit-id="adunit-5df4999be4aa8961"></ad>-->
+<!--    </view>-->
 
     <view>
       <view class="grid col-5 padding-sm">
@@ -116,9 +116,9 @@ export default {
   onLoad(option) {
     let that = this;
     this.windowHeight = getApp().globalData.windowHeight;
-    if (this.windowHeight < 705) {
-      this.windowHeight += 166
-    }
+    // if (this.windowHeight < 705) {
+    //   this.windowHeight += 166
+    // }
 
     if (!!getApp().globalData.userAvatarFilePath) {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
@@ -128,6 +128,7 @@ export default {
     this.paint();
 
 
+    /*
     // 在页面onLoad回调事件中创建插屏广告实例
     if (wx.createInterstitialAd) {
       interstitialAd = wx.createInterstitialAd({
@@ -162,6 +163,7 @@ export default {
         }
       })
     }
+    */
   },
   onReady() {
     // 判断是否已经显示过

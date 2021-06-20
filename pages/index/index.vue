@@ -6,9 +6,9 @@
 
     <view class="menu-list" :style="{'margin-top': statusBarHeight+40+'px' }">
       <!--   banner广告    -->
-      <view class="ad-container margin-top cu-list menu sm-border card-menu">
-        <ad unit-id="adunit-71fc3d4c859b6b63" style="z-index: 9"></ad>
-      </view>
+<!--      <view class="ad-container margin-top cu-list menu sm-border card-menu">-->
+<!--        <ad unit-id="adunit-71fc3d4c859b6b63" style="z-index: 9"></ad>-->
+<!--      </view>-->
 
       <view class="cu-card article" @click="dateHandle">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx;">
@@ -149,9 +149,9 @@
       </view>
 
       <!--   视频广告    -->
-      <view class="ad-container margin-top cu-list menu sm-border card-menu">
-        <ad unit-id="adunit-88e7b3ed90d66294" style="z-index: 9" ad-type="video" ad-theme="white"></ad>
-      </view>
+<!--      <view class="ad-container margin-top cu-list menu sm-border card-menu">-->
+<!--        <ad unit-id="adunit-88e7b3ed90d66294" style="z-index: 9" ad-type="video" ad-theme="white"></ad>-->
+<!--      </view>-->
     </view>
   </scroll-view>
 </template>
@@ -245,7 +245,7 @@ export default {
       const Tucao = requirePlugin('tucao').default;
       this.wx = uni;
       Tucao.init(this, {
-        productId: 330125
+        productId: 333338
       }).go();
     },
     handleContact: function(e) {
@@ -258,7 +258,7 @@ export default {
 
 <style scoped>
 .container-index{
-  height: 2700rpx;
+  padding-bottom: 50px;
 }
 
 .logo-area{

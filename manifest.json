@@ -1,5 +1,5 @@
 {
-    "name" : "添一添",
+    "name" : "头像挂件工坊",
     "appid" : "",
     "description" : "你想要的样子我都有",
     "versionName" : "1.0.0",
@@ -51,7 +51,7 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
-        "appid" : "wxc6599a483423bcae",
+        "appid" : "wx0559a4b18b51c197",
         "cloudfunctionRoot" : "./functions/",
         "setting" : {
             "urlCheck" : false
