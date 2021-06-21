@@ -2,6 +2,7 @@
 	import Vue from 'vue'
 	let sysInfo = uni.getSystemInfoSync();
 	let windowHeight = sysInfo.windowHeight;
+	let windowWidth = sysInfo.windowWidth;
 	let IS_ANDROID = !sysInfo.model.includes('iPhone');
 	let statusBarHeight = sysInfo.statusBarHeight;
 	const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY';
@@ -12,7 +13,8 @@
 	export default {
 		globalData: {  
 			IS_ANDROID: IS_ANDROID,
-		    windowHeight: windowHeight,
+      windowHeight: windowHeight,
+      windowWidth: windowWidth,
 			statusBarHeight: statusBarHeight,
 			SHOW_TIP: false,
 			duration: 20,

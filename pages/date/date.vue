@@ -129,21 +129,21 @@ export default {
       avatarPath: '/static/image/head/'+ Math.floor(Math.random()*18) + '.jpg',
       currentMaskUrl: '',
       showBorder: false,
-      maskCenterX: wx.getSystemInfoSync().windowWidth / 2,
+      maskCenterX: getApp().globalData.windowWidth / 2,
       maskCenterY: 250,
-      cancelCenterX: wx.getSystemInfoSync().windowWidth / 2 - 50 - 2,
+      cancelCenterX: getApp().globalData.windowWidth / 2 - 50 - 2,
       cancelCenterY: 200,
-      handleCenterX: wx.getSystemInfoSync().windowWidth / 2 + 50 - 2,
+      handleCenterX: getApp().globalData.windowWidth / 2 + 50 - 2,
       handleCenterY: 300,
       maskSize: 100,
       scale: 1,
       rotate: 0,
       rotateY: 0, // 值180时，则水平翻转
-      mask_center_x: wx.getSystemInfoSync().windowWidth / 2,
+      mask_center_x: getApp().globalData.windowWidth / 2,
       mask_center_y: 250,
-      cancel_center_x: wx.getSystemInfoSync().windowWidth / 2 - 50 - 2,
+      cancel_center_x: getApp().globalData.windowWidth / 2 - 50 - 2,
       cancel_center_y: 200,
-      handle_center_x: wx.getSystemInfoSync().windowWidth / 2 + 50 - 2,
+      handle_center_x: getApp().globalData.windowWidth / 2 + 50 - 2,
       handle_center_y: 300,
       scaleCurrent: 1,
       rotateCurrent: 0,
@@ -659,7 +659,6 @@ export default {
             mask_center_x = mask_center_x - res[0].left
             mask_center_y = mask_center_y - res[0].top
             const pc = wx.createCanvasContext('cans-id-mask')
-            const windowWidth = wx.getSystemInfoSync().windowWidth
             const mask_size = 100 * scale
 
             pc.clearRect(0, 0, that.cansWidth, that.cansHeight);
