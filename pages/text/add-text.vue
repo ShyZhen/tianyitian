@@ -71,7 +71,7 @@ export default {
     return {
       isAndroid: getApp().globalData.IS_ANDROID,
       ColorList: this.ColorList,
-      windowHeight: 0,
+      windowHeight: getApp().globalData.windowHeight,
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
       cansBgColor: "#FFD314",
@@ -115,7 +115,7 @@ export default {
   },
   onLoad(option) {
     let that = this;
-    this.windowHeight = getApp().globalData.windowHeight;
+    // this.windowHeight = getApp().globalData.windowHeight;
     // if (this.windowHeight < 705) {
     //   this.windowHeight += 166
     // }
@@ -457,12 +457,12 @@ export default {
       let that = this
       that.$loading('保存中...')
       uni.canvasToTempFilePath({
-        x: 0,
-        y: 0,
-        width: this.cansWidth * 1.5,
-        height: this.cansHeight * 1.5,
-        destWidth: this.cansWidth * 3,
-        destHeight: this.cansHeight * 3,
+        // x: 0,
+        // y: 0,
+        // width: this.cansWidth * 1.5,
+        // height: this.cansHeight * 1.5,
+        // destWidth: this.cansWidth * 3,
+        // destHeight: this.cansHeight * 3,
         canvasId: 'cans-id-happines',
         success: function(res) {
           getApp().globalData.maskAvatarSavedTempPath = res.tempFilePath

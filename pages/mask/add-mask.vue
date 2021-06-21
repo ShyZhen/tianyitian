@@ -123,7 +123,7 @@ export default {
       SHOW_TIP: false,
       duration: 15,
       statusBarHeight: 0,
-      windowHeight: 0,
+      windowHeight: getApp().globalData.windowHeight,
       isAndroid: getApp().globalData.IS_ANDROID,
       modalName: null,
       cansWidth: 270, // 宽度 px
@@ -177,7 +177,7 @@ export default {
     this.cdnUrl = Config.imageCdn
     this.imgList = ImgList.mask
 
-    this.windowHeight = getApp().globalData.windowHeight
+    // this.windowHeight = getApp().globalData.windowHeight
     // if (this.windowHeight < 705) {
     //   this.windowHeight += 18
     // }
@@ -583,12 +583,12 @@ export default {
 
       that.$loading('保存中...')
       uni.canvasToTempFilePath({
-        x: 0,
-        y: 0,
-        height: this.cansWidth,
-        width: this.cansHeight,
-        destWidth: this.cansWidth * 3,
-        destHeight: this.cansHeight * 3,
+        // x: 0,
+        // y: 0,
+        // height: this.cansWidth,
+        // width: this.cansHeight,
+        // destWidth: this.cansWidth * 3,
+        // destHeight: this.cansHeight * 3,
         canvasId: 'cans-id-mask',
         success: function(res) {
           getApp().globalData.maskAvatarSavedTempPath = res.tempFilePath;
