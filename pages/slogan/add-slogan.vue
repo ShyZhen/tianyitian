@@ -170,7 +170,7 @@ export default {
         }
       ],
       dropdownShow: false,
-      avatarPath: '/static/image/head/'+ Math.floor(Math.random()*12) + '.jpg',
+      avatarPath: '/static/image/head/'+ Math.floor(Math.random()*18) + '.jpg',
       happinessPathList: [],
       happinessIndex: 0,
       modalName: null,

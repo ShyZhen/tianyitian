@@ -2,7 +2,7 @@ function getShareObj(res) {
     return {
         title: getShareMessage(),
         desc: '你想要的样子我都有',
-        imageUrl: '/static/image/head/'+ Math.floor(Math.random()*12) + '.jpg',
+        imageUrl: '/static/image/head/'+ Math.floor(Math.random()*18) + '.jpg',
         path: '/pages/index/index',
         success(res) {
         },
