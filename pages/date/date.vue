@@ -13,7 +13,7 @@
       <!--   口罩操作icon   -->
       <!--			 <icon type="cancel" class="cancel" id="cancel" :style="{top:cancelCenterY-10 + 'px', left:cancelCenterX-10 + 'px'}"></icon>-->
       <!--			 <icon type="waiting" class="handle" id="handle" color="green" :style="{top:handleCenterY-10 + 'px', left:handleCenterX-10 +'px'}"></icon>-->
-      <!--			 <text class="cuIcon-order cancel circle" @click="flipHorizontal" id="cancel" :style="{top:cancelCenterY-10 + 'px', left:cancelterX-10 +'px'}"></text>-->
+      <!--			 <text class="cuIcon-order cancel circle" @tap="flipHorizontal" id="cancel" :style="{top:cancelCenterY-10 + 'px', left:cancelterX-10 +'px'}"></text>-->
 
       <!-- 口罩图片 -->
       <image v-if="currentMaskUrl !== ''" class="mask flip-horizontal" :class="{maskWithBorder: showBorder}" id='mask' :src="maskPic"
@@ -22,7 +22,7 @@
 
       <!--   口罩移动，放大缩小icon   -->
       <text class="cuIcon-full handle circle" :class="{hideHandle: !showBorder}" id="handle" :style="{top:handleCenterY-10 + 'px', left:handleCenterX-10 +'px'}"></text>
-      <text class="cuIcon-order cancel circle" v-if="isAndroid" :class="{hideHandle: !showBorder}" id="cancel" @click="flipHorizontal"
+      <text class="cuIcon-order cancel circle" v-if="isAndroid" :class="{hideHandle: !showBorder}" id="cancel" @tap="flipHorizontal"
             :style="{top:cancelCenterY-10 + 'px', left:cancelCenterX-10 +'px', transform: 'rotate(' +90+ 'deg)'}"></text>
     </view>
 
@@ -35,6 +35,7 @@
       <view class="solid-bottom">
         <text class="text-white text-bold">{{ dateSlogan }}</text>
       </view>
+      <!--
       <view class="solid-bottom">
         <view>
           <text class="text-white">
@@ -49,18 +50,20 @@
           </text>
         </view>
       </view>
+      -->
+
     </view>
     <view class="grid justify-around action-wrapper">
       <view class="grid col-1">
         <button id="btn-my-avatar" class="cu-btn round action-btn bg-gradual-blue shadow " @tap="getUserInfo">我的头像</button>
       </view>
       <view class="grid col-2">
-        <button id="btn-save" class="cu-btn round action-btn bg-gradual-blue shadow" @click="draw">
+        <button id="btn-save" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="draw">
           <text class="cuIcon-down">
           </text>保存</button>
       </view>
       <view class="grid col-3">
-        <button id="btn-choose-img" class="cu-btn round action-btn bg-gradual-blue shadow" @click="chooseImage">选择图片</button>
+        <button id="btn-choose-img" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="chooseImage">选择图片</button>
       </view>
     </view>
     <view class="grid justify-around share-wrapper">
@@ -73,11 +76,17 @@
 <!--      <ad unit-id="adunit-346d9c4e59829e53" style="z-index: 9"></ad>-->
     </view>
 
-    <scroll-view class="scrollView mask-scroll-view" scroll-x="true">
+    <scroll-view scroll-x="true" class="check-scroll">
+      <view v-for="(item, index) in dataImgListAll" :key="index" class="check-date" @tap="changeDate(item)">
+        {{item.title}}
+      </view>
+    </scroll-view>
+
+    <scroll-view class="scrollView" scroll-x="true">
       <view v-for="(item, index) in dataImgListCur" :key="index" style="display: inline-flex;">
-        <text v-if="currentMaskUrl === item && isAndroid" class="cuIcon-order cancel circle" @click="flipHorizontal" id="cancel"
+        <text v-if="currentMaskUrl === item && isAndroid" class="cuIcon-order cancel circle" @tap="flipHorizontal" id="cancel"
               :style="{transform: 'rotate(' +90+ 'deg)'}"></text>
-        <!--				<text v-if="currentMaskId == index" style="margin-left: 55px;" class="cuIcon-question cancel circle" @click="showTips" id="cancel"></text>-->
+        <!--				<text v-if="currentMaskId == index" style="margin-left: 55px;" class="cuIcon-question cancel circle" @tap="showTips" id="cancel"></text>-->
         <image class="imgList" :src="cdnUrl + item" :data-mask-id="index" @tap="changeMask(item)"></image>
       </view>
     </scroll-view>
@@ -155,7 +164,8 @@ export default {
       dateTtlStr: '',
       datePre: {},
       dateNext: {},
-      dataImgListCur: []
+      dataImgListCur: [],
+      dataImgListAll: [],
     }
   },
   computed: {
@@ -241,11 +251,11 @@ export default {
   },
   onShow() {
     // 在适合的场景显示插屏广告
-    if (interstitialAd) {
-      interstitialAd.show().catch((err) => {
-        console.error(err)
-      })
-    }
+    // if (interstitialAd) {
+    //   interstitialAd.show().catch((err) => {
+    //     console.error(err)
+    //   })
+    // }
 
     if (getApp().globalData.rapaintAfterCrop) {
       getApp().globalData.rapaintAfterCrop = false;
@@ -328,7 +338,17 @@ export default {
       this.start_x = current_x;
       this.start_y = current_y;
     },
-
+    changeDate(item) {
+      this.$loading('拼命加载中...')
+      this.dataImgListCur = ImgList[item.key]
+      this.dateType = item.key
+      this.dateTitle = item.title
+      this.dateSlogan = item.slogan
+      setTimeout(() => {
+        this.$loading(false)
+      }, 1000)
+      console.log('changedate', this.currentMaskUrl)
+    },
     getHolidayKey() {
       let calendar = new Date()
       let year = calendar.getFullYear()
@@ -386,6 +406,7 @@ export default {
 
       // 排序
       let sortDateList = DateList.sort(function(a,b){return a.val - b.val})
+      this.dataImgListAll = sortDateList
       // console.log('当前日期:', currentDate)
       // console.log('所有节日排序:', sortDateList)
 
@@ -609,6 +630,7 @@ export default {
       })
     },
     changeMask(url) {
+      console.log('change',url)
       this.currentMaskUrl = url
       this.showBorder = true
     },
@@ -867,5 +889,15 @@ export default {
   -webkit-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   transform: scaleX(-1);
+}
+
+.check-scroll {
+  white-space: nowrap;
+  margin-top: 20px;
+  .check-date {
+    display: inline-flex;
+    color: white;
+    padding: 0 20px 0 20px;
+  }
 }
 </style>

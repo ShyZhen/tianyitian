@@ -4,14 +4,14 @@
       <add-tips :statusBarHeight="statusBarHeight" />
     </view>
 
-    <view id="avatar-section" @click="nextHappiness">
+    <view id="avatar-section" @tap="nextHappiness">
       <canvas canvas-id="cans-id-happines" style="width:270px; height:270px;" class="isCan"></canvas>
     </view>
 
     <view class="tui-drop-input-box grid justify-center">
       <tui-dropdown-list :show="dropdownShow" :top="94" :height="400">
         <template v-slot:selectionbox>
-          <tui-button size="small" type="white" shape="circle" @click="dropDownList(-1)">选择口号
+          <tui-button size="small" type="white" shape="circle" @tap="dropDownList(-1)">选择口号
             <view class="tui-animation" :class="[dropdownShow?'tui-animation-show':'']">
               <tui-icon name="turningdown" :size="20"></tui-icon>
             </view>
@@ -21,7 +21,7 @@
           <view class="tui-selected-list">
             <scroll-view scroll-y class="tui-dropdown-scroll">
               <block v-for="(item,index) in dropdownlistData" :key="index">
-                <tui-list-cell @click="dropDownList(index)" :last="dropdownlistData.length-1==index">
+                <tui-list-cell @tap="dropDownList(index)" :last="dropdownlistData.length-1==index">
                   <tui-icon :name="item.icon" :size="item.size" :color="item.color"></tui-icon>
                   <text class="tui-ml-20" style="margin-left: 20px;">{{item.name}}</text>
                 </tui-list-cell>
@@ -37,12 +37,12 @@
         <button id="btn-my-avatar" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="getUserInfo">我的头像</button>
       </view>
       <view class="grid col-2">
-        <button id="btn-save" class="cu-btn round action-btn bg-gradual-blue shadow" @click="checkAdBeforeSave">
+        <button id="btn-save" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="checkAdBeforeSave">
           <text class="cuIcon-down">
           </text>保存</button>
       </view>
       <view class="grid col-3">
-        <button id="btn-choose-img" class="cu-btn round action-btn bg-gradual-blue shadow" @click="chooseImage">选择图片</button>
+        <button id="btn-choose-img" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="chooseImage">选择图片</button>
       </view>
     </view>
 

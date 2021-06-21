@@ -14,7 +14,7 @@
       <!--   口罩操作icon   -->
       <!--			 <icon type="cancel" class="cancel" id="cancel" :style="{top:cancelCenterY-10 + 'px', left:cancelCenterX-10 + 'px'}"></icon>-->
       <!--			 <icon type="waiting" class="handle" id="handle" color="green" :style="{top:handleCenterY-10 + 'px', left:handleCenterX-10 +'px'}"></icon>-->
-      <!--			 <text class="cuIcon-order cancel circle" @click="flipHorizontal" id="cancel" :style="{top:cancelCenterY-10 + 'px', left:cancelterX-10 +'px'}"></text>-->
+      <!--			 <text class="cuIcon-order cancel circle" @tap="flipHorizontal" id="cancel" :style="{top:cancelCenterY-10 + 'px', left:cancelterX-10 +'px'}"></text>-->
 
       <!-- 口罩图片 -->
       <image v-if="currentMaskUrl !== ''" class="mask flip-horizontal" :class="{maskWithBorder: showBorder}" id='mask' :src="maskPic"
@@ -23,7 +23,7 @@
 
       <!--   口罩移动，放大缩小icon   -->
       <text class="cuIcon-full handle circle" :class="{hideHandle: !showBorder}" id="handle" :style="{top:handleCenterY-10 + 'px', left:handleCenterX-10 +'px'}"></text>
-      <text class="cuIcon-order cancel circle" v-if="isAndroid" :class="{hideHandle: !showBorder}" id="cancel" @click="flipHorizontal"
+      <text class="cuIcon-order cancel circle" v-if="isAndroid" :class="{hideHandle: !showBorder}" id="cancel" @tap="flipHorizontal"
             :style="{top:cancelCenterY-10 + 'px', left:cancelCenterX-10 +'px', transform: 'rotate(' +90+ 'deg)'}"></text>
     </view>
 
@@ -42,12 +42,12 @@
         <button id="btn-my-avatar" class="cu-btn round action-btn bg-gradual-blue shadow " @tap="getUserInfo">我的头像</button>
       </view>
       <view class="grid col-2">
-        <button id="btn-save" class="cu-btn round action-btn bg-gradual-blue shadow" @click="draw">
+        <button id="btn-save" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="draw">
           <text class="cuIcon-down">
           </text>保存</button>
       </view>
       <view class="grid col-3">
-        <button id="btn-choose-img" class="cu-btn round action-btn bg-gradual-blue shadow" @click="chooseImage">选择图片</button>
+        <button id="btn-choose-img" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="chooseImage">选择图片</button>
       </view>
     </view>
     <view class="grid justify-around share-wrapper">
@@ -62,9 +62,9 @@
 
     <scroll-view class="scrollView mask-scroll-view" scroll-x="true">
       <view v-for="(item, index) in imgList" :key="index" style="display: inline-flex;">
-        <text v-if="currentMaskUrl === item && isAndroid" class="cuIcon-order cancel circle" @click="flipHorizontal" id="cancel"
+        <text v-if="currentMaskUrl === item && isAndroid" class="cuIcon-order cancel circle" @tap="flipHorizontal" id="cancel"
               :style="{transform: 'rotate(' +90+ 'deg)'}"></text>
-        <!--				<text v-if="currentMaskUrl" style="margin-left: 55px;" class="cuIcon-question cancel circle" @click="showTips" id="cancel"></text>-->
+        <!--				<text v-if="currentMaskUrl" style="margin-left: 55px;" class="cuIcon-question cancel circle" @tap="showTips" id="cancel"></text>-->
         <image class="imgList" :src="cdnUrl + item" :data-mask-id="index" @tap="changeMask(item)"></image>
       </view>
     </scroll-view>

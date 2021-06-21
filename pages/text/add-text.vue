@@ -9,12 +9,12 @@
         <button id="btn-my-avatar" class="cu-btn round action-btn bg-gradual-blue shadow " @tap="getUserInfo">我的头像</button>
       </view>
       <view class="grid col-2">
-        <button id="btn-save" class="cu-btn round action-btn bg-gradual-blue shadow" @click="checkAdBeforeSave">
+        <button id="btn-save" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="checkAdBeforeSave">
           <text class="cuIcon-down">
           </text>保存</button>
       </view>
       <view class="grid col-3">
-        <button id="btn-choose-img" class="cu-btn round action-btn bg-gradual-blue shadow" @click="chooseImage">选择图片</button>
+        <button id="btn-choose-img" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="chooseImage">选择图片</button>
       </view>
     </view>
 
@@ -39,7 +39,7 @@
     <view>
       <view class="grid col-5 padding-sm">
         <view class="margin-tb-sm text-center" v-for="(item,index) in ColorList" :key="index">
-          <button @click="changeColor" :data-color="item.color" class="cu-btn round" :class="['bg-' + item.name , shadow?'shadow':'']">{{item.title}}</button>
+          <button @tap="changeColor" :data-color="item.color" class="cu-btn round" :class="['bg-' + item.name , shadow?'shadow':'']">{{item.title}}</button>
         </view>
       </view>
     </view>
