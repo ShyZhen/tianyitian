@@ -1,5 +1,5 @@
 <template>
-  <view class="container" :style="{height:windowHeight+'px'}" style="overflow-x: hidden">
+  <view class="container" :style="{height:windowHeight+'px'}" style="overflow: hidden">
     <view v-if="SHOW_TIP">
       <add-tips :statusBarHeight="statusBarHeight" />
     </view>
@@ -71,6 +71,8 @@ let videoAd = null;
 // 在页面中定义插屏广告
 let interstitialAd = null
 
+let sysInfo = uni.getSystemInfoSync()
+
 export default {
   components: {
     // tuiFooter,
@@ -81,7 +83,7 @@ export default {
   },
   data() {
     return {
-      windowHeight: getApp().globalData.windowHeight,
+      windowHeight: sysInfo.windowHeight,
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
       cansBgColor: "#FFD314",

@@ -1,5 +1,5 @@
 <template>
-  <view class="container" :style="{height:windowHeight+'px'}" style="overflow-x: hidden">
+  <view class="container" :style="{height:windowHeight+'px'}" style="overflow: hidden">
     <view v-if="SHOW_TIP">
       <add-tips :statusBarHeight="statusBarHeight" />
     </view>
@@ -106,8 +106,11 @@ let videoAd = null;
 // 在页面中定义插屏广告
 let interstitialAd = null
 
+// 每个页面需要单独获取
+let sysInfo = uni.getSystemInfoSync()
+
 const range = (start, count, step) => {
-  return Array.from(Array.from(Array(Math.ceil((count - start) / step)).keys()), x => start + x * step);
+  return Array.from(Array.from(Array(Math.ceil((count - start) / step)).keys()), x => start + x * step)
 }
 const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY';
 
@@ -121,7 +124,7 @@ export default {
       SHOW_TIP: false,
       duration: 15,
       statusBarHeight: 0,
-      windowHeight: getApp().globalData.windowHeight,
+      windowHeight: sysInfo.windowHeight,
       isAndroid: getApp().globalData.IS_ANDROID,
       modalName: null,
       cansWidth: 270, // 宽度 px
@@ -182,7 +185,6 @@ export default {
     // 初始化网络素材
     this.cdnUrl = Config.imageCdn
 
-    // this.windowHeight = getApp().globalData.windowHeight
     // if (this.windowHeight < 705) {
     //   this.windowHeight += 52
     // }

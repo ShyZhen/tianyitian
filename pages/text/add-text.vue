@@ -61,6 +61,8 @@ let videoAd = null;
 // 在页面中定义插屏广告
 let interstitialAd = null
 
+let sysInfo = uni.getSystemInfoSync()
+
 export default {
   components: {
     tuiFooter,
@@ -71,7 +73,7 @@ export default {
     return {
       isAndroid: getApp().globalData.IS_ANDROID,
       ColorList: this.ColorList,
-      windowHeight: getApp().globalData.windowHeight,
+      windowHeight: sysInfo.windowHeight,
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
       cansBgColor: "#FFD314",
@@ -115,7 +117,6 @@ export default {
   },
   onLoad(option) {
     let that = this;
-    // this.windowHeight = getApp().globalData.windowHeight;
     // if (this.windowHeight < 705) {
     //   this.windowHeight += 166
     // }

@@ -172,7 +172,6 @@ export default {
   },
   data() {
     return {
-      windowHeight: 0,
       statusBarHeight: 0,
       SHOW_TIP: false,
       rewardedVideoAdLoaded: false
@@ -193,7 +192,6 @@ export default {
   },
   onShow() {
     this.statusBarHeight = getApp().globalData.statusBarHeight;
-    this.windowHeight = getApp().globalData.windowHeight;
     this.SHOW_TIP = getApp().globalData.SHOW_TIP;
 
     if (interstitialAd) {

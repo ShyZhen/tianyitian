@@ -11,7 +11,7 @@
 	const collectionName = 'config_jill';
 	const docId = 'mp_launch_config_doc';
 	export default {
-		globalData: {  
+		globalData: {
 			IS_ANDROID: IS_ANDROID,
       windowHeight: windowHeight,
       windowWidth: windowWidth,
