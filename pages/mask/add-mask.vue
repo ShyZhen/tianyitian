@@ -1,6 +1,5 @@
 <template>
-  <view class="container" :style="{height:windowHeight+'px'}" style="overflow: hidden">
-
+  <view class="container" style="overflow: hidden;" :style="{height:heightVH}">
     <view v-if="SHOW_TIP">
       <add-tips :statusBarHeight="statusBarHeight" />
     </view>
@@ -123,6 +122,7 @@ export default {
       SHOW_TIP: false,
       duration: 15,
       statusBarHeight: 0,
+      heightVH: '100vh',
       windowHeight: getApp().globalData.windowHeight,
       isAndroid: getApp().globalData.IS_ANDROID,
       modalName: null,
@@ -177,9 +177,10 @@ export default {
     this.cdnUrl = Config.imageCdn
     this.imgList = ImgList.mask
 
-    // if (this.windowHeight < 705) {
-    //   this.windowHeight += 18
+    // if (this.windowHeight <= 520) {
+    //   this.heightVH = '110vh'
     // }
+
     if (!!getApp().globalData.userAvatarFilePath) {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
     }
