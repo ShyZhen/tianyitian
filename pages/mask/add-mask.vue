@@ -108,8 +108,6 @@ let videoAd = null;
 // 在页面中定义插屏广告
 let interstitialAd = null
 
-let sysInfo = uni.getSystemInfoSync()
-
 const range = (start, end, step) => {
   return Array.from(Array.from(Array(Math.ceil((end - start) / step)).keys()), x => start + x * step);
 }
@@ -125,7 +123,7 @@ export default {
       SHOW_TIP: false,
       duration: 15,
       statusBarHeight: 0,
-      windowHeight: sysInfo.windowHeight,
+      windowHeight: getApp().globalData.windowHeight,
       isAndroid: getApp().globalData.IS_ANDROID,
       modalName: null,
       cansWidth: 270, // 宽度 px
