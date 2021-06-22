@@ -935,10 +935,10 @@ export default {
   bottom: 100px;
   white-space: nowrap;
   .check-date {
-    opacity: 0.8;
+    //opacity: 0.9;
+    margin: 0 5px 0 5px;
     display: inline-flex;
     color: white;
-    margin: 0 5px 0 5px;
   }
 }
 
@@ -947,78 +947,78 @@ export default {
   background: #f52e2e;
 }
 .bt-bg-1 {
-  background: #ff0aa5;
+  background: #ff5e14;
 }
 .bt-bg-2 {
-  background: #1AAD19;
+  background: #f69541;
 }
 .bt-bg-3 {
-  background: #f6c534;
+  background: #f6ec34;
 }
 .bt-bg-4 {
-  background: #a2f531;
+  background: #baf531;
 }
 .bt-bg-5 {
-  background: #40f85a;
+  background: #87f840;
 }
 .bt-bg-6 {
-  background: #1cbbb4;
+  background: #2df54e;
 }
 .bt-bg-7 {
-  background: #3c9bf8;
+  background: #3cf8c3;
 }
 .bt-bg-8 {
-  background: #8a47fd;
+  background: #1ae1f8;
 }
 .bt-bg-9 {
-  background: #e03cfc;
+  background: #24b4f6;
 }
 .bt-bg-10 {
-  background: #f139a1;
+  background: #255ff5;
 }
 .bt-bg-11 {
-  background: #f88b45;
+  background: #0902f8;
 }
 .bt-bg-12 {
-  background: #2b8cee;
+  background: #682fef;
 }
 .bt-bg-13 {
-  background: #ff0000;
+  background: #8800ff;
 }
 .bt-bg-14 {
-  background: #c13535;
+  background: #e102fa;
 }
 .bt-bg-15 {
-  background: #6df63c;
+  background: #fc14ba;
 }
 .bt-bg-16 {
-  background: #2bebf1;
+  background: #f8237f;
 }
 .bt-bg-17 {
-  background: #f8827a;
+  background: #fa006c;
 }
 .bt-bg-18 {
-  background: #faba18;
+  background: #f62e35;
 }
 .bt-bg-19 {
-  background: #f64d41;
+  background: #f80518;
 }
 .bt-bg-20 {
-  background: #15f8c2;
+  background: #ee2bb1;
 }
 .bt-bg-21 {
-  background: #d432f8;
+  background: #d539f8;
 }
 .bt-bg-22 {
-  background: #51fa4b;
+  background: #9d39f5;
 }
 .bt-bg-23 {
-  background: #f5e02a;
+  background: #4d31f3;
 }
 .bt-bg-24 {
-  background: #fa7d29;
+  background: #32a3fa;
 }
 .bt-bg-25 {
-  background: #a6fa49;
+  background: #49c2fa;
 }
 </style>
