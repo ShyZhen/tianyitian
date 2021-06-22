@@ -76,8 +76,11 @@
 <!--      <ad unit-id="adunit-346d9c4e59829e53" style="z-index: 9"></ad>-->
     </view>
 
-    <scroll-view scroll-x="true" class="check-scroll solid-bottom">
-      <view v-for="(item, index) in dataImgListAll" :key="index" class="check-date" @tap="changeDate(item)">
+    <scroll-view scroll-x="true" class="check-scroll">
+      <view v-for="(item, index) in dataImgListAll" :key="index"
+            class="check-date cu-btn round"
+            :class="['bt-bg-' + index]"
+            @tap="changeDate(item)">
         {{item.title}}
       </view>
     </scroll-view>
@@ -175,7 +178,7 @@ export default {
     }),
     maskPic: function() {
       return Config.imageCdn + this.currentMaskUrl
-    }
+    },
   },
   onLoad(option) {
     let that = this;
@@ -272,6 +275,43 @@ export default {
   },
   methods: {
     ...mapMutations(["saveLoginUserInfo"]),
+    randomColor(index) {
+      let r, g, b
+      r = Math.floor(Math.random() * 256)
+      g = Math.floor(Math.random() * 256)
+      b = Math.floor(Math.random() * 256)
+      return "rgb(" +r + ',' +g+ ',' +b+ ")"
+    },
+    randomColor2(index) {
+      let color = [
+          '#f52e2e',
+          '#ff0aa5',
+          '#f6c534',
+          '#a2f531',
+          '#40f85a',
+          '#1cbbb4',
+          '#3c9bf8',
+          '#8a47fd',
+          '#e03cfc',
+          '#f139a1',
+          '#f88b45',
+          '#2b8cee',
+          '#f5aaaa',
+          '#ff0000',
+          '#6df63c',
+          '#2bebf1',
+          '#f8827a',
+          '#faba18',
+          '#f64d41',
+          '#15f8c2',
+          '#d432f8',
+          '#51fa4b',
+          '#f5e02a',
+          '#fa7d29',
+          '#a6fa49',
+      ]
+      return color[index]
+    },
     paint() {
     },
     showTips() {
@@ -348,7 +388,6 @@ export default {
       setTimeout(() => {
         this.$loading(false)
       }, 1000)
-      console.log('changedate', this.currentMaskUrl)
     },
     getHolidayKey() {
       let calendar = new Date()
@@ -631,7 +670,6 @@ export default {
       })
     },
     changeMask(url) {
-      console.log('change',url)
       this.currentMaskUrl = url
       this.showBorder = true
     },
@@ -897,9 +935,90 @@ export default {
   bottom: 100px;
   white-space: nowrap;
   .check-date {
+    opacity: 0.8;
     display: inline-flex;
     color: white;
-    padding: 0 20px 0 20px;
+    margin: 0 5px 0 5px;
   }
+}
+
+// 按钮颜色大全
+.bt-bg-0 {
+  background: #f52e2e;
+}
+.bt-bg-1 {
+  background: #ff0aa5;
+}
+.bt-bg-2 {
+  background: #1AAD19;
+}
+.bt-bg-3 {
+  background: #f6c534;
+}
+.bt-bg-4 {
+  background: #a2f531;
+}
+.bt-bg-5 {
+  background: #40f85a;
+}
+.bt-bg-6 {
+  background: #1cbbb4;
+}
+.bt-bg-7 {
+  background: #3c9bf8;
+}
+.bt-bg-8 {
+  background: #8a47fd;
+}
+.bt-bg-9 {
+  background: #e03cfc;
+}
+.bt-bg-10 {
+  background: #f139a1;
+}
+.bt-bg-11 {
+  background: #f88b45;
+}
+.bt-bg-12 {
+  background: #2b8cee;
+}
+.bt-bg-13 {
+  background: #ff0000;
+}
+.bt-bg-14 {
+  background: #c13535;
+}
+.bt-bg-15 {
+  background: #6df63c;
+}
+.bt-bg-16 {
+  background: #2bebf1;
+}
+.bt-bg-17 {
+  background: #f8827a;
+}
+.bt-bg-18 {
+  background: #faba18;
+}
+.bt-bg-19 {
+  background: #f64d41;
+}
+.bt-bg-20 {
+  background: #15f8c2;
+}
+.bt-bg-21 {
+  background: #d432f8;
+}
+.bt-bg-22 {
+  background: #51fa4b;
+}
+.bt-bg-23 {
+  background: #f5e02a;
+}
+.bt-bg-24 {
+  background: #fa7d29;
+}
+.bt-bg-25 {
+  background: #a6fa49;
 }
 </style>
