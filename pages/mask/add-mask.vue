@@ -59,6 +59,16 @@
 <!--      <ad unit-id="adunit-f185ab11a9a8b6df" style="z-index: 9"></ad>-->
     </view>
 
+    <view class="check-scroll">
+      <view class="check-date cu-btn round" style="background: #f14444" @tap="changeDate('gexing')">
+        发型
+      </view>
+      <view class="check-date cu-btn round" style="background: #20e2e8" @tap="changeDate('mask')">
+        口罩
+      </view>
+    </view>
+
+
     <scroll-view class="scrollView mask-scroll-view" scroll-x="true">
       <view v-for="(item, index) in imgList" :key="index" style="display: inline-flex;">
         <text v-if="currentMaskUrl === item && isAndroid" class="cuIcon-order cancel circle" @tap="flipHorizontal" id="cancel"
@@ -175,7 +185,7 @@ export default {
 
     // 初始化网络素材
     this.cdnUrl = Config.imageCdn
-    this.imgList = ImgList.mask
+    this.imgList = ImgList.gexing
 
     // if (this.windowHeight <= 520) {
     //   this.heightVH = '110vh'
@@ -263,6 +273,18 @@ export default {
   },
   methods: {
     ...mapMutations(["saveLoginUserInfo"]),
+    changeDate(item) {
+      this.$loading('拼命加载中...')
+      if (item === 'gexing') {
+        this.imgList = ImgList.gexing
+      } else if (item === 'mask') {
+        this.imgList = ImgList.mask
+      }
+
+      setTimeout(() => {
+        this.$loading(false)
+      }, 1000)
+    },
     paint() {},
     showTips() {
       this.modalName = 'tips'
@@ -749,5 +771,18 @@ export default {
   -webkit-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   transform: scaleX(-1);
+}
+
+.check-scroll {
+  width: 100%;
+  position: absolute;
+  bottom: 100px;
+  text-align: center;
+  .check-date {
+    width: 30%;
+    margin: 0 5px 0 5px;
+    display: inline-flex;
+    color: white;
+  }
 }
 </style>

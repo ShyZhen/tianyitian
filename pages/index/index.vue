@@ -35,12 +35,12 @@
       <view class="cu-card article" @click="addMask">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx;">
           <view class="title">
-            <view class="text-cut">头像戴口罩</view>
+            <view class="text-cut">换个发型带口罩</view>
           </view>
           <view class="content">
             <image style="width: 180rpx;" src="/static/image/logo/gexing-logo.jpg" mode="aspectFill"></image>
             <view class="desc">
-              <view class="text-content">换上口罩头像,防止疫情蔓延。超过30款口罩、护目镜任你选</view>
+              <view class="text-content">给头像换发型、加帽子。阳光太刺眼带个墨镜吧</view>
               <view>
                 <view class="grid justify-between">
                   <view>
