@@ -20,6 +20,8 @@ function getShareMessage() {
         title: '换上口罩头像,防止疫情蔓延',
     },{
         title: '给你的头像加上横幅,不达目的坚决不换',
+    },{
+        title: '换个发型，换个心情',
     }];
 
     return messages[Math.floor(Math.random()*messages.length)]['title'];

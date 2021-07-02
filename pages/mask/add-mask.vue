@@ -33,7 +33,7 @@
 
     <view class="flex-sub text-center">
       <view class="solid-bottom">
-        <text class="text-white text-bold">戴上口罩 远离病毒 从你我做起</text>
+        <text class="text-white text-bold">{{slogan}}</text>
       </view>
     </view>
     <view class="grid justify-around action-wrapper">
@@ -129,6 +129,7 @@ export default {
   },
   data() {
     return {
+      slogan: '换个发型好心情',
       SHOW_TIP: false,
       duration: 15,
       statusBarHeight: 0,
@@ -276,8 +277,10 @@ export default {
     changeDate(item) {
       this.$loading('拼命加载中...')
       if (item === 'gexing') {
+        this.slogan = '换个发型好心情'
         this.imgList = ImgList.gexing
       } else if (item === 'mask') {
+        this.slogan = '带上口罩，防止疫情蔓延'
         this.imgList = ImgList.mask
       }
 
