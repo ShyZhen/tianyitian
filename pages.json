@@ -57,9 +57,9 @@
 			},
 			{
 				"pagePath": "pages/mask/add-mask",
-				"iconPath": "static/image/tabbar/mask-off.png",
-				"selectedIconPath": "static/image/tabbar/mask-on.png",
-				"text": "戴口罩"
+				"iconPath": "static/image/tabbar/gexing-off.png",
+				"selectedIconPath": "static/image/tabbar/gexing-on.png",
+				"text": "换发型"
 			},
 			{
 				"pagePath": "pages/slogan/add-slogan",
