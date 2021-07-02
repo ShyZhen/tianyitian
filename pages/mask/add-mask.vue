@@ -128,7 +128,7 @@ export default {
       modalName: null,
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
-      avatarPath: '/static/image/head/'+ Math.floor(Math.random()*18) + '.jpg',
+      avatarPath: '/static/image/head/'+ Math.floor(Math.random()*19) + '.jpg',
       imgList:[],
       currentMaskUrl: '',
       showBorder: false,

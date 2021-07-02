@@ -2,7 +2,7 @@ function getShareObj(res) {
     return {
         title: getShareMessage(),
         desc: '你想要的样子我都有',
-        imageUrl: '/static/image/head/'+ Math.floor(Math.random()*18) + '.jpg',
+        imageUrl: '/static/image/head/'+ Math.floor(Math.random()*19) + '.jpg',
         path: '/pages/index/index',
         success(res) {
         },
@@ -13,7 +13,7 @@ function getShareObj(res) {
 
 function getShareMessage() {
     let messages = [{
-        title: '添一添,制作自定义头像',
+        title: '头像挂件工坊,制作自定义头像',
     },{
         title: '限时节日挂件,让您的头像引领潮流',
     },{

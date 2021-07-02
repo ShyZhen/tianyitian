@@ -1,5 +1,5 @@
 const env = {
-    appName: '添一添',
+    appName: '头像挂件工坊',
 
     // 是否开启debug
     debug: true,

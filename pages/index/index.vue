@@ -38,7 +38,7 @@
             <view class="text-cut">头像戴口罩</view>
           </view>
           <view class="content">
-            <image style="width: 180rpx;" src="/static/image/logo/mask-logo.jpg" mode="aspectFill"></image>
+            <image style="width: 180rpx;" src="/static/image/logo/gexing-logo.jpg" mode="aspectFill"></image>
             <view class="desc">
               <view class="text-content">换上口罩头像,防止疫情蔓延。超过30款口罩、护目镜任你选</view>
               <view>

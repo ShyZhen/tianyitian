@@ -80,7 +80,7 @@ export default {
       r: 40,
       boarderWidth: 15,
       wishText: '萌',
-      avatarPath: '/static/image/head/'+ Math.floor(Math.random()*18) + '.jpg',
+      avatarPath: '/static/image/head/'+ Math.floor(Math.random()*19) + '.jpg',
       happinessPathList: [],
       happinessIndex: 0,
       x: 0,

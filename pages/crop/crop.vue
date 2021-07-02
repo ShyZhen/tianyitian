@@ -74,7 +74,7 @@
 		data() {
 			return {
 				windowHeight: 0,
-				name: '添一添',
+				name: '头像挂件工坊',
 				imageSrc: 'https://img-cdn-qiniu.dcloud.net.cn/demo_crop.jpg',
 				isShowImg: false,
 				// 初始化的宽高
