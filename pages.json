@@ -14,10 +14,10 @@
 			}
 		},
 		{
-			"path": "pages/slogan/add-slogan",
-			"style": {
-				"navigationStyle": "custom"
-			}
+			"path": "pages/slogan/add-slogan"
+//			"style": {
+//				"navigationStyle": "custom"
+//			}
 		},
 		{
 			"path": "pages/crop/crop",
@@ -26,13 +26,19 @@
 			}
 		},
 		{
-			"path": "pages/text/add-text",
+			"path": "pages/text/add-text"
+//			"style": {
+//				"navigationStyle": "custom"
+//			}
+		},
+		{
+			"path": "pages/date/date",
 			"style": {
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/date/date",
+			"path": "pages/pixel/pixel",
 			"style": {
 				"navigationStyle": "custom"
 			}
@@ -61,17 +67,23 @@
 				"selectedIconPath": "static/image/tabbar/gexing-on.png",
 				"text": "换发型"
 			},
+//			{
+//				"pagePath": "pages/slogan/add-slogan",
+//				"iconPath": "static/image/tabbar/fight-off.png",
+//				"selectedIconPath": "static/image/tabbar/fight-on.png",
+//				"text": "加口号"
+//			},
+//			{
+//				"pagePath": "pages/text/add-text",
+//				"iconPath": "static/image/tabbar/font-off.png",
+//				"selectedIconPath": "static/image/tabbar/font-on.png",
+//				"text": "加V字"
+//			}
 			{
-				"pagePath": "pages/slogan/add-slogan",
-				"iconPath": "static/image/tabbar/fight-off.png",
-				"selectedIconPath": "static/image/tabbar/fight-on.png",
-				"text": "加口号"
-			},
-			{
-				"pagePath": "pages/text/add-text",
-				"iconPath": "static/image/tabbar/font-off.png",
-				"selectedIconPath": "static/image/tabbar/font-on.png",
-				"text": "加V字"
+				"pagePath": "pages/pixel/pixel",
+				"iconPath": "static/image/tabbar/pixel-off.png",
+				"selectedIconPath": "static/image/tabbar/pixel-on.png",
+				"text": "像素风"
 			}
 		]
 	},

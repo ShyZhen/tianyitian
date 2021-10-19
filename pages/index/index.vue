@@ -229,12 +229,12 @@ export default {
       })
     },
     addSlogan: function(){
-      uni.switchTab({
+      uni.navigateTo({
         url: '/pages/slogan/add-slogan'
       })
     },
     addText: function(){
-      uni.switchTab({
+      uni.navigateTo({
         url: '/pages/text/add-text'
       })
     },

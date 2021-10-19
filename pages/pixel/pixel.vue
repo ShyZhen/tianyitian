@@ -1,0 +1,681 @@
+<template>
+  <view class="container" style="overflow: hidden;" :style="{height:heightVH}">
+    <view v-if="SHOW_TIP">
+      <add-tips :statusBarHeight="statusBarHeight" />
+    </view>
+
+    <view class="avatar-container grid justify-center" id="avatar-container">
+      <view class="avatar-bg-border">
+        <image class="bg avatar-bg" id="avatar-bg" :src="avatarPath"></image>
+      </view>
+    </view>
+
+    <!--  绘制区域  -->
+    <view>
+      <canvas class="cans-id-mask" canvas-id="cans-id-mask" style="height:270px;width:270px;margin-left: auto;margin-right: auto;" />
+      <canvas class="cans-id-mask" canvas-id="cans-id-mask-res" style="height:270px;width:270px;margin-left: auto;margin-right: auto;" />
+    </view>
+
+    <view class="flex-sub text-center">
+      <view class="solid-bottom">
+        <text class="text-white text-bold">{{slogan}}</text>
+      </view>
+    </view>
+    <view class="grid justify-around action-wrapper">
+      <view class="grid col-1">
+        <button id="btn-my-avatar" class="cu-btn round action-btn bg-gradual-blue shadow " @tap="getUserInfo">我的头像</button>
+      </view>
+      <view class="grid col-2">
+        <button id="btn-save" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="draw">
+          <text class="cuIcon-down">
+          </text>保存</button>
+      </view>
+      <view class="grid col-3">
+        <button id="btn-choose-img" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="chooseImage">选择图片</button>
+      </view>
+    </view>
+    <view class="grid justify-around share-wrapper">
+
+      <!--			<view class="grid col-2 animation-shake animation-speed-2 animation-delay-3">-->
+      <!--				<button class="cu-btn block line-orange lg share-btn" open-type="share">-->
+      <!--					<text class="cuIcon-upload"></text> <text class="text-yellow">分享给好友</text> </button>-->
+      <!--			</view>-->
+
+      <!--      <ad unit-id="adunit-f185ab11a9a8b6df" style="z-index: 9"></ad>-->
+    </view>
+
+    <view class="check-scroll">
+      <view class="check-date cu-btn round" style="background: #f14444" @tap="changeDate('pixel')">
+        像素风
+      </view>
+      <view class="check-date cu-btn round" style="background: #20e2e8" @tap="changeDate('cartoon')">
+        卡通风
+      </view>
+      <view class="uni-common-mt">
+        <text class="text-white text-bold">点击按钮即可转换合成</text>
+      </view>
+    </view>
+
+  </view>
+</template>
+<script>
+import {
+  mapState,
+  mapMutations
+} from "vuex"
+import tuiFooter from "@/components/tui/footer"
+import addTips from "@/components/add-tips"
+import { getShareObj } from "@/utils/share.js"
+import Config from "@/config/config"
+
+// 在页面中定义激励视频广告
+let videoAd = null;
+// 在页面中定义插屏广告
+let interstitialAd = null
+
+const range = (start, end, step) => {
+  return Array.from(Array.from(Array(Math.ceil((end - start) / step)).keys()), x => start + x * step);
+}
+const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY';
+
+export default {
+  components: {
+    tuiFooter,
+    addTips
+  },
+  data() {
+    return {
+      slogan: '沙尘虽小，但每一粒，都会反光',
+      SHOW_TIP: false,
+      duration: 15,
+      statusBarHeight: 0,
+      heightVH: '100vh',
+      windowHeight: getApp().globalData.windowHeight,
+      isAndroid: getApp().globalData.IS_ANDROID,
+      modalName: null,
+      pixiSize: 10,   // 像素风格参数
+      cansWidth: 270, // 宽度 px
+      cansHeight: 270, // 高度 px
+      avatarPath: '/static/image/head/'+ Math.floor(Math.random()*19) + '.jpg',
+      imgList:[],
+      currentMaskUrl: '',
+      showBorder: false,
+      maskCenterX: getApp().globalData.windowWidth / 2,
+      maskCenterY: 250,
+      cancelCenterX: getApp().globalData.windowWidth / 2 - 50 - 2,
+      cancelCenterY: 200,
+      handleCenterX: getApp().globalData.windowWidth / 2 + 50 - 2,
+      handleCenterY: 300,
+
+      maskSize: 100,
+      scale: 1,
+      rotate: 0,
+      rotateY: 0, // 值180时，则水平翻转
+      mask_center_x: getApp().globalData.windowWidth / 2,
+      mask_center_y: 250,
+      cancel_center_x: getApp().globalData.windowWidth / 2 - 50 - 2,
+      cancel_center_y: 200,
+      handle_center_x: getApp().globalData.windowWidth / 2 + 50 - 2,
+      handle_center_y: 300,
+      scaleCurrent: 1,
+      rotateCurrent: 0,
+      touch_target: "",
+      start_x: 0,
+      start_y: 0,
+      cdnUrl: '',
+
+      // 默认1次保存，有广告加载时候判断次数，看完广告加5次
+      savedCounts: 1,
+      enableInterstitialAd: true,
+      rewardedVideoAdLoaded: false,
+    }
+  },
+  computed: {
+    ...mapState({
+      userInfo: 'userInfo'
+    }),
+  },
+  onLoad(option) {
+    let that = this;
+
+    // 初始化网络素材
+    this.cdnUrl = Config.imageCdn
+
+    // if (this.windowHeight <= 520) {
+    //   this.heightVH = '110vh'
+    // }
+
+    if (!!getApp().globalData.userAvatarFilePath) {
+      this.avatarPath = getApp().globalData.userAvatarFilePath;
+    }
+
+    /*
+    // 在页面onLoad回调事件中创建插屏广告实例
+    if (wx.createInterstitialAd) {
+      interstitialAd = wx.createInterstitialAd({
+        adUnitId: 'adunit-ae132e93d50f453f'
+      })
+      interstitialAd.onLoad(() => {})
+      interstitialAd.onError((err) => {
+        console.log(err);
+      })
+      interstitialAd.onClose(() => {})
+    }
+
+    // 在页面onLoad回调事件中创建激励视频广告实例
+    if (wx.createRewardedVideoAd) {
+      videoAd = wx.createRewardedVideoAd({
+        adUnitId: 'adunit-236eff9d951106ed'
+      })
+      videoAd.onLoad(() => {
+        that.rewardedVideoAdLoaded = true;
+      })
+      videoAd.onError((err) => {
+        // 广告组件出现错误，直接允许用户保存，不做其他复杂处理
+        that.rewardedVideoAdLoaded = false;
+      })
+      videoAd.onClose((res) => {
+        if (res && res.isEnded || res === undefined) {
+          // 正常播放结束，下发奖励
+          that.savedCounts = 5
+          that.saveCans()
+        } else {
+          // 播放中途退出，进行提示
+          that.$toast('请完整观看哦')
+        }
+      })
+    }
+    */
+  },
+  onReady() {
+
+    uni.vibrateShort();
+
+    // 判断是否已经显示过
+    let cache = uni.getStorageSync(STORAGE_KEY);
+    if (!cache) {
+      this.statusBarHeight = uni.getSystemInfoSync().statusBarHeight;
+
+      // 没显示过，则进行展示
+      this.SHOW_TIP = true;
+      // 关闭时间
+      let that = this;
+      setTimeout(() => {
+        that.SHOW_TIP = false;
+      }, that.duration * 1000);
+    }
+  },
+  onShow() {
+    // 在适合的场景显示插屏广告
+    if (interstitialAd) {
+      interstitialAd.show().catch((err) => {
+        console.error(err)
+      })
+    }
+
+    if (getApp().globalData.rapaintAfterCrop) {
+      getApp().globalData.rapaintAfterCrop = false;
+      this.avatarPath = getApp().globalData.cropImageFilePath;
+    }
+  },
+  onShareAppMessage(res) {
+    return getShareObj()
+  },
+  onShareTimeline(res) {
+    return getShareObj()
+  },
+  methods: {
+    ...mapMutations(["saveLoginUserInfo"]),
+
+    // 像素风格、卡通风格切换
+    changeDate(item) {
+      let that = this
+      that.$loading('拼命加载中...')
+      if (item === 'pixel') {
+        that.slogan = '沙尘虽小，但每一粒，都会反光'
+
+        let query = wx.createSelectorQuery()
+        query.select('#avatar-bg').boundingClientRect()
+        query.exec(function(res) {
+          // 开始
+          that.getCanvasContent('cans-id-mask').then(res => {
+            that.createPxMap('cans-id-mask').then(pxMap => {
+              that.drawPXCanvas(pxMap)
+            })
+          })
+        })
+
+      } else if (item === 'cartoon') {
+        that.slogan = '满眼夜星，满手白泥，愿童心永存'
+        that.$loading(false)
+      }
+    },
+
+
+    downloadAvatarAndPaintAll(imageUrl) {
+      this.$loading('头像加载中...')
+      let that = this;
+      uni.downloadFile({
+        url: imageUrl,
+        success: function(res) {
+          that.$loading(false)
+          that.avatarPath = res.tempFilePath;
+          getApp().globalData.userAvatarFilePath = res.tempFilePath;
+        },
+        fail: function(e) {
+          console.log(e);
+          that.$loading(false)
+          uni.showModal({
+            title: '图片加载超时',
+            content: '检查网络，点击确定重新加载',
+            success(res) {
+              if (res.confirm) {
+                that.downloadAvatarAndPaintAll(imageUrl);
+              } else if (res.cancel) {
+                console.log('用户点击取消');
+              }
+            }
+          })
+        }
+      })
+    },
+    /**
+     *  获取用户信息回调方法
+     * @param {Object} result
+     */
+    getUserInfo() {
+      let that = this
+      this.$loading('头像加载中...')
+      uni.getUserProfile({
+        desc: '用于完善个人资料',
+        success: (res) => {
+          if (res.userInfo) {
+            let userInfo = res.userInfo
+            userInfo.avatarUrl = userInfo.avatarUrl.replace("132", "0") // 使用最大分辨率头像 959 * 959
+            getApp().globalData.userAvatarUrl = userInfo.avatarUrl
+            that.downloadAvatarAndPaintAll(userInfo.avatarUrl)
+            that.saveLoginUserInfo(userInfo)
+          } else {
+            uni.showModal({
+              title: '获取用户头像失败',
+              content: '用户信息仅用于创建新的图片，请放心使用',
+              showCancel: false
+            });
+          }
+        },
+        complete: (res) => {
+          this.$loading(false)
+        }
+      })
+    },
+
+    /**
+     *  选择图片
+     */
+    chooseImage() {
+      let that = this;
+      that.$loading('加载中...')
+      uni.chooseImage({
+        count: 1, // 默认9
+        sizeType: ['compressed'],
+        sourceType: ['album', 'camera'],
+        success: function(res) {
+          that.$loading(false)
+          let tempImagePath = res.tempFilePaths[0];
+          that.imageCheck(tempImagePath, that.loadRecImageOrStartToCrop);
+        },
+        complete: (res) => {
+          this.$loading(false)
+        }
+      });
+    },
+    loadRecImageOrStartToCrop(tempImagePath) {
+      this.ownImageUsed = true;
+      let that = this;
+      uni.getImageInfo({
+        src: tempImagePath,
+        success: function(image) {
+          let width = image.width;
+          let height = image.height;
+          let delta = (width - height) / width.toFixed(3);
+          console.log('delta', delta);
+          // 如果是正方形或者接近正放心则直接加载不进行剪裁
+          if ((-0.02 <= delta && delta <= 0) || (0 < delta && delta <= 0.02)) {
+            that.avatarPath = tempImagePath;
+          } else {
+            uni.navigateTo({
+              url: '/pages/crop/crop?tempFilePath=' + tempImagePath
+            })
+          }
+        }
+      });
+    },
+    // 内容检查
+    imageCheck: function(tempImagePath, callback) {
+      // 判断是否需要内容检查
+      if (!getApp().globalData.enableSecurityCheck) {
+        callback(tempImagePath);
+        return;
+      }
+      let that = this;
+      uni.compressImage({
+        src: tempImagePath,
+        quality: 1,
+        success: res => {
+          let tempFilePathCompressed = res.tempFilePath;
+          wx.getFileSystemManager().readFile({
+            filePath: tempFilePathCompressed, // 压缩图片，然后安全检测
+            success: buffer => {
+              that.$loading('拼命加载中...')
+
+              //这里是 云函数调用方法
+              wx.cloud.callFunction({
+                name: 'contentCheck',
+                data: {
+                  value: buffer.data
+                },
+                success(json) {
+                  console.log("checkContent result", json)
+                  if (json.result.errCode == 87014) {
+                    uni.showModal({
+                      title: '请勿使用违法违规内容',
+                      content: '图片含有违法违规内容',
+                      showCancel: false,
+                      confirmText: '朕知道了',
+                    });
+                    console.log("bad")
+                  } else {
+                    console.log("good")
+                    //图片合规则进行进一步处理
+                    callback(tempImagePath);
+                  }
+                },
+                fail(e) {
+                  console.log(e);
+                  uni.showModal({
+                    title: '请重试',
+                    content: '对不起，服务器开了小差',
+                    showCancel: false,
+                    confirmText: '好的',
+                  });
+                },
+                complete() {
+                  that.$loading(false)
+                }
+              })
+            }
+          })
+
+        }
+      })
+    },
+
+    draw() {
+      let that = this
+      that.$loading('合成中...')
+
+      // 有成功加载的激励视频，才展现提示框
+      if (!!videoAd && that.rewardedVideoAdLoaded && that.savedCounts <= 0) {
+        that.$loading(false)
+        uni.showModal({
+          title: '获取使用次数',
+          content: '观看完视频可以自动保存哦',
+          success: function(res) {
+            if (res.confirm) {
+              console.log('用户点击确定');
+              // 用户触发广告后，显示激励视频广告
+              if (videoAd) {
+                videoAd.show().catch(() => {
+                  // 失败重试
+                  videoAd.load()
+                      .then(() => {
+                        videoAd.show();
+                      })
+                      .catch(err => {
+                        console.log(err);
+                        console.log('激励视频 广告显示失败')
+                      })
+                })
+              }
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+              that.$toast('视频很短的 (✪ω✪)')
+              // that.saveCans()
+              return
+            }
+          }
+        });
+      } else {
+        that.$loading(false)
+        that.saveCans()
+        return
+      }
+    },
+    // 保证画完canvas再获取imageData
+    getCanvasContent(cansId) {
+      let that = this
+      return new Promise((rel, rej) => {
+        const canvasContext = wx.createCanvasContext(cansId)
+        canvasContext.clearRect(0, 0, that.cansWidth, that.cansHeight)
+        canvasContext.drawImage(that.avatarPath, 0, 0, that.cansWidth, that.cansHeight)
+        canvasContext.draw()
+        rel(canvasContext)
+      })
+    },
+    createPxMap(cansId) {
+      let that = this
+      return new Promise((rel, rej) => {
+        let pxMap = [];
+        for (let i = 0; i < that.cansWidth; i += that.pixiSize) {
+          for (let j = 0; j < that.cansWidth; j += that.pixiSize) {
+            uni.canvasGetImageData({
+              canvasId: cansId,
+              x: i,
+              y: j,
+              width: 1,
+              height: 1,
+              success(res) {
+                let pixel = res.data
+                let color = `rgba(${pixel[0]},${pixel[1]},${pixel[2]},${pixel[3]/255})`;
+                pxMap.push({ x: i / that.pixiSize, y: j / that.pixiSize, color });
+              }
+            })
+          }
+        }
+        // 需要真机测试
+        rel(pxMap)
+      })
+    },
+    drawPXCanvas(pxMap) {
+      let that = this
+      setTimeout(function() {
+        const canvasContext = uni.createCanvasContext('cans-id-mask')
+        pxMap.forEach((px, i) => {
+          const { color, x, y } = px
+          canvasContext.fillStyle = color
+          canvasContext.fillRect(x*that.pixiSize, y*that.pixiSize, that.pixiSize, that.pixiSize)
+        });
+        canvasContext.draw()
+        that.$loading(false)
+      }, 5000)
+    },
+
+
+
+
+    /**
+     * 保存
+     */
+    saveCans() {
+      let that = this
+
+      that.$loading('保存中...')
+      uni.canvasToTempFilePath({
+        canvasId: 'cans-id-mask',
+        success: function(res) {
+          getApp().globalData.maskAvatarSavedTempPath = res.tempFilePath;
+          uni.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success: function(res) {
+              uni.showToast({
+                title: '请至相册查看'
+              })
+              that.savedCounts--
+              console.log('剩余次数：',that.savedCounts)
+              uni.vibrateShort()
+            },
+            fail(res) {
+              if (res.errMsg.indexOf("fail")) {
+                uni.showModal({
+                  title: '您需要授权相册权限',
+                  success(res) {
+                    if (res.confirm) {
+                      uni.openSetting({
+                        success(res) {
+                          console.log("相册授权成功");
+                        },
+                        fail(res) {
+                          console.log(res)
+                        }
+                      })
+                    }
+                  }
+                })
+              }
+            },
+          });
+        },
+        complete(res) {
+          that.$loading(false)
+        }
+      }, this)
+    },
+    showModal: function(e) {
+      this.modalName = e.currentTarget.dataset.target;
+    },
+    hideModal: function(e) {
+      this.modalName = null;
+    },
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.avatar-container {
+  height: 290px;
+  width: 100%;
+  margin-top: 150rpx;
+  margin-left: auto;
+  margin-right: auto;
+  // background-size: 100%;
+}
+
+.avatar-bg-border {
+  border: 6px solid white;
+  border-radius: 10px;
+  width: 282px;
+  height: 282px;
+}
+
+.avatar-bg {
+  position: absolute;
+  z-index: 0;
+  height: 270px;
+  width: 270px;
+}
+
+.action-wrapper {
+  padding-top: 50rpx;
+  padding-left: 100rpx;
+  padding-right: 100rpx;
+  font-weight: 800;
+}
+
+.share-wrapper {
+  padding-top: 10rpx;
+  padding-left: 100rpx;
+  padding-right: 100rpx;
+  font-weight: 800;
+}
+
+.mask {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  top: 100px;
+  border: 3px solid rgba(255, 255, 255, 0.0);
+}
+
+.maskWithBorder {
+  border: dashed 3px white;
+}
+
+.hideHandle {
+  display: none;
+}
+
+.circle {
+  border-radius: 50%;
+  font-size: 15px;
+  color: #000;
+  line-height: 25px;
+  text-align: center;
+  background: #fff;
+}
+
+.handle,
+.cancel {
+  position: absolute;
+  z-index: 1;
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  color: black;
+}
+
+.scrollView {
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  white-space: nowrap;
+}
+
+.infoView {
+  width: 95%;
+  position: absolute;
+  bottom: 85px;
+  white-space: nowrap;
+  background-color: white;
+  margin: 10px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  white-space: pre-wrap;
+}
+
+
+// cavans 真机上无法隐藏
+.cans-id-mask {
+  position: absolute;
+  left: 1000px;
+}
+
+.flip-horizontal {
+  -moz-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.check-scroll {
+  width: 100%;
+  position: absolute;
+  bottom: 100px;
+  text-align: center;
+  .check-date {
+    width: 30%;
+    margin: 0 5px 0 5px;
+    display: inline-flex;
+    color: white;
+  }
+}
+</style>
