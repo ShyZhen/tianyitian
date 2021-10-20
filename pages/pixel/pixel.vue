@@ -6,14 +6,13 @@
 
     <view class="avatar-container grid justify-center" id="avatar-container">
       <view class="avatar-bg-border">
-        <image class="bg avatar-bg" id="avatar-bg" :src="avatarPath"></image>
-      </view>
-    </view>
+        <cover-image v-show="displayImage" class="bg avatar-bg" id="avatar-bg" :src="avatarPath"></cover-image>
 
-    <!--  绘制区域  -->
-    <view>
-      <canvas class="cans-id-mask" canvas-id="cans-id-mask" style="height:270px;width:270px;margin-left: auto;margin-right: auto;" />
-      <canvas class="cans-id-mask" canvas-id="cans-id-mask-res" style="height:270px;width:270px;margin-left: auto;margin-right: auto;" />
+        <!--  绘制区域  -->
+        <view>
+          <canvas class="cans-id-mask" canvas-id="cans-id-mask" style="height:270px;width:270px;margin-left: auto;margin-right: auto;" />
+        </view>
+      </view>
     </view>
 
     <view class="flex-sub text-center">
@@ -31,7 +30,7 @@
           </text>保存</button>
       </view>
       <view class="grid col-3">
-        <button id="btn-choose-img" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="chooseImage">选择图片</button>
+        <button id="btn-choose-img" disabled class="cu-btn round action-btn bg-gradual-blue shadow" @tap="chooseImage">选择图片</button>
       </view>
     </view>
     <view class="grid justify-around share-wrapper">
@@ -73,9 +72,6 @@ let videoAd = null;
 // 在页面中定义插屏广告
 let interstitialAd = null
 
-const range = (start, end, step) => {
-  return Array.from(Array.from(Array(Math.ceil((end - start) / step)).keys()), x => start + x * step);
-}
 const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY';
 
 export default {
@@ -87,7 +83,6 @@ export default {
     return {
       slogan: '沙尘虽小，但每一粒，都会反光',
       SHOW_TIP: false,
-      duration: 15,
       statusBarHeight: 0,
       heightVH: '100vh',
       windowHeight: getApp().globalData.windowHeight,
@@ -97,32 +92,8 @@ export default {
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
       avatarPath: '/static/image/head/'+ Math.floor(Math.random()*19) + '.jpg',
-      imgList:[],
-      currentMaskUrl: '',
-      showBorder: false,
-      maskCenterX: getApp().globalData.windowWidth / 2,
-      maskCenterY: 250,
-      cancelCenterX: getApp().globalData.windowWidth / 2 - 50 - 2,
-      cancelCenterY: 200,
-      handleCenterX: getApp().globalData.windowWidth / 2 + 50 - 2,
-      handleCenterY: 300,
-
-      maskSize: 100,
+      displayImage: true,  // 当像素化、卡通化的时候隐藏图，让canvas展示效果
       scale: 1,
-      rotate: 0,
-      rotateY: 0, // 值180时，则水平翻转
-      mask_center_x: getApp().globalData.windowWidth / 2,
-      mask_center_y: 250,
-      cancel_center_x: getApp().globalData.windowWidth / 2 - 50 - 2,
-      cancel_center_y: 200,
-      handle_center_x: getApp().globalData.windowWidth / 2 + 50 - 2,
-      handle_center_y: 300,
-      scaleCurrent: 1,
-      rotateCurrent: 0,
-      touch_target: "",
-      start_x: 0,
-      start_y: 0,
-      cdnUrl: '',
 
       // 默认1次保存，有广告加载时候判断次数，看完广告加5次
       savedCounts: 1,
@@ -137,13 +108,6 @@ export default {
   },
   onLoad(option) {
     let that = this;
-
-    // 初始化网络素材
-    this.cdnUrl = Config.imageCdn
-
-    // if (this.windowHeight <= 520) {
-    //   this.heightVH = '110vh'
-    // }
 
     if (!!getApp().globalData.userAvatarFilePath) {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
@@ -202,7 +166,7 @@ export default {
       let that = this;
       setTimeout(() => {
         that.SHOW_TIP = false;
-      }, that.duration * 1000);
+      }, 5000);
     }
   },
   onShow() {
@@ -305,6 +269,7 @@ export default {
         },
         complete: (res) => {
           this.$loading(false)
+          that.displayImage = true
         }
       })
     },
@@ -313,7 +278,7 @@ export default {
      *  选择图片
      */
     chooseImage() {
-      let that = this;
+      let that = this
       that.$loading('加载中...')
       uni.chooseImage({
         count: 1, // 默认9
@@ -326,6 +291,7 @@ export default {
         },
         complete: (res) => {
           this.$loading(false)
+          that.displayImage = true
         }
       });
     },
@@ -497,6 +463,7 @@ export default {
         });
         canvasContext.draw()
         that.$loading(false)
+        that.displayImage = false
       }, 5000)
     },
 
@@ -656,7 +623,11 @@ export default {
 // cavans 真机上无法隐藏
 .cans-id-mask {
   position: absolute;
-  left: 1000px;
+  //left: 1000px;
+
+  z-index: 0;
+  height: 270px;
+  width: 270px;
 }
 
 .flip-horizontal {
