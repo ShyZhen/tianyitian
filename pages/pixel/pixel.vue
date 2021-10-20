@@ -211,7 +211,7 @@ export default {
 
       } else if (item === 'cartoon') {
         that.slogan = '满眼夜星，满手白泥，愿童心永存'
-        that.$loading(false)
+        that.$toast("该功能正在开发中...")
       }
     },
 

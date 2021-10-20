@@ -54,6 +54,28 @@
         </view>
       </view>
 
+      <view class="cu-card article" @click="pixi">
+        <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx;">
+          <view class="title">
+            <view class="text-cut">可爱像素风</view>
+          </view>
+          <view class="content">
+            <image style="width: 180rpx;" src="/static/image/logo/pixi-logo.jpg" mode="aspectFill"></image>
+            <view class="desc">
+              <view class="text-content">让头像变成可爱的像素风格，愿我们童心永存</view>
+              <view>
+                <view class="grid justify-between">
+                  <view>
+                    <view class="cu-tag bg-red light sm round">像素风</view>
+                    <view class="cu-tag bg-green light sm round">卡通风</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
       <view class="cu-card article" @click="ganfanzu">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx; ">
           <view class="title">
@@ -215,6 +237,11 @@ export default {
     addMask: function() {
       uni.switchTab({
         url: '/pages/mask/add-mask'
+      })
+    },
+    pixi: function() {
+      uni.switchTab({
+        url: '/pages/pixel/pixel'
       })
     },
     ganfanzu: function() {
