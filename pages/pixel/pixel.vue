@@ -546,7 +546,7 @@ export default {
 
 .avatar-bg {
   position: absolute;
-  z-index: 0;
+  z-index: 10;
   height: 270px;
   width: 270px;
 }
@@ -622,9 +622,10 @@ export default {
 
 // cavans 真机上无法隐藏
 .cans-id-mask {
-  position: absolute;
+  //position: absolute;
   //left: 1000px;
 
+  position: absolute;
   z-index: 0;
   height: 270px;
   width: 270px;
