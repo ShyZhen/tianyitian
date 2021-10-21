@@ -188,9 +188,9 @@ export default {
     this.cdnUrl = Config.imageCdn
     this.imgList = ImgList.gexing
 
-    // if (this.windowHeight <= 520) {
-    //   this.heightVH = '110vh'
-    // }
+    if (this.windowHeight <= 520) {
+      this.heightVH = '110vh'
+    }
 
     if (!!getApp().globalData.userAvatarFilePath) {
       this.avatarPath = getApp().globalData.userAvatarFilePath;

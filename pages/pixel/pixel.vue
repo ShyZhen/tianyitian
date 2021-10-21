@@ -30,7 +30,7 @@
           </text>保存</button>
       </view>
       <view class="grid col-3">
-        <button id="btn-choose-img" disabled class="cu-btn round action-btn bg-gradual-blue shadow" @tap="chooseImage">选择图片</button>
+        <button id="btn-choose-img" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="chooseImage">选择图片</button>
       </view>
     </view>
     <view class="grid justify-around share-wrapper">
@@ -203,9 +203,7 @@ export default {
         query.exec(function(res) {
           // 开始
           that.getCanvasContent('cans-id-mask').then(res => {
-            that.createPxMap('cans-id-mask').then(pxMap => {
-              that.drawPXCanvas(pxMap)
-            })
+            that.createPxMap('cans-id-mask').then(pxMap => {})
           })
         })
 
@@ -430,10 +428,10 @@ export default {
     },
     createPxMap(cansId) {
       let that = this
+      let pxMap = [];
       return new Promise((rel, rej) => {
-        let pxMap = [];
-        for (let i = 0; i < that.cansWidth; i += that.pixiSize) {
-          for (let j = 0; j < that.cansWidth; j += that.pixiSize) {
+        for (let i = 0; i <= that.cansWidth; i += that.pixiSize) {
+          for (let j = 0; j <= that.cansWidth; j += that.pixiSize) {
             uni.canvasGetImageData({
               canvasId: cansId,
               x: i,
@@ -442,33 +440,30 @@ export default {
               height: 1,
               success(res) {
                 let pixel = res.data
-                let color = `rgba(${pixel[0]},${pixel[1]},${pixel[2]},${pixel[3]/255})`;
-                pxMap.push({ x: i / that.pixiSize, y: j / that.pixiSize, color });
+                let color = `rgba(${pixel[0]},${pixel[1]},${pixel[2]},${pixel[3]/255})`
+                pxMap.push({ x: i / that.pixiSize, y: j / that.pixiSize, color })
+                // 需要真机测试
+                if (i == j && i == that.cansWidth) {
+                  that.drawPXCanvas(pxMap)
+                }
               }
             })
           }
         }
-        // 需要真机测试
-        rel(pxMap)
       })
     },
     drawPXCanvas(pxMap) {
       let that = this
-      setTimeout(function() {
-        const canvasContext = uni.createCanvasContext('cans-id-mask')
-        pxMap.forEach((px, i) => {
-          const { color, x, y } = px
-          canvasContext.fillStyle = color
-          canvasContext.fillRect(x*that.pixiSize, y*that.pixiSize, that.pixiSize, that.pixiSize)
-        });
-        canvasContext.draw()
-        that.$loading(false)
-        that.displayImage = false
-      }, 5000)
+      const canvasContext = uni.createCanvasContext('cans-id-mask')
+      pxMap.forEach((px, i) => {
+        const { color, x, y } = px
+        canvasContext.fillStyle = color
+        canvasContext.fillRect(x*that.pixiSize, y*that.pixiSize, that.pixiSize, that.pixiSize)
+      });
+      canvasContext.draw()
+      that.$loading(false)
+      that.displayImage = false
     },
-
-
-
 
     /**
      * 保存
@@ -641,7 +636,7 @@ export default {
 .check-scroll {
   width: 100%;
   position: absolute;
-  bottom: 100px;
+  margin-top:10%;
   text-align: center;
   .check-date {
     width: 30%;
