@@ -209,10 +209,16 @@ export default {
 
       } else if (item === 'cartoon') {
         that.slogan = '满眼夜星，满手白泥，愿童心永存'
-        that.$toast("该功能正在开发中...")
+
+        uni.showModal({
+          title: '敬请期待',
+          content: '该功能正在开发中...',
+          showCancel: false,
+          confirmText: '好叻',
+        })
+        that.$loading(false)
       }
     },
-
 
     downloadAvatarAndPaintAll(imageUrl) {
       this.$loading('头像加载中...')
