@@ -44,14 +44,41 @@
     </view>
 
     <view class="check-scroll">
-      <view class="check-date cu-btn round" style="background: #f14444" @tap="changeDate('pixel')">
-        像素风
+<!--      <view class="check-date cu-btn round" style="background: #f14444" @tap="changeDate('pixel')">-->
+<!--        像素风-->
+<!--      </view>-->
+<!--      <view class="check-date cu-btn round" style="background: #20e2e8" @tap="changeDate('cartoon')">-->
+<!--        卡通风-->
+<!--      </view>-->
+
+      <view>
+        <view class="tui-drop-input-box grid justify-center">
+          <tui-dropdown-list :show="dropdownShow" :top="94" :height="400">
+            <template v-slot:selectionbox>
+              <tui-button size="small" type="white" shape="circle" @tap="dropDownList(-1)">像素风
+                <view class="tui-animation" :class="[dropdownShow?'tui-animation-show':'']">
+                  <tui-icon name="turningdown" :size="20"></tui-icon>
+                </view>
+              </tui-button>
+            </template>
+            <template v-slot:dropdownbox>
+              <view class="tui-selected-list">
+                <scroll-view scroll-y class="tui-dropdown-scroll">
+                  <block v-for="(item,index) in dropdownListData" :key="index">
+                    <tui-list-cell @tap="dropDownList(index)" :last="dropdownListData.length-1==index">
+                      <tui-icon :name="item.icon" :size="item.size" :color="item.color"></tui-icon>
+                      <text class="tui-ml-20" style="margin-left: 20px;">{{item.name}}</text>
+                    </tui-list-cell>
+                  </block>
+                </scroll-view>
+              </view>
+            </template>
+          </tui-dropdown-list>
+        </view>
       </view>
-      <view class="check-date cu-btn round" style="background: #20e2e8" @tap="changeDate('cartoon')">
-        卡通风
-      </view>
+
       <view class="uni-common-mt">
-        <text class="text-white text-bold">点击按钮即可转换合成</text>
+        <text class="text-white text-bold">点击按钮即可自动合成</text>
       </view>
     </view>
 
@@ -65,7 +92,10 @@ import {
 import tuiFooter from "@/components/tui/footer"
 import addTips from "@/components/add-tips"
 import { getShareObj } from "@/utils/share.js"
-import Config from "@/config/config"
+import tuiIcon from "@/components/tui/icon"
+import tuiButton from "@/components/tui/button"
+import tuiListCell from "@/components/tui/list-cell"
+import tuiDropdownList from "@/components/tui/dropdown-list"
 
 // 在页面中定义激励视频广告
 let videoAd = null;
@@ -77,7 +107,11 @@ const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY';
 export default {
   components: {
     tuiFooter,
-    addTips
+    addTips,
+    tuiButton,
+    tuiListCell,
+    tuiDropdownList,
+    tuiIcon,
   },
   data() {
     return {
@@ -88,7 +122,7 @@ export default {
       windowHeight: getApp().globalData.windowHeight,
       isAndroid: getApp().globalData.IS_ANDROID,
       modalName: null,
-      pixiSize: 10,   // 像素风格参数
+      pixiSize: 5,   // 像素风格参数 5,6,9,10 必须整除
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
       avatarPath: '/static/image/head/'+ Math.floor(Math.random()*19) + '.jpg',
@@ -99,6 +133,27 @@ export default {
       savedCounts: 1,
       enableInterstitialAd: true,
       rewardedVideoAdLoaded: false,
+
+      dropdownShow: false,
+      dropdownListData: [{
+        name: "轻度",
+        color: "#000",
+        icon: "attestation",
+        size: 20,
+        pixiSize: 5
+      },{
+        name: "中度",
+        color: "#000",
+        icon: "attestation",
+        size: 20,
+        pixiSize: 6
+      },{
+        name: "重度",
+        color: "#000",
+        icon: "attestation",
+        size: 20,
+        pixiSize: 9
+      }],
     }
   },
   computed: {
@@ -190,6 +245,14 @@ export default {
   },
   methods: {
     ...mapMutations(["saveLoginUserInfo"]),
+
+    dropDownList(index) {
+      if (index !== -1) {
+        this.pixiSize = this.dropdownListData[index].pixiSize;
+        this.changeDate('pixel');
+      }
+      this.dropdownShow = !this.dropdownShow
+    },
 
     // 像素风格、卡通风格切换
     changeDate(item) {
@@ -650,5 +713,39 @@ export default {
     display: inline-flex;
     color: white;
   }
+}
+
+
+.tui-dropdown-list {
+  width: 140px !important;
+}
+
+.tui-drop-input-box {
+  box-sizing: border-box;
+}
+
+.tui-animation {
+  display: inline-block;
+  transform: rotate(0deg);
+  transition: all 0.2s;
+}
+
+.tui-animation-show {
+  transform: rotate(180deg);
+}
+
+.tui-selected-list {
+  width: 140px;
+  background: #fff;
+  border-radius: 20upx;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.tui-btn-block {
+  height: 60rpx !important;
+  line-height: 60rpx !important;
+  font-size: 32rpx !important;
+
 }
 </style>
