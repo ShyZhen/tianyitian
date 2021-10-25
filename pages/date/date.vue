@@ -434,6 +434,7 @@ export default {
         {key: 'jianjun', title: '建军节', slogan: '哪有什么岁月静好，不过是有人替你负重前行', val: yearStr  + '08' + '01'},
         {key: 'jiaoshi', title: '教师节', slogan: '鹤发银丝映日月，丹心热血沃新花', val: yearStr  + '09' + '10'},
         {key: 'guoqing', title: '国庆', slogan: '红旗烈焰燃苍穹，火纱一片换新彤', val: yearStr  + '10' + '07'},
+        {key: 'wanshengjie', title: '万圣节', slogan: 'Trick or treat', val: yearStr  + '11' + '01'},
         {key: 'shengdan', title: '圣诞', slogan: '圣诞老人童趣乐，平安之夜舞蹁跹', val: yearStr  + '12' + '25'},
         {key: 'chunjie', title: '春节', slogan: '大家沈醉对芳筵，愿新年，胜旧年', val: yearStr + springM + springD},
         {key: 'yuanxiao', title: '元宵节', slogan: '元宵争看采莲船，宝马香车拾坠钿', val: yearStr + lanternM + lanternD},
@@ -1004,7 +1005,7 @@ export default {
   background: #f80518;
 }
 .bt-bg-20 {
-  background: #ee2bb1;
+  background: #fa0202;
 }
 .bt-bg-21 {
   background: #d539f8;

@@ -1,8 +1,8 @@
 <template>
   <view class="container" style="overflow: hidden;" :style="{height:heightVH}">
-    <view v-if="SHOW_TIP">
-      <add-tips :statusBarHeight="statusBarHeight" />
-    </view>
+<!--    <view v-if="SHOW_TIP">-->
+<!--      <add-tips :statusBarHeight="statusBarHeight" />-->
+<!--    </view>-->
 
     <view class="avatar-container grid justify-center" id="avatar-container">
       <view class="avatar-bg-border">
