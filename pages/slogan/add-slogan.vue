@@ -1,5 +1,5 @@
 <template>
-  <view class="container" :style="{height:windowHeight+'px'}" style="overflow: hidden">
+  <view class="container" :style="{height:heightVH}" style="overflow: hidden">
     <view v-if="SHOW_TIP">
       <add-tips :statusBarHeight="statusBarHeight" />
     </view>
@@ -81,6 +81,7 @@ export default {
   },
   data() {
     return {
+      heightVH: '100vh',
       windowHeight: getApp().globalData.windowHeight,
       cansWidth: 270, // 宽度 px
       cansHeight: 270, // 高度 px
@@ -216,6 +217,10 @@ export default {
   },
   onLoad(option) {
     let that = this;
+
+    if (this.windowHeight <= 520) {
+      this.heightVH = '120vh'
+    }
 
     if (!!getApp().globalData.userAvatarFilePath) {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
@@ -785,7 +790,7 @@ export default {
 }
 
 .tui-dropdown-scroll {
-  height: 400upx;
+  height: 300upx;
 }
 
 .tui-btn-block {

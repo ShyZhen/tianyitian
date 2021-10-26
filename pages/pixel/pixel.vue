@@ -118,7 +118,7 @@ export default {
       slogan: '沙尘虽小，但每一粒，都会反光',
       SHOW_TIP: false,
       statusBarHeight: 0,
-      heightVH: '100vh',
+      heightVH: '110vh',
       windowHeight: getApp().globalData.windowHeight,
       isAndroid: getApp().globalData.IS_ANDROID,
       modalName: null,
@@ -163,6 +163,10 @@ export default {
   },
   onLoad(option) {
     let that = this;
+
+    if (this.windowHeight <= 520) {
+      this.heightVH = '120vh'
+    }
 
     if (!!getApp().globalData.userAvatarFilePath) {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
@@ -705,7 +709,7 @@ export default {
 .check-scroll {
   width: 100%;
   position: absolute;
-  margin-top:10%;
+  margin-top: 5%;
   text-align: center;
   .check-date {
     width: 30%;
@@ -740,6 +744,10 @@ export default {
   border-radius: 20upx;
   overflow: hidden;
   transform: translateZ(0);
+}
+
+.tui-dropdown-scroll {
+  height: 300upx;
 }
 
 .tui-btn-block {
