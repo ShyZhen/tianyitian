@@ -174,8 +174,8 @@ export default {
 
     /*
     // 在页面onLoad回调事件中创建插屏广告实例
-    if (wx.createInterstitialAd) {
-      interstitialAd = wx.createInterstitialAd({
+    if (uni.createInterstitialAd) {
+      interstitialAd = uni.createInterstitialAd({
         adUnitId: 'adunit-ae132e93d50f453f'
       })
       interstitialAd.onLoad(() => {})
@@ -186,8 +186,8 @@ export default {
     }
 
     // 在页面onLoad回调事件中创建激励视频广告实例
-    if (wx.createRewardedVideoAd) {
-      videoAd = wx.createRewardedVideoAd({
+    if (uni.createRewardedVideoAd) {
+      videoAd = uni.createRewardedVideoAd({
         adUnitId: 'adunit-236eff9d951106ed'
       })
       videoAd.onLoad(() => {
@@ -265,7 +265,7 @@ export default {
       if (item === 'pixel') {
         that.slogan = '沙尘虽小，但每一粒，都会反光'
 
-        let query = wx.createSelectorQuery()
+        let query = uni.createSelectorQuery()
         query.select('#avatar-bg').boundingClientRect()
         query.exec(function(res) {
           // 开始
@@ -400,7 +400,7 @@ export default {
         quality: 1,
         success: res => {
           let tempFilePathCompressed = res.tempFilePath;
-          wx.getFileSystemManager().readFile({
+          uni.getFileSystemManager().readFile({
             filePath: tempFilePathCompressed, // 压缩图片，然后安全检测
             success: buffer => {
               that.$loading('拼命加载中...')
@@ -492,7 +492,7 @@ export default {
     getCanvasContent(cansId) {
       let that = this
       return new Promise((rel, rej) => {
-        const canvasContext = wx.createCanvasContext(cansId)
+        const canvasContext = uni.createCanvasContext(cansId)
         canvasContext.clearRect(0, 0, that.cansWidth, that.cansHeight)
         canvasContext.drawImage(that.avatarPath, 0, 0, that.cansWidth, that.cansHeight)
         canvasContext.draw()

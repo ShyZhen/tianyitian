@@ -141,8 +141,8 @@
 			})
 
 			// 在页面onLoad回调事件中创建插屏广告实例
-			if (wx.createInterstitialAd) {
-				interstitialAd = wx.createInterstitialAd({
+			if (uni.createInterstitialAd) {
+				interstitialAd = uni.createInterstitialAd({
 					adUnitId: 'adunit-6a39f22d22569c87'
 				})
 				interstitialAd.onLoad(() => {})
@@ -151,8 +151,8 @@
 			}
 
 			// 在页面onLoad回调事件中创建激励视频广告实例
-			if (wx.createRewardedVideoAd) {
-				videoAd = wx.createRewardedVideoAd({
+			if (uni.createRewardedVideoAd) {
+				videoAd = uni.createRewardedVideoAd({
 					adUnitId: 'adunit-e79298021d1311a7'
 				})
 				videoAd.onLoad(() => {
@@ -219,13 +219,13 @@
 				}
 			}
 			this.windowHeight = getApp().globalData.WINDOW_HEIGHT;
-			wx.startAccelerometer({
+			uni.startAccelerometer({
 				interval: 'normal'
 			});
-			wx.onAccelerometerChange(this.shake);
+			uni.onAccelerometerChange(this.shake);
 		},
 		onHide() {
-			wx.stopAccelerometer();
+			uni.stopAccelerometer();
 		},
 		onShareAppMessage() {
 			return {
@@ -616,7 +616,7 @@
 					success: res => {
 						let tempFilePathCompressed = res.tempFilePath;
 						// console.log(res.tempFilePath)
-						wx.getFileSystemManager().readFile({
+						uni.getFileSystemManager().readFile({
 							filePath: tempFilePathCompressed, // 压缩图片，然后安全检测
 							success: buffer => {
 								console.log(buffer.data);

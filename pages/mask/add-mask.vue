@@ -198,8 +198,8 @@ export default {
 
     /*
     // 在页面onLoad回调事件中创建插屏广告实例
-    if (wx.createInterstitialAd) {
-      interstitialAd = wx.createInterstitialAd({
+    if (uni.createInterstitialAd) {
+      interstitialAd = uni.createInterstitialAd({
         adUnitId: 'adunit-ae132e93d50f453f'
       })
       interstitialAd.onLoad(() => {})
@@ -210,8 +210,8 @@ export default {
     }
 
     // 在页面onLoad回调事件中创建激励视频广告实例
-    if (wx.createRewardedVideoAd) {
-      videoAd = wx.createRewardedVideoAd({
+    if (uni.createRewardedVideoAd) {
+      videoAd = uni.createRewardedVideoAd({
         adUnitId: 'adunit-236eff9d951106ed'
       })
       videoAd.onLoad(() => {
@@ -468,7 +468,7 @@ export default {
         quality: 1,
         success: res => {
           let tempFilePathCompressed = res.tempFilePath;
-          wx.getFileSystemManager().readFile({
+          uni.getFileSystemManager().readFile({
             filePath: tempFilePathCompressed, // 压缩图片，然后安全检测
             success: buffer => {
               that.$loading('拼命加载中...')
@@ -535,13 +535,13 @@ export default {
         success: function (image) {
           // 创建节点选择器
           // 口罩中心位置的计算是从屏幕左上角开始，所以我们需要获取头像图片的位置，来得到口罩相对头像的位置
-          var query = wx.createSelectorQuery()
+          var query = uni.createSelectorQuery()
           query.select('#avatar-bg').boundingClientRect()
           query.exec(function(res) {
             //res就是 所有标签为#的元素的信息的数组
             mask_center_x = mask_center_x - res[0].left
             mask_center_y = mask_center_y - res[0].top
-            const pc = wx.createCanvasContext('cans-id-mask')
+            const pc = uni.createCanvasContext('cans-id-mask')
             const mask_size = 100 * scale
 
             pc.clearRect(0, 0, that.cansWidth, that.cansHeight)

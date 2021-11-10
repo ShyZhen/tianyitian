@@ -201,8 +201,8 @@ export default {
   },
   onLoad() {
     // 在页面onLoad回调事件中创建插屏广告实例
-    // if (wx.createInterstitialAd) {
-    // 	interstitialAd = wx.createInterstitialAd({
+    // if (uni.createInterstitialAd) {
+    // 	interstitialAd = uni.createInterstitialAd({
     // 		adUnitId: 'adunit-be801ba020f6edeb'
     // 	})
     // 	interstitialAd.onLoad(() => {})
@@ -245,7 +245,7 @@ export default {
       })
     },
     ganfanzu: function() {
-      wx.navigateToMiniProgram({
+      uni.navigateToMiniProgram({
         appId: Config.jumpAppId,
         path: Config.jumpAppPath,
         success(res) {

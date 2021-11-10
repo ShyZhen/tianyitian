@@ -129,8 +129,8 @@ export default {
 
     /*
     // 在页面onLoad回调事件中创建插屏广告实例
-    if (wx.createInterstitialAd) {
-      interstitialAd = wx.createInterstitialAd({
+    if (uni.createInterstitialAd) {
+      interstitialAd = uni.createInterstitialAd({
         adUnitId: 'adunit-ae132e93d50f453f'
       })
       interstitialAd.onLoad(() => {})
@@ -139,8 +139,8 @@ export default {
     }
 
     // 在页面onLoad回调事件中创建激励视频广告实例
-    if (wx.createRewardedVideoAd) {
-      videoAd = wx.createRewardedVideoAd({
+    if (uni.createRewardedVideoAd) {
+      videoAd = uni.createRewardedVideoAd({
         adUnitId: 'adunit-8296f48990df1b7f'
       })
       videoAd.onLoad(() => {
@@ -513,7 +513,7 @@ export default {
         success: res => {
           let tempFilePathCompressed = res.tempFilePath;
           // console.log(res.tempFilePath)
-          wx.getFileSystemManager().readFile({
+          uni.getFileSystemManager().readFile({
             filePath: tempFilePathCompressed, // 压缩图片，然后安全检测
             success: buffer => {
               console.log(buffer.data);

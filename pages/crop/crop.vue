@@ -437,7 +437,7 @@
 					success: res => {
 						let tempFilePathCompressed = res.tempFilePath;
 						console.log('tempFilePath size', res.size);
-						wx.getFileSystemManager().readFile({
+						uni.getFileSystemManager().readFile({
 							filePath: tempFilePathCompressed, // 压缩图片，然后安全检测
 							success: buffer => {
 								console.log(buffer.data);

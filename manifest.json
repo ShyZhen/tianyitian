@@ -71,5 +71,9 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true
+    },
+    "mp-qq" : {
+        "appid" : "1112139634",
+        "usingComponents" : true
     }
 }
