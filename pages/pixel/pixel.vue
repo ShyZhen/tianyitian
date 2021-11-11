@@ -22,7 +22,7 @@
     </view>
     <view class="grid justify-around action-wrapper">
       <view class="grid col-1">
-        <button id="btn-my-avatar" class="cu-btn round action-btn bg-gradual-blue shadow " @tap="getUserInfo">我的头像</button>
+        <button id="btn-my-avatar" class="cu-btn round action-btn bg-gradual-blue shadow" open-type="getUserInfo" @tap="getUserInfo">我的头像</button>
       </view>
       <view class="grid col-2">
         <button id="btn-save" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="draw">
@@ -516,9 +516,13 @@ export default {
                 let color = `rgba(${pixel[0]},${pixel[1]},${pixel[2]},${pixel[3]/255})`
                 pxMap.push({ x: i / that.pixiSize, y: j / that.pixiSize, color })
                 // 需要真机测试
+                //console.log(i ,j ,that.cansWidth)
                 if (i == j && i == that.cansWidth) {
                   that.drawPXCanvas(pxMap)
                 }
+              },
+              fail(err) {
+                console.log(err)
               }
             })
           }

@@ -230,17 +230,17 @@ export default {
   },
   methods: {
     dateHandle: function() {
-      uni.switchTab({
+      uni.reLaunch({
         url: '/pages/date/date'
       })
     },
     addMask: function() {
-      uni.switchTab({
+      uni.reLaunch({
         url: '/pages/mask/add-mask'
       })
     },
     pixi: function() {
-      uni.switchTab({
+      uni.reLaunch({
         url: '/pages/pixel/pixel'
       })
     },
