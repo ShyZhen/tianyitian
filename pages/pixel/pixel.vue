@@ -252,8 +252,21 @@ export default {
 
     dropDownList(index) {
       if (index !== -1) {
-        this.pixiSize = this.dropdownListData[index].pixiSize;
-        this.changeDate('pixel');
+        this.pixiSize = this.dropdownListData[index].pixiSize
+
+        // #ifdef MP-WEIXIN
+        this.changeDate('pixel')
+        // #endif
+
+        // #ifdef MP-QQ
+        uni.showModal({
+          title: 'QQ小程序暂不支持该功能',
+          content: '微信搜索"头像挂件工坊"小程序进行体验',
+          showCancel: false,
+          confirmText: '确定',
+        })
+        // #endif
+
       }
       this.dropdownShow = !this.dropdownShow
     },

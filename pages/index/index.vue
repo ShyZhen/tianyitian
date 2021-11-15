@@ -23,7 +23,7 @@
                 <view class="grid justify-between">
                   <view>
                     <view class="cu-tag bg-red light sm round">限时制作</view>
-                    <view class="cu-tag bg-green light sm round">根据节日动态更新</view>
+                    <view class="cu-tag bg-cyan light sm round">根据节日动态更新</view>
                   </view>
                 </view>
               </view>
@@ -45,7 +45,7 @@
                 <view class="grid justify-between">
                   <view>
                     <view class="cu-tag bg-red light sm round">防疫情,保健康</view>
-                    <!--										 <view class="cu-tag bg-green light sm round">保健康</view>-->
+                    <!--										 <view class="cu-tag bg-cyan light sm round">保健康</view>-->
                   </view>
                 </view>
               </view>
@@ -67,7 +67,7 @@
                 <view class="grid justify-between">
                   <view>
                     <view class="cu-tag bg-red light sm round">像素风</view>
-                    <view class="cu-tag bg-green light sm round">卡通风</view>
+                    <view class="cu-tag bg-cyan light sm round">卡通风</view>
                   </view>
                 </view>
               </view>
@@ -76,6 +76,7 @@
         </view>
       </view>
 
+<!-- #ifdef MP-WEIXIN -->
       <view class="cu-card article" @click="ganfanzu">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx; ">
           <view class="title">
@@ -89,7 +90,7 @@
                 <view class="grid justify-between">
                   <view>
                     <view class="cu-tag bg-red light sm round">外卖红包</view>
-                    <view class="cu-tag bg-green light sm round">良心推荐</view>
+                    <view class="cu-tag bg-cyan light sm round">良心推荐</view>
                   </view>
                 </view>
               </view>
@@ -97,6 +98,7 @@
           </view>
         </view>
       </view>
+<!-- #endif -->
 
       <!--   banner广告    -->
 <!--      <view class="ad-container margin-top cu-list menu sm-border card-menu">-->
@@ -116,7 +118,7 @@
                 <view class="grid justify-between">
                   <view>
                     <view class="cu-tag bg-red light sm round">自定义口号</view>
-                    <!-- <view class="cu-tag bg-green light sm round">自定义口号</view> -->
+                    <!-- <view class="cu-tag bg-cyan light sm round">自定义口号</view> -->
                   </view>
                 </view>
               </view>
@@ -138,7 +140,7 @@
                 <view class="grid justify-between">
                   <view>
                     <view class="cu-tag bg-red light sm round">任意文字、颜色</view>
-                    <!-- <view class="cu-tag bg-green light sm round">多种颜色</view> -->
+                    <!-- <view class="cu-tag bg-cyan light sm round">多种颜色</view> -->
                   </view>
                 </view>
               </view>
