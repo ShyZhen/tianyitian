@@ -42,6 +42,9 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/about/agreement"
 		}
 
 	],

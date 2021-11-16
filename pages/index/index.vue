@@ -184,6 +184,16 @@
             </button>
           </view>
         </view>
+        <view class="cu-item arrow feedback-btn" @click="yinSi">
+          <view class="content">
+            <button class="free-btn-bordernone">
+              <tui-icon name="about-fill" color="green" :size="20"></tui-icon>
+              <text style="color: grey; padding-left: 10px;" class="text-sm">
+                隐私说明
+              </text>
+            </button>
+          </view>
+        </view>
 <!--        <view class="cu-item arrow feedback-btn" @click="tucao">-->
 <!--          <view class="content">-->
 <!--            <button class="free-btn-bordernone">-->
@@ -300,6 +310,11 @@ export default {
     addText: function(){
       uni.navigateTo({
         url: '/pages/text/add-text'
+      })
+    },
+    yinSi: function(){
+      uni.navigateTo({
+        url: '/pages/about/agreement'
       })
     },
 
