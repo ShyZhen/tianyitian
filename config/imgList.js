@@ -254,11 +254,8 @@ const imgList = {
         '/MPTian/jiandang/11.png',
         '/MPTian/jiandang/12.png',
         '/MPTian/jiandang/13.png',
-        '/MPTian/jiandang/14.png',
         '/MPTian/jiandang/15.png',
-        '/MPTian/jiandang/16.png',
         '/MPTian/jiandang/17.png',
-        '/MPTian/jiandang/18.png',
         '/MPTian/jiandang/19.png',
         '/MPTian/jiandang/20.png',
         '/MPTian/jiandang/21.png',
@@ -266,10 +263,16 @@ const imgList = {
         '/MPTian/jiandang/23.png',
         '/MPTian/jiandang/24.png',
         '/MPTian/jiandang/25.png',
-        '/MPTian/jiandang/26.png',
         '/MPTian/jiandang/27.png',
         '/MPTian/jiandang/28.png',
         '/MPTian/jiandang/29.png',
+
+        // #ifdef MP-WEIXIN
+        '/MPTian/jiandang/14.png',
+        '/MPTian/jiandang/16.png',
+        '/MPTian/jiandang/18.png',
+        '/MPTian/jiandang/26.png',
+        // #endif
     ],
     jianjun: [
         '/MPTian/jianjun/0.png',
@@ -360,6 +363,8 @@ const imgList = {
         '/MPTian/guoqing/26.png',
         // '/MPTian/guoqing/27.png',
         '/MPTian/jiandang/8.png',
+
+        // #ifdef MP-WEIXIN
         '/MPTian/jiandang/26.png',
         '/MPTian/guoqing/28.png',
         '/MPTian/guoqing/29.png',
@@ -367,6 +372,7 @@ const imgList = {
         '/MPTian/guoqing/31.png',
         '/MPTian/guoqing/32.png',
         '/MPTian/guoqing/33.png',
+        // #endif
     ],
     shengdan: [
         '/MPTian/shengdan/0.png',
