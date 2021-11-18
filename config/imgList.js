@@ -301,7 +301,6 @@ const imgList = {
         // #ifdef MP-WEIXIN
         '/MPTian/jianjun/1.png',
         // #endif
-
     ],
     jiaoshi: [
         '/MPTian/jiaoshi/0.png',
