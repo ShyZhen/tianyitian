@@ -203,8 +203,8 @@
 			// let defaultAvatarIndex = Math.round(Math.random());
 			// console.log(defaultAvatarIndex);
 			if (getApp().globalData.rapaintAfterCrop) {
-				getApp().globalData.rapaintAfterCrop = false;
-				this.avatarPath = getApp().globalData.cropImageFilePath;;
+				getApp().globalData.rapaintAfterCrop = false
+				this.avatarPath = getApp().globalData.cropImageFilePath
 				this.paint();
 			} else {
 				//从剪裁页面跳转回来时不用展示，其他情况下，页面打开时展示插屏广告

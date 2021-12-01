@@ -44,6 +44,12 @@
 			}
 		},
 		{
+			"path": "pages/anime/anime",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/about/agreement"
 		}
 
@@ -70,6 +76,12 @@
 				"iconPath": "static/image/tabbar/gexing-off.png",
 				"selectedIconPath": "static/image/tabbar/gexing-on.png",
 				"text": "换发型"
+			},
+			{
+				"pagePath": "pages/anime/anime",
+				"iconPath": "static/image/tabbar/anime-off.png",
+				"selectedIconPath": "static/image/tabbar/anime-on.png",
+				"text": "动漫风"
 			},
 //			{
 //				"pagePath": "pages/slogan/add-slogan",

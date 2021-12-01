@@ -5,6 +5,7 @@
     </view>
 
     <view class="menu-list" :style="{'margin-top': statusBarHeight+40+'px' }">
+
       <!--   banner广告    -->
 <!--      <view class="ad-container margin-top cu-list menu sm-border card-menu">-->
 <!--        <ad unit-id="adunit-71fc3d4c859b6b63" style="z-index: 9"></ad>-->
@@ -46,6 +47,28 @@
                   <view>
                     <view class="cu-tag bg-red light sm round">防疫情,保健康</view>
                     <!--										 <view class="cu-tag bg-cyan light sm round">保健康</view>-->
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="cu-card article" @click="animeHandle">
+        <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx;">
+          <view class="title">
+            <view class="text-cut">卡通动漫风</view>
+          </view>
+          <view class="content">
+            <image style="width: 180rpx;" src="/static/image/logo/anime-logo.jpg" mode="aspectFill"></image>
+            <view class="desc">
+              <view class="text-content">让头像转换成温柔的卡通动漫风格,欧拉欧拉木大木大</view>
+              <view>
+                <view class="grid justify-between">
+                  <view>
+                    <view class="cu-tag bg-red light sm round">日漫风、手绘风</view>
+                    <view class="cu-tag bg-cyan light sm round">艺术特效</view>
                   </view>
                 </view>
               </view>
@@ -232,7 +255,12 @@ export default {
     return {
       statusBarHeight: 0,
       SHOW_TIP: false,
-      rewardedVideoAdLoaded: false
+      rewardedVideoAdLoaded: false,
+      // #ifdef MP-QQ
+      unitId1: '03557c198c223bc035bd5f711561d7cf',
+      unitId2: '6c91df8d386ab013efc7660c015174ef',
+      unitId3: 'dacf01cbf215546a3e82467155485b32',
+      // #endif
     }
   },
   onLoad() {
@@ -273,6 +301,11 @@ export default {
     addMask: function() {
       uni.reLaunch({
         url: '/pages/mask/add-mask'
+      })
+    },
+    animeHandle: function() {
+      uni.reLaunch({
+        url: '/pages/anime/anime'
       })
     },
     pixi: function() {
