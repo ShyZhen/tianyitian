@@ -268,20 +268,7 @@ export default {
     dropDownList(index) {
       if (index !== -1) {
         this.type = this.dropdownListData[index].type
-
-        // #ifdef MP-WEIXIN
         this.changeDate()
-        // #endif
-
-        // #ifdef MP-QQ
-        uni.showModal({
-          title: 'QQ小程序暂不支持该功能',
-          content: '微信搜索"头像挂件工坊"小程序进行体验',
-          showCancel: false,
-          confirmText: '确定',
-        })
-        // #endif
-
       }
       this.dropdownShow = !this.dropdownShow
     },
@@ -304,7 +291,7 @@ export default {
         }
 
         let url = JSON.parse(res.data).data
-        that.downloadAvatarAndPaintAll(url.ImageURL, false)
+        that.downloadAvatarAndPaintAll(url, false)
       }).catch(err => {
         console.log(err)
         that.$toast('上传失败，请重试')
