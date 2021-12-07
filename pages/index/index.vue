@@ -294,24 +294,53 @@ export default {
   },
   methods: {
     dateHandle: function() {
+      // #ifdef MP-QQ
       uni.reLaunch({
         url: '/pages/date/date'
       })
+      // #endif
+      // #ifdef MP-WEIXIN
+      uni.switchTab({
+        url: '/pages/date/date'
+      })
+      // #endif
     },
     addMask: function() {
+      // #ifdef MP-QQ
       uni.reLaunch({
         url: '/pages/mask/add-mask'
       })
+      // #endif
+      // #ifdef MP-WEIXIN
+      uni.switchTab({
+        url: '/pages/mask/add-mask'
+      })
+      // #endif
     },
     animeHandle: function() {
+      // #ifdef MP-QQ
       uni.reLaunch({
         url: '/pages/anime/anime'
       })
+      // #endif
+      // #ifdef MP-WEIXIN
+      uni.switchTab({
+        url: '/pages/anime/anime'
+      })
+      // #endif
     },
     pixi: function() {
+      // #ifdef MP-QQ
       uni.reLaunch({
         url: '/pages/pixel/pixel'
       })
+      // #endif
+      // #ifdef MP-WEIXIN
+      uni.switchTab({
+        url: '/pages/pixel/pixel'
+      })
+      // #endif
+
     },
     ganfanzu: function() {
       uni.navigateToMiniProgram({
