@@ -7,9 +7,9 @@
     <view class="menu-list" :style="{'margin-top': statusBarHeight+40+'px' }">
 
       <!--   banner广告    -->
-<!--      <view class="ad-container margin-top cu-list menu sm-border card-menu">-->
-<!--        <ad unit-id="adunit-71fc3d4c859b6b63" style="z-index: 9"></ad>-->
-<!--      </view>-->
+      <view class="ad-container margin-top cu-list menu sm-border card-menu">
+        <ad :unit-id="unitId1" style="z-index: 9"></ad>
+      </view>
 
       <view class="cu-card article" @click="dateHandle">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx;">
@@ -148,9 +148,9 @@
       <!-- #endif -->
 
       <!--   banner广告    -->
-<!--      <view class="ad-container margin-top cu-list menu sm-border card-menu">-->
-<!--        <ad unit-id="adunit-999663d8258f1111" style="z-index: 9"></ad>-->
-<!--      </view>-->
+      <view class="ad-container margin-top cu-list menu sm-border card-menu">
+        <ad :unit-id="unitId2" style="z-index: 9"></ad>
+      </view>
 
       <view class="cu-card article" @click="addSlogan">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx; ">
@@ -230,9 +230,9 @@
       </view>
 
       <!--   视频广告    -->
-<!--      <view class="ad-container margin-top cu-list menu sm-border card-menu">-->
-<!--        <ad unit-id="adunit-88e7b3ed90d66294" style="z-index: 9" ad-type="video" ad-theme="white"></ad>-->
-<!--      </view>-->
+      <view class="ad-container margin-top cu-list menu sm-border card-menu">
+        <ad :unit-id="unitId3" style="z-index: 9" ad-type="video" ad-theme="white"></ad>
+      </view>
     </view>
   </scroll-view>
 </template>
@@ -260,6 +260,12 @@ export default {
       unitId1: '03557c198c223bc035bd5f711561d7cf',
       unitId2: '6c91df8d386ab013efc7660c015174ef',
       unitId3: 'dacf01cbf215546a3e82467155485b32',
+      // #endif
+
+      // #ifdef MP-WEIXIN
+      unitId1: 'adunit-8d83e223ca40688b',
+      unitId2: 'adunit-0b31e053930e7671',
+      unitId3: 'adunit-38ee7d2334cf0937',
       // #endif
     }
   },
