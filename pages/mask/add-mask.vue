@@ -33,7 +33,8 @@
 
     <view class="flex-sub text-center">
       <view class="solid-bottom">
-        <text class="text-white text-bold">{{slogan}}</text>
+        <!-- <text class="text-white text-bold">{{slogan}}</text> -->
+		<text class="text-white text-bold">每天可免费保存3次</text>
       </view>
     </view>
     <view class="grid justify-around action-wrapper">
@@ -168,7 +169,7 @@ export default {
       cdnUrl: '',
 
       // 默认1次保存，有广告加载时候判断次数，看完广告加3次
-      savedCounts: 1,
+      savedCounts: 3,
       addCount: 3,
       enableInterstitialAd: true,
       rewardedVideoAdLoaded: false,
@@ -560,8 +561,8 @@ export default {
             if (!!videoAd && that.rewardedVideoAdLoaded && that.savedCounts <= 0) {
               that.$loading(false)
               uni.showModal({
-                title: '获取保存次数+'+that.addCount,
-                content: '观看完视频可以自动保存哦',
+                title: '免费额度已用光ㄒoㄒ',
+                content: '观看完30s视频即可获得'+that.addCount+'次保存次数',
                 success: function(res) {
                   if (res.confirm) {
                     console.log('用户点击确定');
