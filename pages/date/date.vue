@@ -34,7 +34,7 @@
     <view class="flex-sub text-center">
       <view class="solid-bottom">
         <!-- <text class="text-white text-bold">{{ dateSlogan }}</text> -->
-		<text class="text-white text-bold">每天可免费保存3次</text>
+		<text class="text-white text-bold">每天可免费保存3次,剩余{{savedCounts}}次</text>
       </view>
       <!--
       <view class="solid-bottom">
