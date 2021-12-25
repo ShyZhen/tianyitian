@@ -131,8 +131,9 @@ export default {
       displayImage: true,  // 当像素化、卡通化的时候隐藏图，让canvas展示效果
       scale: 1,
 
-      // 默认1次保存，有广告加载时候判断次数，看完广告加5次
+      // 默认1次保存，有广告加载时候判断次数，看完广告加3次
       savedCounts: 1,
+      addCount: 3,
       enableInterstitialAd: true,
       rewardedVideoAdLoaded: false,
 
@@ -198,11 +199,12 @@ export default {
       })
       interstitialAd.onClose(() => {})
     }
+    */
 
     // 在页面onLoad回调事件中创建激励视频广告实例
     if (uni.createRewardedVideoAd) {
       videoAd = uni.createRewardedVideoAd({
-        adUnitId: 'adunit-236eff9d951106ed'
+        adUnitId: 'adunit-fca91856edc6089d'
       })
       videoAd.onLoad(() => {
         that.rewardedVideoAdLoaded = true;
@@ -214,7 +216,7 @@ export default {
       videoAd.onClose((res) => {
         if (res && res.isEnded || res === undefined) {
           // 正常播放结束，下发奖励
-          that.savedCounts = 5
+          that.savedCounts = that.addCount
           that.saveCans()
         } else {
           // 播放中途退出，进行提示
@@ -222,7 +224,7 @@ export default {
         }
       })
     }
-    */
+
   },
   onReady() {
 
@@ -469,7 +471,7 @@ export default {
       if (!!videoAd && that.rewardedVideoAdLoaded && that.savedCounts <= 0) {
         that.$loading(false)
         uni.showModal({
-          title: '获取使用次数',
+          title: '获取保存次数+'+that.addCount,
           content: '观看完视频可以自动保存哦',
           success: function(res) {
             if (res.confirm) {

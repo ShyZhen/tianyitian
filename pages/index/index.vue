@@ -286,6 +286,10 @@ export default {
     this.statusBarHeight = getApp().globalData.statusBarHeight;
     this.SHOW_TIP = getApp().globalData.SHOW_TIP;
 
+    setTimeout(() => {
+      this.SHOW_TIP = false;
+    }, 3000);
+
     if (interstitialAd) {
       interstitialAd.show().catch((err) => {
         console.error(err)

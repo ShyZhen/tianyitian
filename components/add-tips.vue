@@ -33,7 +33,7 @@
 </template>
 
 <script>
-	const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY'
+	const STORAGE_KEY = 'PLUG-ADD-MYAPP-TIANYITIAN'
 	export default {
 		name: "add-tips",
 		/**
