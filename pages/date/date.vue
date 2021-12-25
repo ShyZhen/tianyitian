@@ -104,6 +104,7 @@ import addTips from "@/components/add-tips"
 import Calendar from "../../utils/calendar"
 import Config from "@/config/config"
 import ImgList from "@/config/imgList"
+import {getSavedCounts, setSavedCounts} from '../../utils/auth'
 
 // 在页面中定义激励视频广告
 let videoAd = null;
@@ -158,8 +159,8 @@ export default {
       cdnUrl: '',
 
       // 默认1次保存，有广告加载时候判断次数，看完广告加addCount次
-      savedCounts: 3,
-      addCount: 3,
+      savedCounts: 0,
+      addCounts: 0,
       enableInterstitialAd: true,
       rewardedVideoAdLoaded: false,
 
@@ -227,8 +228,10 @@ export default {
       videoAd.onClose((res) => {
         if (res && res.isEnded || res === undefined) {
           // 正常播放结束，下发奖励
-          that.savedCounts = that.addCount
-          that.saveCans();
+          that.savedCounts = that.addCounts
+          setSavedCounts(that.addCounts)
+
+          that.saveCans()
         } else {
           // 播放中途退出，进行提示
           that.$toast('请完整观看哦')
@@ -255,12 +258,17 @@ export default {
     }
   },
   onShow() {
+    let that = this
+    // 初始化默认次数和加的次数
+    that.addCounts = Config.addCounts
+    that.savedCounts = getSavedCounts()
+
     // 在适合的场景显示插屏广告
-    // if (interstitialAd) {
-    //   interstitialAd.show().catch((err) => {
-    //     console.error(err)
-    //   })
-    // }
+    if (interstitialAd) {
+      interstitialAd.show().catch((err) => {
+        console.error(err)
+      })
+    }
 
     if (getApp().globalData.rapaintAfterCrop) {
       getApp().globalData.rapaintAfterCrop = false;
@@ -718,7 +726,7 @@ export default {
               that.$loading(false)
               uni.showModal({
                 title: '免费额度已用光ㄒoㄒ',
-                content: '观看完30s视频即可获得'+that.addCount+'次保存次数',
+                content: '观看完30s视频即可获得'+that.addCounts+'次保存次数',
                 success: function(res) {
                   if (res.confirm) {
                     console.log('用户点击确定');
@@ -779,6 +787,7 @@ export default {
                 title: '请至相册查看'
               })
               that.savedCounts--
+              setSavedCounts(that.savedCounts)
               console.log('剩余次数：',that.savedCounts)
               uni.vibrateShort()
             },

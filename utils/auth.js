@@ -1,31 +1,38 @@
-import Config from "../config/config.js"
+import Config from '../config/config.js'
+
+const SAVEDCOUNTSKEY = Config.countKey
+
+const DEFAULTCOUNT = Config.savedCounts
+
+function myIsNaN(value) {
+    return typeof value === 'number' && !isNaN(value);
+}
 
 /**
- * 绑定状态
+ * 获取剩下保存次数
  */
-const BINDING = Config.bindingKey
-
-/**
- * token存储键名
- */
-const TOKENKEY = Config.tokenKey
-
-/**
- * 前端存储过期时间 （单位天）
- */
-const TOKENEXPIRE = Config.tokenExpire
-
-/**
- * 获取token
- */
-function getToken() {
+function getSavedCounts() {
     try {
-        let res = uni.getStorageSync(TOKENKEY)
+        let res = uni.getStorageSync(SAVEDCOUNTSKEY)
         if (res) {
             res = JSON.parse(res)
-            if (res.end > new Date().getTime()) {
-                return res.key
+            if (res.end > 60000) {
+                if (myIsNaN(res.key)) {
+                    return res.key
+                } else {
+                    // 出错了 存默认
+                    setSavedCounts(DEFAULTCOUNT)
+                    return DEFAULTCOUNT
+                }
+            } else {
+                // 过期了 存默认
+                setSavedCounts(DEFAULTCOUNT)
+                return DEFAULTCOUNT
             }
+        } else {
+            // 第一次 存默认
+            setSavedCounts(DEFAULTCOUNT)
+            return DEFAULTCOUNT
         }
     } catch (e) {}
 
@@ -33,12 +40,13 @@ function getToken() {
 }
 
 /**
- * 存储token
- * @param {string} token
+ * 每次看完广告 调用存储 {addCounts}次 / 过期了存储{savedCounts}次
+ * @param {string} number
  */
-function setToken(token) {
+function setSavedCounts(number) {
     try {
-        uni.setStorageSync(TOKENKEY, JSON.stringify({key: token, end: new Date().getTime() + 3600000 * 24 * TOKENEXPIRE}))
+        let endTime = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1).getTime() - new Date().getTime()
+        uni.setStorageSync(SAVEDCOUNTSKEY, JSON.stringify({key: number, end: endTime}))
         return true
     } catch (e) {
         // console.log(e);
@@ -46,49 +54,4 @@ function setToken(token) {
     }
 }
 
-/**
- * 获取绑定状态
- */
-function getBinding() {
-    try {
-        let res = uni.getStorageSync(BINDING)
-        if (res) {
-            res = JSON.parse(res)
-            if (res.end > new Date().getTime()) {
-                return res.key
-            }
-        }
-    } catch (e) {}
-
-    return false
-}
-
-/**
- * 激活状态（设置绑定状态）
- * @param {boolean} bool
- */
-function setBinding(bool) {
-    try {
-        uni.setStorageSync(BINDING, JSON.stringify({key: bool, end: new Date().getTime() + 3600000 * 24 * TOKENEXPIRE}))
-        return true
-    } catch (e) {
-        // console.log(e);
-        return false
-    }
-}
-
-/**
- * 登出 移除本地缓存数据
- */
-function removeLoginStorage() {
-    try {
-        uni.removeStorageSync(TOKENKEY)
-        uni.removeStorageSync(BINDING)
-        return true
-    } catch (e) {
-        // error
-        return false
-    }
-}
-
-export { getToken, setToken, getBinding, setBinding, removeLoginStorage }
+export { setSavedCounts, getSavedCounts }

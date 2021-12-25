@@ -23,7 +23,7 @@ class Request
      * @param {Object} headers
      */
     buildHeader(headers) {
-        let auth = {'Authorization': 'Bearer ' + Auth.getToken()};
+        let auth = {'Authorization': 'Bearer ' + ''};
         return Object.assign({'Accept': 'application/json'}, headers || {}, auth);
     }
 
@@ -51,15 +51,6 @@ class Request
                         duration: 2000,
                     })
 
-                    if (Auth.removeLoginStorage()) {
-                        store.commit('logout')
-                        // setTimeout(() => {
-                        //     uni.navigateTo({
-                        //         url: '/pages/login/login',
-                        //     });
-                        // }, 2000);
-                    }
-
                     // 调试输出
                     reject(error)
 
@@ -72,15 +63,6 @@ class Request
                             duration: 2000,
                         });
 
-                        // 防止重复登录引起的token前端有效、后端失效的问题
-                        if (Auth.removeLoginStorage()) {
-                            store.commit('logout')
-                            setTimeout(() => {
-                                uni.navigateTo({
-                                    url: '/pages/login/login',
-                                });
-                            }, 2000);
-                        }
                         // 调试输出
                         reject(res)
 
