@@ -481,7 +481,7 @@ export default {
         that.$loading(false)
         uni.showModal({
           title: '免费额度已用光ㄒoㄒ',
-          content: '观看完30s视频即可获得'+that.addCounts+'次保存次数',
+          content: '看完视频广告可获'+that.addCounts+'次保存次数',
           success: function(res) {
             if (res.confirm) {
               console.log('用户点击确定');

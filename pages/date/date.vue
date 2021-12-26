@@ -471,18 +471,28 @@ export default {
           this.dataImgListCur = ImgList[this.dateType]
 
           // 本次截止日期
-          this.dateTtlStr = cur.val
+          // this.dateTtlStr = cur.val
 
-          // 上期回顾
-          if (i !== 0) {
-            this.datePre = sortDateList[i-1]
-          }
-          // 下次预告
-          if (i <= sortDateList.length -1) {
-            this.dateNext = sortDateList[i+1]
-          }
+          // // 上期回顾
+          // if (i !== 0) {
+          //   this.datePre = sortDateList[i-1]
+          // }
+          // // 下次预告
+          // if (i <= sortDateList.length -1) {
+          //   this.dateNext = sortDateList[i+1]
+          // }
 
           return
+        } else {
+          // 已经过完最后一个节日，下一个该是下年的元旦
+          let cur = sortDateList[0];
+          this.dateType = cur.key
+          this.dateTitle = cur.title
+          this.dateSlogan= cur.slogan
+          this.dataImgListCur = ImgList[this.dateType]
+
+          // 本次截止日期
+          this.dateTtlStr = cur.val
         }
       }
     },
@@ -726,7 +736,7 @@ export default {
               that.$loading(false)
               uni.showModal({
                 title: '免费额度已用光ㄒoㄒ',
-                content: '观看完30s视频即可获得'+that.addCounts+'次保存次数',
+                content: '看完视频广告可获'+that.addCounts+'次保存次数',
                 success: function(res) {
                   if (res.confirm) {
                     console.log('用户点击确定');

@@ -16,7 +16,7 @@ function getSavedCounts() {
         let res = uni.getStorageSync(SAVEDCOUNTSKEY)
         if (res) {
             res = JSON.parse(res)
-            if (res.end > 60000) {
+            if (res.end === new Date().getDate()) {
                 if (myIsNaN(res.key)) {
                     return res.key
                 } else {
@@ -45,7 +45,7 @@ function getSavedCounts() {
  */
 function setSavedCounts(number) {
     try {
-        let endTime = new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1).getTime() - new Date().getTime()
+        let endTime = new Date().getDate()
         uni.setStorageSync(SAVEDCOUNTSKEY, JSON.stringify({key: number, end: endTime}))
         return true
     } catch (e) {
