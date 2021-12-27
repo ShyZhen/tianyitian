@@ -9,6 +9,8 @@ const env = {
     // 首页跳转小程序配置
     jumpAppId: 'wxf6d3a6785014c8ad',
     jumpAppPath: 'pages/index/index',
+    jumpAppId2: 'wx720ac6d7229813a6',
+    jumpAppPath2: 'pages/history/history',
 
     imageCdn: 'https://cdn.xxx.com',
     apiBaseUrl: 'https://api.xxx.com',
@@ -17,6 +19,7 @@ const env = {
     savedCounts: 3,
     // 每次观看视频后加的保存次数
     addCounts: 5,
+    countKey: 'TIANYITIAN-COUNT-KEY'
 }
 
 export default env

@@ -1,8 +1,8 @@
 <template>
   <scroll-view class="container container-index" style="overflow-y: scroll;">
-    <view v-if="SHOW_TIP">
-      <add-tips :statusBarHeight="statusBarHeight" />
-    </view>
+<!--    <view v-if="SHOW_TIP">-->
+<!--      <add-tips :statusBarHeight="statusBarHeight" />-->
+<!--    </view>-->
 
     <view class="menu-list" :style="{'margin-top': statusBarHeight+40+'px' }">
 
