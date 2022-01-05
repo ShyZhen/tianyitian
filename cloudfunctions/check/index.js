@@ -24,13 +24,18 @@ exports.main = async(event, context) => {
     }
     //检查 图片内容是否违规
     if (value) {
+
+      const file = await cloud.downloadFile({
+        fileID: value
+      })
+
       imageR = await cloud.openapi.security.imgSecCheck({
         media: {
           header: {
             'Content-Type': 'application/octet-stream'
           },
           contentType: 'image/png',
-          value: Buffer.from(value)
+          value: file.fileContent
         }
       })
     }
