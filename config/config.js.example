@@ -20,6 +20,10 @@ const env = {
     // 每次观看视频后加的保存次数
     addCounts: 5,
     countKey: 'TIANYITIAN-COUNT-KEY'
+
+    // 云开发相关
+    securityCheck: true,
+    cloudEnvId: "cloud1-test",
 }
 
 export default env

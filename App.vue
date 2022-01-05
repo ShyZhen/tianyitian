@@ -1,15 +1,15 @@
 <script>
 	import Vue from 'vue'
+  import Config from "@/config/config"
 	let sysInfo = uni.getSystemInfoSync();
 	let windowHeight = sysInfo.windowHeight;
 	let windowWidth = sysInfo.windowWidth;
 	let IS_ANDROID = !sysInfo.model.includes('iPhone');
 	let statusBarHeight = sysInfo.statusBarHeight;
 	const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY';
-	const envId = 'tianyitian-9gwao7gh7d8f8468';
-	// const collectionName = 'mp_launch_config';
-	const collectionName = 'config_jill';
-	const docId = 'mp_launch_config_doc';
+	// const envId = 'tianyitian-9gwao7gh7d8f8468';
+	// const collectionName = 'config_jill';
+	// const docId = 'mp_launch_config_doc';
 	export default {
 		globalData: {
 			IS_ANDROID: IS_ANDROID,
@@ -21,27 +21,40 @@
 			cropImageFilePath: '',
 			rapaintAfterCrop: false,
 			PAGE_BG_COLOR: '#C12928',
-      // 宝哥，先关了内容检查
-			enableSecurityCheck: false,
+
+      // 开启云函数：图片检验
+			enableSecurityCheck: Config.securityCheck,
 			userAvatarUrl: null,
 			userAvatarFilePath: null,
 			maskAvatarSavedTempPath: null
 		},
 		onLaunch: function() {
 			console.log('App Launch');
-			// if (!wx.cloud) {
-			// 	console.error('请使用 2.2.3 或以上的基础库以使用云能力');
-			// } else {
-			// 	wx.cloud.init({
-			// 		traceUser: true
-			// 	});
-			// }
-			//
+      if (!wx.cloud) {
+        uni.showToast({
+          title: '请使用 2.2.3 或以上的基础库以使用云能力',
+          icon: 'warn',
+
+          image: '',
+          duration: 0,
+          mask: true,
+          success: function(res) {},
+          fail: function(res) {},
+          complete: function(res) {},
+        })
+      } else {
+        console.log('初始化cloud');
+        wx.cloud.init({
+          env: Config.cloudEnvId,
+          traceUser: true,
+        })
+      }
+
 			// const db = wx.cloud.database({
 			// 	env: envId,
 			// 	traceUser: true
 			// });
-			//
+      //
 			// db.collection(collectionName).doc(docId).get().then(res => {
 			// 	getApp().globalData.enableSecurityCheck = res.data.enableSecurityCheck;
 			// 	console.log("enableSecurityCheck", getApp().globalData.enableSecurityCheck);

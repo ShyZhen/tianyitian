@@ -446,12 +446,12 @@
 								});
 								//这里是 云函数调用方法
 								wx.cloud.callFunction({
-									name: 'contentCheck',
+									name: 'check',
 									data: {
 										value: buffer.data
 									},
 									success(json) {
-										console.log("checkContent result", json)
+                    console.log("check result", json)
 										if (json.result.errCode == 87014) {
 											uni.showModal({
 												title: '请勿使用违法违规内容',

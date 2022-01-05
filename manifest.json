@@ -52,17 +52,14 @@
     "quickapp" : {},
     "mp-weixin" : {
         "appid" : "wx0559a4b18b51c197",
-        "cloudfunctionRoot" : "./functions/",
+        "cloudfunctionRoot" : "./cloudfunctions/",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "es6" : true
         },
         "usingComponents" : true,
         "plugins" : {}
     },
-    //            "tucao" : {
-    //                "version" : "1.1.5",
-    //                "provider" : "wx8abaf00ee8c3202e"
-    //            }
     "mp-alipay" : {
         "usingComponents" : true
     },

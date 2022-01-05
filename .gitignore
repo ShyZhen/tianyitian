@@ -17,4 +17,4 @@ pages/demo1
 *.ntvs*
 *.njsproj
 *.sln
-functions/contentCheck/package-lock.json
+cloudfunctions/check/package-lock.json
