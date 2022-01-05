@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import store from './store'
 import cuCustom from './colorui/components/cu-custom.vue'
-import { toast, loading, toLogin, toBack, toHome, reLunchBack } from './utils/global.js'
+import { toast, loading, toLogin, toBack, toHome, reLunchBack, randomString } from './utils/global.js'
 
 
 Vue.config.productionTip = false
@@ -15,6 +15,7 @@ Vue.prototype.$toLogin = toLogin
 Vue.prototype.$toBack = toBack
 Vue.prototype.$toHome = toHome
 Vue.prototype.$reLunchBack = reLunchBack
+Vue.prototype.$randomString = randomString
 
 App.mpType = 'app'
 

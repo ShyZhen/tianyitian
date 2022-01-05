@@ -630,6 +630,8 @@ export default {
         }
       });
     },
+
+
     // 内容检查
     imageCheck: function(tempImagePath, callback) {
       // 判断是否需要内容检查
@@ -643,19 +645,31 @@ export default {
         quality: 1,
         success: res => {
           let tempFilePathCompressed = res.tempFilePath;
-          uni.getFileSystemManager().readFile({
-            filePath: tempFilePathCompressed, // 压缩图片，然后安全检测
-            success: buffer => {
+
+          // 生成随机文件名
+          let ext = tempImagePath.substring(tempImagePath.lastIndexOf(".") + 1)
+          let randFileName = that.$randomString() + '.'+ext
+
+          // 将图片上传至云存储空间
+          wx.cloud.uploadFile({
+            // 指定上传到的云路径
+            cloudPath: randFileName,
+            // 指定要上传的文件的小程序临时文件路径
+            filePath: tempFilePathCompressed,
+            // 成功回调
+            success: res => {
+              console.log('上传云存储成功：', res.fileID)
+
               that.$loading('拼命加载中...')
 
               //这里是 云函数调用方法
               wx.cloud.callFunction({
                 name: 'check',
                 data: {
-                  value: buffer.data
+                  value: res.fileID
                 },
                 success(json) {
-                  console.log("check result", json)
+                  console.log("安全检查通过")
                   if (json.result.errCode == 87014) {
                     uni.showModal({
                       title: '请勿使用违法违规内容',
@@ -680,15 +694,24 @@ export default {
                   });
                 },
                 complete() {
+                  // 删除刚刚上传的文件
+                  wx.cloud.deleteFile({
+                    fileList: [res.fileID],
+                    success: res => {
+                      console.log("已删除")
+                    },
+                    fail: console.error
+                  })
+
                   that.$loading(false)
                 }
               })
-            }
+            },
           })
-
         }
       })
     },
+
     changeMask(url) {
       this.currentMaskUrl = url
       this.showBorder = true
