@@ -599,8 +599,12 @@ export default {
         sizeType: ['compressed'],
         sourceType: ['album', 'camera'],
         success: function(res) {
+          that.$loading(false)
           let tempImagePath = res.tempFilePaths[0];
           that.$imageCheck(tempImagePath, that.loadRecImageOrStartToCrop);
+        },
+        fail: (res) => {
+          that.$loading(false)
         },
         complete: (res) => {
           //this.$loading(false)

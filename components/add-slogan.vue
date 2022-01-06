@@ -432,11 +432,14 @@
 					sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
 					sourceType: ['album', 'camera'],
 					success: function(res) {
-						console.log(res);
+            self.$loading(false)
 						let tempImagePath = res.tempFilePaths[0];
 						self.$imageCheck(tempImagePath, self.loadRecImageOrStartToCrop);
 						// self.loadRecImageOrStartToCrop(tempImagePath);
-					}
+					},
+          fail: (res) => {
+            self.$loading(false)
+          },
 				});
 			},
 			loadRecImageOrStartToCrop(tempImagePath) {

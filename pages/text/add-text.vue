@@ -382,6 +382,9 @@ export default {
           that.$imageCheck(tempImagePath, that.loadRecImageOrStartToCrop);
           // that.loadRecImageOrStartToCrop(tempImagePath);
         },
+        fail: (res) => {
+          that.$loading(false)
+        },
         complete: (res) => {
           //this.$loading(false)
         }
