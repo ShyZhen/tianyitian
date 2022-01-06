@@ -386,7 +386,7 @@ export default {
           that.$imageCheck(tempImagePath, that.loadRecImageOrStartToCrop);
         },
         complete: (res) => {
-          this.$loading(false)
+          //this.$loading(false)
           that.displayImage = true
         }
       });

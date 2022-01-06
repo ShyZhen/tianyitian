@@ -383,7 +383,7 @@ export default {
           // that.loadRecImageOrStartToCrop(tempImagePath);
         },
         complete: (res) => {
-          this.$loading(false)
+          //this.$loading(false)
         }
       })
     },

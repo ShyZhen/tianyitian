@@ -90,7 +90,9 @@ function imageCheck(tempImagePath, callback) {
         callback(tempImagePath);
         return;
     }
-    let that = this;
+
+    let that = this
+    that.$loading('安全检查中...')
     uni.compressImage({
         src: tempImagePath,
         quality: 1,
@@ -111,8 +113,6 @@ function imageCheck(tempImagePath, callback) {
                 success: res => {
                     console.log('上传云存储成功：', res.fileID)
 
-                    that.$loading('拼命加载中...')
-
                     //这里是 云函数调用方法
                     wx.cloud.callFunction({
                         name: 'check',
@@ -120,7 +120,7 @@ function imageCheck(tempImagePath, callback) {
                             value: res.fileID
                         },
                         success(json) {
-                            console.log("安全检查通过")
+                            console.log("开始安全检查")
                             if (json.result.errCode == 87014) {
                                 uni.showModal({
                                     title: '请勿使用违法违规内容',

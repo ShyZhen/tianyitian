@@ -33,7 +33,7 @@ exports.main = async(event, context) => {
       let fileIDArr = value.split('.')
       let mimeType = 'image/' + fileIDArr[fileIDArr.length - 1]
       mimeType = mimeType.replace('jpg', 'jpeg');
-      // console.log('mime:',mimeType)
+      console.log('mime:',mimeType)
 
       // 云调用
       imageR = await cloud.openapi.security.imgSecCheck({
