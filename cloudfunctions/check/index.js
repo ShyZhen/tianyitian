@@ -24,18 +24,25 @@ exports.main = async(event, context) => {
     }
     //检查 图片内容是否违规
     if (value) {
-
       const file = await cloud.downloadFile({
         fileID: value
       })
 
+      // 获取mime
+      const fileContent = file.fileContent
+      let fileIDArr = value.split('.')
+      let mimeType = 'image/' + fileIDArr[fileIDArr.length - 1]
+      mimeType = mimeType.replace('jpg', 'jpeg');
+      // console.log('mime:',mimeType)
+
+      // 云调用
       imageR = await cloud.openapi.security.imgSecCheck({
         media: {
           header: {
             'Content-Type': 'application/octet-stream'
           },
-          contentType: 'image/png',
-          value: file.fileContent
+          contentType: mimeType,
+          value: fileContent
         }
       })
     }
