@@ -434,7 +434,7 @@
 					success: function(res) {
 						console.log(res);
 						let tempImagePath = res.tempFilePaths[0];
-						self.imageCheck(tempImagePath, self.loadRecImageOrStartToCrop);
+						self.$imageCheck(tempImagePath, self.loadRecImageOrStartToCrop);
 						// self.loadRecImageOrStartToCrop(tempImagePath);
 					}
 				});
@@ -606,85 +606,6 @@
 			},
 
       // 内容检查
-      imageCheck: function(tempImagePath, callback) {
-        // 判断是否需要内容检查
-        if (!getApp().globalData.enableSecurityCheck) {
-          callback(tempImagePath);
-          return;
-        }
-        let that = this;
-        uni.compressImage({
-          src: tempImagePath,
-          quality: 1,
-          success: res => {
-            let tempFilePathCompressed = res.tempFilePath;
-
-            // 生成随机文件名
-            let ext = tempImagePath.substring(tempImagePath.lastIndexOf(".") + 1)
-            let randFileName = that.$randomString() + '.'+ext
-
-            // 将图片上传至云存储空间
-            wx.cloud.uploadFile({
-              // 指定上传到的云路径
-              cloudPath: randFileName,
-              // 指定要上传的文件的小程序临时文件路径
-              filePath: tempFilePathCompressed,
-              // 成功回调
-              success: res => {
-                console.log('上传云存储成功：', res.fileID)
-
-                that.$loading('拼命加载中...')
-
-                //这里是 云函数调用方法
-                wx.cloud.callFunction({
-                  name: 'check',
-                  data: {
-                    value: res.fileID
-                  },
-                  success(json) {
-                    console.log("安全检查通过")
-                    if (json.result.errCode == 87014) {
-                      uni.showModal({
-                        title: '请勿使用违法违规内容',
-                        content: '图片含有违法违规内容',
-                        showCancel: false,
-                        confirmText: '朕知道了',
-                      });
-                      console.log("bad")
-                    } else {
-                      console.log("good")
-                      //图片合规则进行进一步处理
-                      callback(tempImagePath);
-                    }
-                  },
-                  fail(e) {
-                    console.log(e);
-                    uni.showModal({
-                      title: '请重试',
-                      content: '对不起，服务器开了小差',
-                      showCancel: false,
-                      confirmText: '好的',
-                    });
-                  },
-                  complete() {
-                    // 删除刚刚上传的文件
-                    wx.cloud.deleteFile({
-                      fileList: [res.fileID],
-                      success: res => {
-                        console.log("已删除")
-                      },
-                      fail: console.error
-                    })
-
-                    that.$loading(false)
-                  }
-                })
-              },
-            })
-          }
-        })
-      },
-
 
       onClickFab(e) {
 				let index = e.index
