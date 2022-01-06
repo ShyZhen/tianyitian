@@ -128,9 +128,7 @@ function imageCheck(tempImagePath, callback) {
                                     showCancel: false,
                                     confirmText: '朕知道了',
                                 });
-                                console.log("badddddd")
                             } else {
-                                console.log("goodddddd")
                                 //图片合规则进行进一步处理
                                 callback(tempImagePath);
                             }
