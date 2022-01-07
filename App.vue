@@ -42,6 +42,7 @@
         wx.showModal({
           title: '更新提示',
           content: '新版本已经准备好，是否重启应用？',
+          showCancel: false,
           success(res) {
             if (res.confirm) {
               // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
@@ -52,7 +53,6 @@
       })
 
       updateManager.onUpdateFailed(function () {
-        wx.hideLoading();
         wx.showModal({
           title: '提示',
           content: '检查到有新版本，但下载失败，请检查网络后重试',
