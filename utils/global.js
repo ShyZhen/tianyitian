@@ -85,52 +85,6 @@ function randomString(e) {
     return n
 }
 
-// 新版 https调用
-function imageCheck(tempImagePath, callback) {
-    // 判断是否需要内容检查
-    if (!getApp().globalData.enableSecurityCheck) {
-        callback(tempImagePath);
-        return;
-    }
-
-    let that = this
-    that.$loading('安全检查中...')
-    uni.compressImage({
-        src: tempImagePath,
-        quality: 1,
-        success: res => {
-            let tempFilePathCompressed = res.tempFilePath
-
-            imageSecCheck(tempFilePathCompressed).then(res => {
-                if (res.statusCode === 204) {
-                    //图片合规则进行进一步处理
-                    console.log("图片检测正常")
-                    that.$loading(false)
-                    callback(tempImagePath);
-                } else {
-                    that.$loading(false)
-                    uni.showModal({
-                        title: '请勿使用违法违规内容',
-                        content: '图片含有违法违规内容',
-                        showCancel: false,
-                        confirmText: '朕知道了',
-                    });
-                }
-            }).catch(err => {
-                console.log(err);
-                that.$loading(false)
-                uni.showModal({
-                    title: '请重试',
-                    content: '对不起，服务器开了小差',
-                    showCancel: false,
-                    confirmText: '好的',
-                });
-
-            })
-        }
-    })
-}
-
 // 内容检查(旧版-云调用)
 function imageCheckBak(tempImagePath, callback) {
     // 判断是否需要内容检查
@@ -204,6 +158,52 @@ function imageCheckBak(tempImagePath, callback) {
                         }
                     })
                 },
+            })
+        }
+    })
+}
+
+// 新版 https调用
+function imageCheck(tempImagePath, callback) {
+    // 判断是否需要内容检查
+    if (!getApp().globalData.enableSecurityCheck) {
+        callback(tempImagePath);
+        return;
+    }
+
+    let that = this
+    that.$loading('安全检查中...')
+    uni.compressImage({
+        src: tempImagePath,
+        quality: 1,
+        success: res => {
+            let tempFilePathCompressed = res.tempFilePath
+
+            imageSecCheck(tempFilePathCompressed).then(res => {
+                if (res.statusCode === 204) {
+                    //图片合规则进行进一步处理
+                    console.log("图片检测正常")
+                    that.$loading(false)
+                    callback(tempImagePath);
+                } else {
+                    that.$loading(false)
+                    uni.showModal({
+                        title: '请勿使用违法违规内容',
+                        content: '图片含有违法违规内容',
+                        showCancel: false,
+                        confirmText: '朕知道了',
+                    });
+                }
+            }).catch(err => {
+                console.log(err);
+                that.$loading(false)
+                uni.showModal({
+                    title: '请重试',
+                    content: '对不起，服务器开了小差',
+                    showCancel: false,
+                    confirmText: '好的',
+                });
+
             })
         }
     })
