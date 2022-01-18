@@ -6,10 +6,12 @@
 
     <view class="menu-list" :style="{'margin-top': statusBarHeight+40+'px' }">
 
+      <!-- #ifdef MP -->
       <!--   banner广告    -->
       <view class="ad-container margin-top cu-list menu sm-border card-menu">
         <ad :unit-id="unitId1" style="z-index: 9"></ad>
       </view>
+      <!-- #endif -->
 
       <view class="cu-card article" @click="dateHandle">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx;">
@@ -147,10 +149,12 @@
       </view>
       <!-- #endif -->
 
+      <!-- #ifdef MP -->
       <!--   banner广告    -->
       <view class="ad-container margin-top cu-list menu sm-border card-menu">
         <ad :unit-id="unitId2" style="z-index: 9"></ad>
       </view>
+      <!-- #endif -->
 
       <view class="cu-card article" @click="addSlogan">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx; ">
@@ -229,10 +233,13 @@
 <!--        </view>-->
       </view>
 
+      <!-- #ifdef MP -->
       <!--   视频广告    -->
       <view class="ad-container margin-top cu-list menu sm-border card-menu">
         <ad :unit-id="unitId3" style="z-index: 9" ad-type="video" ad-theme="white"></ad>
       </view>
+      <!-- #endif -->
+
     </view>
   </scroll-view>
 </template>
@@ -309,7 +316,7 @@ export default {
         url: '/pages/date/date'
       })
       // #endif
-      // #ifdef MP-WEIXIN
+      // #ifndef MP-QQ
       uni.switchTab({
         url: '/pages/date/date'
       })
@@ -321,7 +328,7 @@ export default {
         url: '/pages/mask/add-mask'
       })
       // #endif
-      // #ifdef MP-WEIXIN
+      // #ifndef MP-QQ
       uni.switchTab({
         url: '/pages/mask/add-mask'
       })
@@ -333,7 +340,7 @@ export default {
         url: '/pages/anime/anime'
       })
       // #endif
-      // #ifdef MP-WEIXIN
+      // #ifndef MP-QQ
       uni.switchTab({
         url: '/pages/anime/anime'
       })
@@ -345,7 +352,7 @@ export default {
         url: '/pages/pixel/pixel'
       })
       // #endif
-      // #ifdef MP-WEIXIN
+      // #ifndef MP-QQ
       uni.switchTab({
         url: '/pages/pixel/pixel'
       })

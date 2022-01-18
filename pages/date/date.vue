@@ -213,6 +213,8 @@ export default {
     //   interstitialAd.onClose(() => {})
     // }
 
+
+    // #ifdef MP
     // 在页面onLoad回调事件中创建激励视频广告实例
     if (uni.createRewardedVideoAd) {
       videoAd = uni.createRewardedVideoAd({
@@ -238,6 +240,8 @@ export default {
         }
       })
     }
+    // #endif
+
   },
   onReady() {
 
