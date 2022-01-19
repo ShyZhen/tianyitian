@@ -33,9 +33,11 @@
     </view>
 
     <view class="grid justify-around action-wrapper">
+      <!-- #ifdef MP -->
       <view class="grid col-1">
         <button id="btn-my-avatar" class="cu-btn round action-btn bg-gradual-blue shadow" open-type="getUserInfo" @tap="getUserInfo">我的头像</button>
       </view>
+      <!-- #endif -->
       <view class="grid col-2">
         <button id="btn-save" class="cu-btn round action-btn bg-gradual-blue shadow" @tap="checkAdBeforeSave">
           <text class="cuIcon-down">

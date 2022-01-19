@@ -15,9 +15,11 @@
 		</view>
 
 		<view class="grid justify-around action-wrapper">
+      <!-- #ifdef MP -->
 			<view class="grid col-1">
 				<button id="btn-my-avatar" class="cu-btn round action-btn bg-yellow shadow" open-type="getUserInfo" @getuserinfo="getUserInfoCallBack">我的头像</button>
 			</view>
+      <!-- #endif -->
 			<view class="grid col-2">
 				<button id="btn-save" class="cu-btn round action-btn bg-yellow shadow" @click="checkAdBeforeSave">
 					<text class="cuIcon-down">

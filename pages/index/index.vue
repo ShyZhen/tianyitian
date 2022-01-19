@@ -201,7 +201,7 @@
       </view>
 
       <view class="about-actions margin-top cu-list menu sm-border card-menu animation-shake animation-speed-2 animation-delay-3">
-        <view class="cu-item arrow feedback-btn">
+        <view class="cu-item arrow feedback-btn" @tap="ifndefMp">
           <view class="content">
             <button class="free-btn-bordernone" open-type="contact">
               <tui-icon name="kefu" color="green" :size="20"></tui-icon>
@@ -407,6 +407,17 @@ export default {
     handleContact: function(e) {
       console.log(e.detail.path)
       console.log(e.detail.query)
+    },
+
+    ifndefMp: function(e) {
+      // #ifndef MP
+      uni.showModal({
+        title: '联系邮箱',
+        content: 'MailTo: huaixiu.zhen@gmail.com',
+        showCancel: false,
+        confirmText: '朕知道了',
+      });
+      // #endif
     }
   }
 }
