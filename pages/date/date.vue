@@ -33,8 +33,12 @@
 
     <view class="flex-sub text-center">
       <view class="solid-bottom">
-        <!-- <text class="text-white text-bold">{{ dateSlogan }}</text> -->
-		<text class="text-white text-bold">每天可免费保存3次,剩余{{savedCounts}}次</text>
+        <!-- #ifdef APP-PLUS -->
+        <text class="text-white text-bold">{{dateSlogan}}</text>
+        <!-- #endif -->
+        <!-- #ifdef MP -->
+		    <text class="text-white text-bold">每天可免费保存3次,剩余{{savedCounts}}次</text>
+        <!-- #endif -->
       </view>
       <!--
       <view class="solid-bottom">
