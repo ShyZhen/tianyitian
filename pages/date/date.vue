@@ -114,7 +114,6 @@ let interstitialAd = null
 const range = (start, count, step) => {
   return Array.from(Array.from(Array(Math.ceil((count - start) / step)).keys()), x => start + x * step)
 }
-const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY';
 
 export default {
   components: {
@@ -248,7 +247,7 @@ export default {
     uni.vibrateShort();
 
     // 判断是否已经显示过
-    let cache = uni.getStorageSync(STORAGE_KEY);
+    let cache = uni.getStorageSync(getApp().globalData.STORAGE_KEY);
     if (!cache) {
       this.statusBarHeight = uni.getSystemInfoSync().statusBarHeight;
 

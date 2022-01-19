@@ -6,7 +6,7 @@
 	let windowWidth = sysInfo.windowWidth;
 	let IS_ANDROID = !sysInfo.model.includes('iPhone');
 	let statusBarHeight = sysInfo.statusBarHeight;
-	const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY';
+	const STORAGE_KEY = 'PLUG-ADD-MYAPP-TIANYITIAN';
 	// const envId = 'tianyitian-9gwao7gh7d8f8468';
 	// const collectionName = 'config_jill';
 	// const docId = 'mp_launch_config_doc';
@@ -21,6 +21,7 @@
 			cropImageFilePath: '',
 			rapaintAfterCrop: false,
 			PAGE_BG_COLOR: '#C12928',
+      STORAGE_KEY: STORAGE_KEY,
 
       // 开启云函数：图片检验
 			enableSecurityCheck: Config.securityCheck,

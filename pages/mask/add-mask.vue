@@ -1,8 +1,8 @@
 <template>
   <view class="container" style="overflow: hidden;" :style="{height:heightVH}">
-    <view v-if="SHOW_TIP">
-      <add-tips :statusBarHeight="statusBarHeight" />
-    </view>
+<!--    <view v-if="SHOW_TIP">-->
+<!--      <add-tips :statusBarHeight="statusBarHeight" />-->
+<!--    </view>-->
 
     <view class="avatar-container grid justify-center" id="avatar-container" @touchstart="touchStart" @touchend="touchEnd"
           @touchmove="touchMove">
@@ -122,7 +122,6 @@ let interstitialAd = null
 const range = (start, end, step) => {
   return Array.from(Array.from(Array(Math.ceil((end - start) / step)).keys()), x => start + x * step);
 }
-const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY';
 
 export default {
   components: {
@@ -248,7 +247,7 @@ export default {
     uni.vibrateShort();
 
     // 判断是否已经显示过
-    let cache = uni.getStorageSync(STORAGE_KEY);
+    let cache = uni.getStorageSync(getApp().globalData.STORAGE_KEY);
     if (!cache) {
       this.statusBarHeight = uni.getSystemInfoSync().statusBarHeight;
 

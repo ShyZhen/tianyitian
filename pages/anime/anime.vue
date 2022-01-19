@@ -106,8 +106,6 @@ let videoAd = null;
 // 在页面中定义插屏广告
 let interstitialAd = null
 
-const STORAGE_KEY = 'PLUG-ADD-MYAPP-KEY';
-
 export default {
   components: {
     tuiFooter,
@@ -204,6 +202,7 @@ export default {
     }
     */
 
+    // #ifdef MP
     // 在页面onLoad回调事件中创建激励视频广告实例
     if (uni.createRewardedVideoAd) {
       videoAd = uni.createRewardedVideoAd({
@@ -229,6 +228,7 @@ export default {
         }
       })
     }
+    // #endif
 
   },
   onReady() {
@@ -236,7 +236,7 @@ export default {
     uni.vibrateShort();
 
     // 判断是否已经显示过
-    let cache = uni.getStorageSync(STORAGE_KEY);
+    let cache = uni.getStorageSync(getApp().globalData.STORAGE_KEY);
     if (!cache) {
       this.statusBarHeight = uni.getSystemInfoSync().statusBarHeight;
 
