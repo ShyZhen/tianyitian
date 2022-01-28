@@ -32,6 +32,9 @@
 //			}
 		},
 		{
+			"path": "pages/third/red-package"
+		},
+		{
 			"path": "pages/date/date",
 			"style": {
 				"navigationStyle": "custom"

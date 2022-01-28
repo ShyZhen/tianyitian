@@ -200,6 +200,28 @@
         </view>
       </view>
 
+      <view class="cu-card article" @click="getRedPackpage">
+        <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx; ">
+          <view class="title">
+            <view class="text-cut">微信红包封面</view>
+          </view>
+          <view class="content">
+            <image style="width: 180rpx;" src="/static/image/logo/red-package2.jpg" mode="aspectFill"></image>
+            <view class="desc">
+              <view class="text-content">免费领取微信红包封面,每日6点定时刷新,数量有限先到先得</view>
+              <view>
+                <view class="grid justify-between">
+                  <view>
+                    <view class="cu-tag bg-red light sm round">红包封面</view>
+                    <view class="cu-tag bg-cyan light sm round">先到先得</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
       <view class="about-actions margin-top cu-list menu sm-border card-menu animation-shake animation-speed-2 animation-delay-3">
         <view class="cu-item arrow feedback-btn" @tap="ifndefMp">
           <view class="content">
@@ -391,6 +413,16 @@ export default {
         url: '/pages/text/add-text'
       })
     },
+
+    // 微信红包封面
+    // #ifdef MP-WEIXIN
+    getRedPackpage: function(){
+      uni.navigateTo({
+        url: '/pages/third/red-package'
+      })
+    },
+    // #endif
+
     yinSi: function(){
       uni.navigateTo({
         url: '/pages/about/agreement'
