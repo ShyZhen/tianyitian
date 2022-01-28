@@ -200,6 +200,7 @@
         </view>
       </view>
 
+      <!-- #ifdef MP -->
       <view class="cu-card article" @click="getRedPackpage">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx; ">
           <view class="title">
@@ -221,6 +222,7 @@
           </view>
         </view>
       </view>
+      <!-- #endif -->
 
       <view class="about-actions margin-top cu-list menu sm-border card-menu animation-shake animation-speed-2 animation-delay-3">
         <view class="cu-item arrow feedback-btn" @tap="ifndefMp">
