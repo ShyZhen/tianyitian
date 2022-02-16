@@ -113,7 +113,6 @@ import {
   mapState,
   mapMutations
 } from "vuex"
-import tuiFooter from "@/components/tui/footer"
 import addTips from "@/components/add-tips"
 import { getShareObj } from "@/utils/share.js"
 import Config from "@/config/config"
@@ -131,7 +130,6 @@ const range = (start, end, step) => {
 
 export default {
   components: {
-    tuiFooter,
     addTips
   },
   data() {

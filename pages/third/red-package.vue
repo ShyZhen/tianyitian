@@ -36,11 +36,11 @@ export default {
       this.heightVH = '120vh'
     }
 
-    /*
+
     // 在页面onLoad回调事件中创建插屏广告实例
     if (uni.createInterstitialAd) {
       interstitialAd = uni.createInterstitialAd({
-        adUnitId: 'adunit-ae132e93d50f453f'
+        adUnitId: 'adunit-3fbbbc8a3e8752c4'
       })
       interstitialAd.onLoad(() => {})
       interstitialAd.onError((err) => {
@@ -48,7 +48,7 @@ export default {
       })
       interstitialAd.onClose(() => {})
     }
-    */
+
 
     // #ifdef MP
     // 在页面onLoad回调事件中创建激励视频广告实例

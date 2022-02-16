@@ -97,7 +97,6 @@ import {
   mapMutations
 } from "vuex"
 import Config from "@/config/config"
-import tuiFooter from "@/components/tui/footer"
 import addTips from "@/components/add-tips"
 import { getShareObj } from "@/utils/share.js"
 import tuiIcon from "@/components/tui/icon"
@@ -114,7 +113,6 @@ let interstitialAd = null
 
 export default {
   components: {
-    tuiFooter,
     addTips,
     tuiButton,
     tuiListCell,

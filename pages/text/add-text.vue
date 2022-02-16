@@ -53,8 +53,6 @@ import {
   mapState,
   mapMutations
 } from "vuex";
-import tuiFooter from "@/components/tui/footer"
-import tuiFab from "@/components/tui/tui-fab"
 import addTips from "@/components/add-tips"
 import { getShareObj } from "@/utils/share.js"
 
@@ -65,8 +63,6 @@ let interstitialAd = null
 
 export default {
   components: {
-    tuiFooter,
-    tuiFab,
     addTips
   },
   data() {

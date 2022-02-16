@@ -52,8 +52,6 @@
 <!--      <ad unit-id="adunit-c42c8c8ce8b6106d"></ad>-->
 <!--    </view>-->
 
-    <!--    <tui-footer copyright="赛尔教育咨询服务有限公司"></tui-footer>-->
-
   </view>
 </template>
 <script>
@@ -61,7 +59,6 @@ import {
   mapState,
   mapMutations
 } from "vuex";
-// import tuiFooter from "@/components/tui/footer";
 import tuiIcon from "@/components/tui/icon"
 import tuiButton from "@/components/tui/button"
 import tuiListCell from "@/components/tui/list-cell"
@@ -75,7 +72,6 @@ let interstitialAd = null
 
 export default {
   components: {
-    // tuiFooter,
     tuiButton,
     tuiListCell,
     tuiDropdownList,

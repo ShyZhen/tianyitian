@@ -105,7 +105,6 @@
 </template>
 <script>
 import {mapMutations, mapState} from "vuex"
-import tuiFooter from "@/components/tui/footer"
 import addTips from "@/components/add-tips"
 import Calendar from "../../utils/calendar"
 import Config from "@/config/config"
@@ -123,7 +122,6 @@ const range = (start, count, step) => {
 
 export default {
   components: {
-    tuiFooter,
     addTips
   },
   data() {
