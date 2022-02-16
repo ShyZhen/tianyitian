@@ -4,6 +4,8 @@
     <!--      <add-tips :statusBarHeight="statusBarHeight" />-->
     <!--    </view>-->
 
+    <button @tap="handleClick">获取红包封面</button>
+
   </view>
 </template>
 <script>
@@ -52,7 +54,7 @@ export default {
     // 在页面onLoad回调事件中创建激励视频广告实例
     if (uni.createRewardedVideoAd) {
       videoAd = uni.createRewardedVideoAd({
-        adUnitId: 'adunit-fca91856edc6089d'
+        adUnitId: 'adunit-18eceb8ba71421d7'
       })
       videoAd.onLoad(() => {
         that.rewardedVideoAdLoaded = true;
@@ -64,10 +66,7 @@ export default {
       videoAd.onClose((res) => {
         if (res && res.isEnded || res === undefined) {
           // 正常播放结束，下发奖励
-          that.savedCounts = that.addCounts
-          setSavedCounts(that.addCounts)
 
-          that.saveCans()
         } else {
           // 播放中途退出，进行提示
           that.$toast('请完整观看哦')
@@ -110,7 +109,14 @@ export default {
     return getShareObj()
   },
   methods: {
-
+    handleClick() {
+      wx.showRedPackage({
+        url: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=abcJqTpylEG&check_type=2#wechat_redirect',
+        fail(err){
+          console.log('拉起红包错误',err);
+        }
+      })
+    }
   }
 }
 </script>

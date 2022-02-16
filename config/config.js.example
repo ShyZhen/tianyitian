@@ -16,7 +16,7 @@ const env = {
     apiBaseUrl: 'https://api.xxx.com',
 
     // 默认每天保存次数
-    savedCounts: 3,
+    savedCounts: 2,
     // 每次观看视频后加的保存次数
     addCounts: 5,
     countKey: 'TIANYITIAN-COUNT-KEY'

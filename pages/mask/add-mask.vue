@@ -37,7 +37,7 @@
         <text class="text-white text-bold">{{slogan}}</text>
         <!-- #endif -->
         <!-- #ifdef MP -->
-		    <text class="text-white text-bold">每天可免费保存3次,剩余{{savedCounts}}次</text>
+		    <text class="text-white text-bold">每天可免费保存2次,剩余{{savedCounts}}次</text>
         <!-- #endif -->
       </view>
     </view>
@@ -204,11 +204,11 @@ export default {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
     }
 
-    /*
+
     // 在页面onLoad回调事件中创建插屏广告实例
     if (uni.createInterstitialAd) {
       interstitialAd = uni.createInterstitialAd({
-        adUnitId: 'adunit-ae132e93d50f453f'
+        adUnitId: 'adunit-51c892872d1f6c1f'
       })
       interstitialAd.onLoad(() => {})
       interstitialAd.onError((err) => {
@@ -216,7 +216,7 @@ export default {
       })
       interstitialAd.onClose(() => {})
     }
-    */
+
 
 
     // #ifdef MP

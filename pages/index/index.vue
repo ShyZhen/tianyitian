@@ -207,7 +207,7 @@
             <view class="text-cut">微信红包封面</view>
           </view>
           <view class="content">
-            <image style="width: 180rpx;" src="/static/image/logo/red-package2.jpg" mode="aspectFill"></image>
+            <image style="width: 180rpx;" src="/static/image/logo/red-package.jpg" mode="aspectFill"></image>
             <view class="desc">
               <view class="text-content">免费领取微信红包封面,每日6点定时刷新,数量有限先到先得</view>
               <view>

@@ -37,7 +37,7 @@
         <text class="text-white text-bold">{{dateSlogan}}</text>
         <!-- #endif -->
         <!-- #ifdef MP -->
-		    <text class="text-white text-bold">每天可免费保存3次,剩余{{savedCounts}}次</text>
+		    <text class="text-white text-bold">每天可免费保存2次,剩余{{savedCounts}}次</text>
         <!-- #endif -->
       </view>
       <!--
@@ -207,16 +207,16 @@ export default {
 
 
     // 在页面onLoad回调事件中创建插屏广告实例
-    // if (uni.createInterstitialAd) {
-    //   interstitialAd = uni.createInterstitialAd({
-    //     adUnitId: 'adunit-ae132e93d50f453f'
-    //   })
-    //   interstitialAd.onLoad(() => {})
-    //   interstitialAd.onError((err) => {
-    //     console.log(err);
-    //   })
-    //   interstitialAd.onClose(() => {})
-    // }
+    if (uni.createInterstitialAd) {
+      interstitialAd = uni.createInterstitialAd({
+        adUnitId: 'adunit-75f8ef1a95328874'
+      })
+      interstitialAd.onLoad(() => {})
+      interstitialAd.onError((err) => {
+        console.log(err);
+      })
+      interstitialAd.onClose(() => {})
+    }
 
 
     // #ifdef MP

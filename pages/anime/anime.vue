@@ -21,7 +21,7 @@
         <text class="text-white text-bold">{{slogan}}</text>
         <!-- #endif -->
         <!-- #ifdef MP -->
-		    <text class="text-white text-bold">每天可免费保存3次,剩余{{savedCounts}}次</text>
+		    <text class="text-white text-bold">每天可免费保存2次,剩余{{savedCounts}}次</text>
         <!-- #endif -->
       </view>
     </view>
@@ -144,6 +144,8 @@ export default {
       enableInterstitialAd: true,
       rewardedVideoAdLoaded: false,
 
+      videoAdType: 'save',
+
       dropdownShow: false,
       dropdownListData: [{
         name: "日漫风",
@@ -194,11 +196,11 @@ export default {
       this.avatarPath = getApp().globalData.userAvatarFilePath;
     }
 
-    /*
+
     // 在页面onLoad回调事件中创建插屏广告实例
     if (uni.createInterstitialAd) {
       interstitialAd = uni.createInterstitialAd({
-        adUnitId: 'adunit-ae132e93d50f453f'
+        adUnitId: 'adunit-c2c5a0311f003f5d'
       })
       interstitialAd.onLoad(() => {})
       interstitialAd.onError((err) => {
@@ -206,7 +208,7 @@ export default {
       })
       interstitialAd.onClose(() => {})
     }
-    */
+
 
     // #ifdef MP
     // 在页面onLoad回调事件中创建激励视频广告实例
@@ -224,10 +226,15 @@ export default {
       videoAd.onClose((res) => {
         if (res && res.isEnded || res === undefined) {
           // 正常播放结束，下发奖励
-          that.savedCounts = that.addCounts
-          setSavedCounts(that.addCounts)
 
-          that.saveCans()
+          if (that.videoAdType == 'save') {
+            that.savedCounts = that.addCounts
+            setSavedCounts(that.addCounts)
+            that.saveCans()
+          } else {
+            that.changeDate()
+          }
+
         } else {
           // 播放中途退出，进行提示
           that.$toast('请完整观看哦')
@@ -286,7 +293,44 @@ export default {
     dropDownList(index) {
       if (index !== -1) {
         this.type = this.dropdownListData[index].type
-        this.changeDate()
+
+        let that = this
+        if (!!videoAd && that.rewardedVideoAdLoaded) {
+          that.$loading(false)
+          uni.showModal({
+            title: '该合成功能需要解锁',
+            content: '看完视频广告即可解锁合成功能',
+            success: function(res) {
+              if (res.confirm) {
+                console.log('用户点击确定');
+                that.videoAdType = 'cover'
+                // 用户触发广告后，显示激励视频广告
+                if (videoAd) {
+                  videoAd.show().catch(() => {
+                    // 失败重试
+                    videoAd.load()
+                        .then(() => {
+                          videoAd.show();
+                        })
+                        .catch(err => {
+                          console.log(err);
+                          console.log('激励视频 广告显示失败')
+                        })
+                  })
+                }
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+                that.$toast('视频很短的 (✪ω✪)')
+                return
+              }
+            }
+          });
+        } else {
+          this.changeDate()
+          return
+        }
+
+        //this.changeDate()
       }
       this.dropdownShow = !this.dropdownShow
     },
@@ -439,6 +483,7 @@ export default {
           success: function(res) {
             if (res.confirm) {
               console.log('用户点击确定');
+              that.videoAdType = 'save'
               // 用户触发广告后，显示激励视频广告
               if (videoAd) {
                 videoAd.show().catch(() => {

@@ -86,7 +86,7 @@ function randomString(e) {
 }
 
 // 内容检查(旧版-云调用)
-function imageCheckBak(tempImagePath, callback) {
+function imageCheck(tempImagePath, callback) {
     // 判断是否需要内容检查
     if (!getApp().globalData.enableSecurityCheck) {
         callback(tempImagePath);
@@ -164,7 +164,7 @@ function imageCheckBak(tempImagePath, callback) {
 }
 
 // 新版 https调用
-function imageCheck(tempImagePath, callback) {
+function imageCheckBak(tempImagePath, callback) {
     // 判断是否需要内容检查
     if (!getApp().globalData.enableSecurityCheck) {
         callback(tempImagePath);
