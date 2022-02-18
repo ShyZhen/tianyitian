@@ -1,10 +1,14 @@
 <template>
   <view class="container" style="overflow: hidden;" :style="{height:heightVH}">
-    <!--    <view v-if="SHOW_TIP">-->
-    <!--      <add-tips :statusBarHeight="statusBarHeight" />-->
-    <!--    </view>-->
+    <view class="margin-tb-lg">
+      <video-list :videolist="itemsList" @itemClick="itemClick"></video-list>
+    </view>
 
-    <button @tap="handleClick">获取红包封面</button>
+    <view class="bottom-bar">
+      <view class="bottom-button bg-gradual-blue shadow">
+        <text @tap="handleClick">&#9995;&nbsp;以上封面由【恭喜发财工作室】提供</text>
+      </view>
+    </view>
 
   </view>
 </template>
@@ -12,6 +16,7 @@
 import Config from "@/config/config"
 import addTips from "@/components/add-tips"
 import { getShareObj } from "@/utils/share.js"
+import VideoList from '@/components/video-list'
 
 // 在页面中定义激励视频广告
 let videoAd = null;
@@ -21,12 +26,19 @@ let interstitialAd = null
 export default {
   components: {
     addTips,
+    VideoList
   },
   data() {
     return {
       SHOW_TIP: false,
       statusBarHeight: 0,
       heightVH: '110vh',
+      itemsList: [
+        {"image": Config.imageCdn+"/MPTian/redpackage/1.jpg", "title":"1.叫爸爸"},
+        {"image": Config.imageCdn+"/MPTian/redpackage/1.jpg", "title":"2.OW系列1"},
+        {"image": Config.imageCdn+"/MPTian/redpackage/1.jpg", "title":"3.叫爸爸"},
+        {"image": Config.imageCdn+"/MPTian/redpackage/1.jpg", "title":"4.OW系列1"},
+      ],
     }
   },
   onLoad(option) {
@@ -77,20 +89,6 @@ export default {
 
   },
   onReady() {
-
-    // 判断是否已经显示过
-    let cache = uni.getStorageSync(getApp().globalData.STORAGE_KEY);
-    if (!cache) {
-      this.statusBarHeight = uni.getSystemInfoSync().statusBarHeight;
-
-      // 没显示过，则进行展示
-      this.SHOW_TIP = true;
-      // 关闭时间
-      let that = this;
-      setTimeout(() => {
-        that.SHOW_TIP = false;
-      }, 5000);
-    }
   },
   onShow() {
     let that = this
@@ -109,6 +107,9 @@ export default {
     return getShareObj()
   },
   methods: {
+    itemClick(item) {
+      console.log(item.title)
+    },
     handleClick() {
       wx.showRedPackage({
         url: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=abcJqTpylEG&check_type=2#wechat_redirect',
@@ -280,6 +281,22 @@ export default {
   height: 60rpx !important;
   line-height: 60rpx !important;
   font-size: 32rpx !important;
+}
 
+.bottom-bar{
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  height: 45px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 0 10px #ccc;
+  display: flex;
+}
+.bottom-button {
+  width: 100%;
+  font-size: 28rpx;
+  text-align: center;
+  line-height: 90rpx;
 }
 </style>

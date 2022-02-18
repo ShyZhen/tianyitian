@@ -18,3 +18,4 @@ pages/demo1
 *.njsproj
 *.sln
 cloudfunctions/check/package-lock.json
+redpackageRP.rp
