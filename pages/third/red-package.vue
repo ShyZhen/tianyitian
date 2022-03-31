@@ -1,12 +1,12 @@
 <template>
   <view class="container" style="overflow: hidden;" :style="{height:heightVH}">
     <view class="margin-tb-lg">
-      <video-list :videolist="itemsList" @itemClick="itemClick"></video-list>
+      <carousel :img-list="itemsList" @selected="selected" @selected2="selected2" url-key="url"/>
     </view>
 
     <view class="bottom-bar">
       <view class="bottom-button bg-gradual-blue shadow">
-        <text @tap="handleClick">&#9995;&nbsp;以上封面由【恭喜发财工作室】提供</text>
+        <text @tap="handleClick">以上由淘宝店铺【恭喜发财工作室】提供</text>
       </view>
     </view>
 
@@ -15,8 +15,8 @@
 <script>
 import Config from "@/config/config"
 import addTips from "@/components/add-tips"
-import { getShareObj } from "@/utils/share.js"
-import VideoList from '@/components/video-list'
+import { getShareObj } from "@/utils/share"
+import carousel from '@/components/vear-carousel/vear-carousel'
 
 // 在页面中定义激励视频广告
 let videoAd = null;
@@ -26,19 +26,24 @@ let interstitialAd = null
 export default {
   components: {
     addTips,
-    VideoList
+    carousel
   },
   data() {
     return {
       SHOW_TIP: false,
       statusBarHeight: 0,
       heightVH: '110vh',
-      itemsList: [
-        {"image": Config.imageCdn+"/MPTian/redpackage/1.jpg", "title":"1.叫爸爸"},
-        {"image": Config.imageCdn+"/MPTian/redpackage/1.jpg", "title":"2.OW系列1"},
-        {"image": Config.imageCdn+"/MPTian/redpackage/1.jpg", "title":"3.叫爸爸"},
-        {"image": Config.imageCdn+"/MPTian/redpackage/1.jpg", "title":"4.OW系列1"},
-      ],
+      // 职业（医生教师妈妈爸爸等）、节假日（春节除夕七夕圣诞等）
+      itemsList: [{
+        title: 'jiao爸爸',
+        url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
+      },{
+        title: 'jiao爸爸22',
+        url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
+      },{
+        title: 'jiao爸爸3333',
+        url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
+      },],
     }
   },
   onLoad(option) {
@@ -107,8 +112,12 @@ export default {
     return getShareObj()
   },
   methods: {
-    itemClick(item) {
-      console.log(item.title)
+    selected(index) {
+      let item = this.itemsList[index]
+      console.log(item)
+    },
+    selected2(item) {
+      console.log(1111,item)
     },
     handleClick() {
       wx.showRedPackage({
