@@ -1,7 +1,7 @@
 <template>
   <view class="container" style="overflow: hidden;" :style="{height:heightVH}">
-    <view class="margin-tb-lg">
-      <carousel :img-list="itemsList" @selected="selected" @selected2="selected2" url-key="url"/>
+    <view class="margin-tb-lg box">
+      <vastwu-imgbox :list="itemsList" :offsetX="16" :offsetY="4" @slideclick="selected" :auto=false></vastwu-imgbox>
     </view>
 
     <view class="bottom-bar">
@@ -16,7 +16,7 @@
 import Config from "@/config/config"
 import addTips from "@/components/add-tips"
 import { getShareObj } from "@/utils/share"
-import carousel from '@/components/vear-carousel/vear-carousel'
+import vastwuImgbox from '@/components/vastwu-imgbox/vastwu-imgbox'
 
 // 在页面中定义激励视频广告
 let videoAd = null;
@@ -26,7 +26,7 @@ let interstitialAd = null
 export default {
   components: {
     addTips,
-    carousel
+    vastwuImgbox
   },
   data() {
     return {
@@ -35,15 +35,18 @@ export default {
       heightVH: '110vh',
       // 职业（医生教师妈妈爸爸等）、节假日（春节除夕七夕圣诞等）
       itemsList: [{
-        title: 'jiao爸爸',
+        title: '啊啊啊',
         url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
+        getKey: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
       },{
-        title: 'jiao爸爸22',
+        title: '发发发的',
         url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
+        getKey: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
       },{
-        title: 'jiao爸爸3333',
+        title: '沙发的啊就了',
         url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
-      },],
+        getKey: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
+      }],
     }
   },
   onLoad(option) {
@@ -112,13 +115,10 @@ export default {
     return getShareObj()
   },
   methods: {
-    selected(index) {
-      let item = this.itemsList[index]
+    selected(item) {
       console.log(item)
     },
-    selected2(item) {
-      console.log(1111,item)
-    },
+
     handleClick() {
       wx.showRedPackage({
         url: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=abcJqTpylEG&check_type=2#wechat_redirect',
@@ -132,164 +132,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.avatar-container {
-  height: 290px;
-  width: 100%;
-  margin-top: 150rpx;
-  margin-left: auto;
-  margin-right: auto;
-  // background-size: 100%;
-}
-
-.avatar-bg-border {
-  border: 6px solid white;
-  border-radius: 10px;
-  width: 282px;
-  height: 282px;
-}
-
-.avatar-bg {
-  position: absolute;
-  z-index: 10;
-  height: 270px;
-  width: 270px;
-}
-
-.action-wrapper {
-  padding-top: 50rpx;
-  padding-left: 100rpx;
-  padding-right: 100rpx;
-  font-weight: 800;
-}
-
-.share-wrapper {
-  padding-top: 10rpx;
-  padding-left: 100rpx;
-  padding-right: 100rpx;
-  font-weight: 800;
-}
-
-.mask {
-  height: 100px;
-  width: 100px;
-  position: absolute;
-  top: 100px;
-  border: 3px solid rgba(255, 255, 255, 0.0);
-}
-
-.maskWithBorder {
-  border: dashed 3px white;
-}
-
-.hideHandle {
-  display: none;
-}
-
-.circle {
-  border-radius: 50%;
-  font-size: 15px;
-  color: #000;
-  line-height: 25px;
-  text-align: center;
-  background: #fff;
-}
-
-.handle,
-.cancel {
-  position: absolute;
-  z-index: 1;
-  width: 25px;
-  height: 25px;
-  background-color: white;
-  color: black;
-}
-
-.scrollView {
-  width: 100%;
-  position: absolute;
-  bottom: 0px;
-  white-space: nowrap;
-}
-
-.infoView {
-  width: 95%;
-  position: absolute;
-  bottom: 85px;
-  white-space: nowrap;
-  background-color: white;
-  margin: 10px;
-  padding: 1px 5px;
-  border-radius: 5px;
-  white-space: pre-wrap;
-}
-
-
-// cavans 真机上无法隐藏
-.cans-id-mask {
-  //position: absolute;
-  //left: 1000px;
-
-  position: absolute;
-  z-index: 0;
-  height: 270px;
-  width: 270px;
-}
-
-.flip-horizontal {
-  -moz-transform: scaleX(-1);
-  -webkit-transform: scaleX(-1);
-  -o-transform: scaleX(-1);
-  transform: scaleX(-1);
-}
-
-.check-scroll {
-  width: 100%;
-  position: absolute;
-  margin-top: 5%;
-  text-align: center;
-  .check-date {
-    width: 30%;
-    margin: 0 5px 0 5px;
-    display: inline-flex;
-    color: white;
-  }
-}
-
-
-.tui-dropdown-list {
-  width: 140px !important;
-}
-
-.tui-drop-input-box {
-  box-sizing: border-box;
-}
-
-.tui-animation {
-  display: inline-block;
-  transform: rotate(0deg);
-  transition: all 0.2s;
-}
-
-.tui-animation-show {
-  transform: rotate(180deg);
-}
-
-.tui-selected-list {
-  width: 140px;
-  background: #fff;
-  border-radius: 20upx;
-  overflow: hidden;
-  transform: translateZ(0);
-}
-
-.tui-dropdown-scroll {
-  height: 300upx;
-}
-
-.tui-btn-block {
-  height: 60rpx !important;
-  line-height: 60rpx !important;
-  font-size: 32rpx !important;
+.box {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 30px;
+  width: 80%;
 }
 
 .bottom-bar{
