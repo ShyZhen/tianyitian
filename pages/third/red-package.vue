@@ -1,7 +1,12 @@
 <template>
   <view class="container" style="overflow: hidden;" :style="{height:heightVH}">
-    <view class="margin-tb-lg box">
-      <vastwu-imgbox :list="itemsList" :offsetX="16" :offsetY="4" @slideclick="selected" :auto=false></vastwu-imgbox>
+    <view class="margin-tb-lg">
+      <view>
+        <carousel :img-list="itemsList" @selected="selected" @selected2="selected2" url-key="url"/>
+      </view>
+<!--      <view class="box">-->
+<!--        <vastwu-imgbox :list="itemsList" :offsetX="16" :offsetY="8" @slideclick="selected" :auto=false></vastwu-imgbox>-->
+<!--      </view>-->
     </view>
 
     <view class="bottom-bar">
@@ -17,6 +22,7 @@ import Config from "@/config/config"
 import addTips from "@/components/add-tips"
 import { getShareObj } from "@/utils/share"
 import vastwuImgbox from '@/components/vastwu-imgbox/vastwu-imgbox'
+import carousel from '@/components/vear-carousel'
 
 // 在页面中定义激励视频广告
 let videoAd = null;
@@ -26,7 +32,8 @@ let interstitialAd = null
 export default {
   components: {
     addTips,
-    vastwuImgbox
+    vastwuImgbox,
+    carousel
   },
   data() {
     return {
@@ -58,41 +65,41 @@ export default {
 
 
     // 在页面onLoad回调事件中创建插屏广告实例
-    if (uni.createInterstitialAd) {
-      interstitialAd = uni.createInterstitialAd({
-        adUnitId: 'adunit-3fbbbc8a3e8752c4'
-      })
-      interstitialAd.onLoad(() => {})
-      interstitialAd.onError((err) => {
-        console.log(err);
-      })
-      interstitialAd.onClose(() => {})
-    }
+    // if (uni.createInterstitialAd) {
+    //   interstitialAd = uni.createInterstitialAd({
+    //     adUnitId: 'adunit-3fbbbc8a3e8752c4'
+    //   })
+    //   interstitialAd.onLoad(() => {})
+    //   interstitialAd.onError((err) => {
+    //     console.log(err);
+    //   })
+    //   interstitialAd.onClose(() => {})
+    // }
 
 
     // #ifdef MP
     // 在页面onLoad回调事件中创建激励视频广告实例
-    if (uni.createRewardedVideoAd) {
-      videoAd = uni.createRewardedVideoAd({
-        adUnitId: 'adunit-18eceb8ba71421d7'
-      })
-      videoAd.onLoad(() => {
-        that.rewardedVideoAdLoaded = true;
-      })
-      videoAd.onError((err) => {
-        // 广告组件出现错误，直接允许用户保存，不做其他复杂处理
-        that.rewardedVideoAdLoaded = false;
-      })
-      videoAd.onClose((res) => {
-        if (res && res.isEnded || res === undefined) {
-          // 正常播放结束，下发奖励
-
-        } else {
-          // 播放中途退出，进行提示
-          that.$toast('请完整观看哦')
-        }
-      })
-    }
+    // if (uni.createRewardedVideoAd) {
+    //   videoAd = uni.createRewardedVideoAd({
+    //     adUnitId: 'adunit-18eceb8ba71421d7'
+    //   })
+    //   videoAd.onLoad(() => {
+    //     that.rewardedVideoAdLoaded = true;
+    //   })
+    //   videoAd.onError((err) => {
+    //     // 广告组件出现错误，直接允许用户保存，不做其他复杂处理
+    //     that.rewardedVideoAdLoaded = false;
+    //   })
+    //   videoAd.onClose((res) => {
+    //     if (res && res.isEnded || res === undefined) {
+    //       // 正常播放结束，下发奖励
+    //
+    //     } else {
+    //       // 播放中途退出，进行提示
+    //       that.$toast('请完整观看哦')
+    //     }
+    //   })
+    // }
     // #endif
 
   },
@@ -116,9 +123,11 @@ export default {
   },
   methods: {
     selected(item) {
-      console.log(item)
+      console.log('selected', item)
     },
-
+    selected2(item) {
+      console.log('selected2', item)
+    },
     handleClick() {
       wx.showRedPackage({
         url: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=abcJqTpylEG&check_type=2#wechat_redirect',
