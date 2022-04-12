@@ -1,33 +1,31 @@
 <template>
-  <view class="container" style="overflow: hidden;" :style="{height:heightVH}">
+  <view class="container" style="overflow: hidden" :style="{ height: heightVH }">
     <view class="margin-tb-lg">
       <view>
-        <carousel :img-list="itemsList" @selected="selected" @selected2="selected2" url-key="url"/>
+        <carousel :img-list="itemsList" @selected="selected" url-key="url" />
       </view>
-<!--      <view class="box">-->
-<!--        <vastwu-imgbox :list="itemsList" :offsetX="16" :offsetY="8" @slideclick="selected" :auto=false></vastwu-imgbox>-->
-<!--      </view>-->
+      <!--     <view class="box">
+       <vastwu-imgbox :list="itemsList" :offsetX="16" :offsetY="8" @slideclick="selected" :auto=false></vastwu-imgbox>
+</view> -->
     </view>
-
     <view class="bottom-bar">
       <view class="bottom-button bg-gradual-blue shadow">
         <text @tap="handleClick">以上由淘宝店铺【恭喜发财工作室】提供</text>
       </view>
     </view>
-
   </view>
 </template>
 <script>
-import Config from "@/config/config"
-import addTips from "@/components/add-tips"
-import { getShareObj } from "@/utils/share"
-import vastwuImgbox from '@/components/vastwu-imgbox/vastwu-imgbox'
-import carousel from '@/components/vear-carousel'
+import Config from '@/config/config';
+import addTips from '@/components/add-tips';
+import { getShareObj } from '@/utils/share';
+import vastwuImgbox from '@/components/vastwu-imgbox/vastwu-imgbox';
+import carousel from '@/components/vear-carousel';
 
 // 在页面中定义激励视频广告
 let videoAd = null;
 // 在页面中定义插屏广告
-let interstitialAd = null
+let interstitialAd = null;
 
 export default {
   components: {
@@ -41,28 +39,34 @@ export default {
       statusBarHeight: 0,
       heightVH: '110vh',
       // 职业（医生教师妈妈爸爸等）、节假日（春节除夕七夕圣诞等）
-      itemsList: [{
-        title: '啊啊啊',
-        url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
-        getKey: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
-      },{
-        title: '发发发的',
-        url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
-        getKey: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
-      },{
-        title: '沙发的啊就了',
-        url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
-        getKey: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
-      }],
-    }
+      itemsList: [
+        {
+          title: '啊啊啊',
+          url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
+          getKey:
+            'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
+        },
+        {
+          title: '发发发的',
+          url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
+          getKey:
+            'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
+        },
+        {
+          title: '沙发的啊就了',
+          url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
+          getKey:
+            'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
+        }
+      ]
+    };
   },
   onLoad(option) {
     let that = this;
 
     if (this.windowHeight <= 520) {
-      this.heightVH = '120vh'
+      this.heightVH = '120vh';
     }
-
 
     // 在页面onLoad回调事件中创建插屏广告实例
     // if (uni.createInterstitialAd) {
@@ -75,7 +79,6 @@ export default {
     //   })
     //   interstitialAd.onClose(() => {})
     // }
-
 
     // #ifdef MP
     // 在页面onLoad回调事件中创建激励视频广告实例
@@ -101,43 +104,38 @@ export default {
     //   })
     // }
     // #endif
-
   },
-  onReady() {
-  },
+  onReady() {},
   onShow() {
-    let that = this
+    let that = this;
 
     // 在适合的场景显示插屏广告
     if (interstitialAd) {
       interstitialAd.show().catch((err) => {
-        console.error(err)
-      })
+        console.error(err);
+      });
     }
   },
   onShareAppMessage(res) {
-    return getShareObj()
+    return getShareObj();
   },
   onShareTimeline(res) {
-    return getShareObj()
+    return getShareObj();
   },
   methods: {
-    selected(item) {
-      console.log('selected', item)
-    },
-    selected2(item) {
-      console.log('selected2', item)
+    selected(index) {
+      console.log('selected', index);
     },
     handleClick() {
       wx.showRedPackage({
         url: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=abcJqTpylEG&check_type=2#wechat_redirect',
-        fail(err){
-          console.log('拉起红包错误',err);
+        fail(err) {
+          console.log('拉起红包错误', err);
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -148,7 +146,7 @@ export default {
   width: 80%;
 }
 
-.bottom-bar{
+.bottom-bar {
   background-color: #fff;
   position: fixed;
   bottom: 0;

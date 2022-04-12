@@ -1,9 +1,31 @@
 <template>
-  <swiper class="image-container" previous-margin="45rpx" next-margin="45rpx" circular autoplay @change="swiperChange">
-    <swiper-item @click="selected" :class="currentIndex == index ? 'swiper-item' : 'swiper-item-side'" v-for="(item, index) in imgList" :key="item[urlKey]">
-      <image @click="selected2" :class="currentIndex == index ? 'item-img' : 'item-img-side'" :src="item[urlKey]" lazy-load :style="dontFirstAnimation ? 'animation: none;' : ''" mode="aspectFill"></image>
-    </swiper-item>
-  </swiper>
+  <view class="page">
+    <swiper
+      class="swiper-container"
+      previous-margin="120rpx"
+      next-margin="120rpx"
+      circular
+      autoplay
+      @change="swiperChange"
+    >
+      <swiper-item
+        :class="['swiper-item', { 'swiper-item--active': currentIndex == index }]"
+        v-for="(item, index) in imgList"
+        :key="item[urlKey]"
+        @click.stop="selected(index)"
+      >
+        <image
+          class="swiper-item-img"
+          :src="item[urlKey]"
+          :style="dontFirstAnimation ? 'animation: none;' : ''"
+          mode="aspectFill"
+        ></image>
+        <view class="swiper-item-name">{{ item.title }}</view>
+      </swiper-item>
+    </swiper>
+    <view class="date">有效期至 2022-07-12</view>
+    <view class="btn">使 用 封 面</view>
+  </view>
 </template>
 <script>
 export default {
@@ -11,86 +33,75 @@ export default {
     imgList: {
       type: Array,
       default() {
-        return []
+        return [];
       }
     },
     urlKey: {
       type: String,
       default() {
-        return ''
+        return '';
       }
-    },
+    }
   },
   data() {
     return {
       currentIndex: 0,
       dontFirstAnimation: true
-    }
+    };
   },
   methods: {
     swiperChange(e) {
-      this.dontFirstAnimation = false
-      this.currentIndex = e.detail.current
+      this.dontFirstAnimation = false;
+      this.currentIndex = e.detail.current;
     },
-    selected() {
-      this.$emit('selected', this.currentIndex)
-    },
-    selected2(item) {
-      this.$emit('selected2', item)
+    selected(index) {
+      this.$emit('selected', index);
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.swiper-container {
+  @include wh(750, 840);
+}
+.swiper-item {
+  @include fcc();
+  
+  position: relative;
+  box-sizing: border-box;
+  &-img {
+    @include wh(435, 700);
+
+    border-radius: 14rpx;
+  }
+  &-name {
+    @include sc(32, #fff);
+    @include tlc();
+    bottom: 15rpx;
+  }
+  &--active {
+    @include fcc();
+    .swiper-item-img {
+      // @include wh(522, 840);
+      transition: transform 0.4s ease-in-out;
+      @include fd(1.2);
     }
   }
 }
-</script>
-<style scoped>
-.image-container {
-  width: 750rpx;
-  height: 350rpx;
-}
+.date {
+  @include sc(26, #333);
+  @include fcc();
 
-.item-img {
-  width: 630rpx;
-  height: 300rpx;
+  height: 80rpx;
+  margin: 80rpx 0;
+}
+.btn {
+  @include wh(435, 100);
+  @include fcc();
+  @include sc(30, #fff);
+
   border-radius: 14rpx;
-  animation: to-big .3s;
-}
-
-.swiper-item {
-  width: 630rpx;
-  height: 300rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.item-img-side {
-  width: 630rpx;
-  height: 260rpx;
-  border-radius: 14rpx;
-  animation: to-mini .3s;
-}
-
-.swiper-item-side {
-  width: 630rpx;
-  height: 260rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-@keyframes to-mini
-{
-  from {
-    height: 300rpx;
-  }
-  to {
-    height: 260rpx;
-  }
-}
-@keyframes to-big
-{
-  from {
-    height: 260rpx;
-  }
-  to {
-    height: 300rpx;
-  }
+  background-color: rgb(224, 37, 37);
+  margin: 0 auto;
 }
 </style>
