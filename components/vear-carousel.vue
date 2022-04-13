@@ -20,11 +20,11 @@
           :style="dontFirstAnimation ? 'animation: none;' : ''"
           mode="aspectFill"
         ></image>
-        <view class="swiper-item-name">{{ item.title }}</view>
+<!--        <view class="swiper-item-name">{{ item.title }}</view>-->
       </swiper-item>
     </swiper>
-    <view class="date">有效期至 2022-07-12</view>
-    <view class="btn">使 用 封 面</view>
+    <view class="date">世间美好皆不如你</view>
+<!--    <view class="btn">点 击 领 取</view>-->
   </view>
 </template>
 <script>
@@ -89,19 +89,18 @@ export default {
   }
 }
 .date {
-  @include sc(26, #333);
+  @include sc(26, #fff);
   @include fcc();
-
+  font-weight: bold;
   height: 80rpx;
   margin: 80rpx 0;
 }
-.btn {
-  @include wh(435, 100);
-  @include fcc();
-  @include sc(30, #fff);
-
-  border-radius: 14rpx;
-  background-color: rgb(224, 37, 37);
-  margin: 0 auto;
-}
+//.btn {
+//  @include wh(435, 100);
+//  @include fcc();
+//  @include sc(30, #fff);
+//  border-radius: 14rpx;
+//  background-color: rgb(224, 37, 37);
+//  margin: 0 auto;
+//}
 </style>

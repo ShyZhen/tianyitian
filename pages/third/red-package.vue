@@ -1,12 +1,9 @@
 <template>
   <view class="container" style="overflow: hidden" :style="{ height: heightVH }">
-    <view class="margin-tb-lg">
+    <view class="margin-tb-xl">
       <view>
         <carousel :img-list="itemsList" @selected="selected" url-key="url" />
       </view>
-      <!--     <view class="box">
-       <vastwu-imgbox :list="itemsList" :offsetX="16" :offsetY="8" @slideclick="selected" :auto=false></vastwu-imgbox>
-</view> -->
     </view>
     <view class="bottom-bar">
       <view class="bottom-button bg-gradual-blue shadow">
@@ -19,7 +16,6 @@
 import Config from '@/config/config';
 import addTips from '@/components/add-tips';
 import { getShareObj } from '@/utils/share';
-import vastwuImgbox from '@/components/vastwu-imgbox/vastwu-imgbox';
 import carousel from '@/components/vear-carousel';
 
 // 在页面中定义激励视频广告
@@ -30,7 +26,6 @@ let interstitialAd = null;
 export default {
   components: {
     addTips,
-    vastwuImgbox,
     carousel
   },
   data() {
