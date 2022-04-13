@@ -204,16 +204,16 @@ export default {
 
 
     // 在页面onLoad回调事件中创建插屏广告实例
-    if (uni.createInterstitialAd) {
-      interstitialAd = uni.createInterstitialAd({
-        adUnitId: 'adunit-51c892872d1f6c1f'
-      })
-      interstitialAd.onLoad(() => {})
-      interstitialAd.onError((err) => {
-        console.log(err);
-      })
-      interstitialAd.onClose(() => {})
-    }
+    // if (uni.createInterstitialAd) {
+    //   interstitialAd = uni.createInterstitialAd({
+    //     adUnitId: 'adunit-51c892872d1f6c1f'
+    //   })
+    //   interstitialAd.onLoad(() => {})
+    //   interstitialAd.onError((err) => {
+    //     console.log(err);
+    //   })
+    //   interstitialAd.onClose(() => {})
+    // }
 
 
 
