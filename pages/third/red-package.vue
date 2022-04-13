@@ -1,7 +1,8 @@
 <template>
   <view class="container" style="overflow: hidden" :style="{ height: heightVH }">
-    <view class="title margin-tb-sm">点击图片领取，最后更新于 {{getDay()}}</view>
+
     <view class="margin-tb-xl">
+      <view class="title margin-tb-sm">点击图片领取，最后更新于 {{getDay()}}</view>
       <view>
         <carousel :img-list="itemsList" @selected="selected" url-key="url" />
       </view>
