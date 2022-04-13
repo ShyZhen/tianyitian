@@ -7,16 +7,16 @@
     </view>
     <view class="bottom-bar">
       <view class="bottom-button bg-gradual-blue shadow">
-        <text @tap="handleClick">以上由淘宝店铺【恭喜发财工作室】提供</text>
+        <text @tap="handleClick">以上由tb店铺【恭喜发财工作室】提供</text>
       </view>
     </view>
   </view>
 </template>
 <script>
-import Config from '@/config/config';
 import addTips from '@/components/add-tips';
 import { getShareObj } from '@/utils/share';
 import carousel from '@/components/vear-carousel';
+import {getRedPackage} from "@/apis/api";
 
 // 在页面中定义激励视频广告
 let videoAd = null;
@@ -34,70 +34,56 @@ export default {
       statusBarHeight: 0,
       heightVH: '110vh',
       // 职业（医生教师妈妈爸爸等）、节假日（春节除夕七夕圣诞等）
-      itemsList: [
-        {
-          title: '啊啊啊',
-          url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
-          getKey:
-            'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
-        },
-        {
-          title: '发发发的',
-          url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
-          getKey:
-            'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
-        },
-        {
-          title: '沙发的啊就了',
-          url: Config.imageCdn + '/MPTian/redpackage/1.jpg',
-          getKey:
-            'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=kuz5ixSgJdZ&check_type=2#wechat_redirect'
-        }
-      ]
+      itemsList: [],
+      currIndex: 0
     };
   },
   onLoad(option) {
     let that = this;
+
+    getRedPackage().then(res => {
+      that.itemsList = res.data
+    }).catch(err => {})
 
     if (this.windowHeight <= 520) {
       this.heightVH = '120vh';
     }
 
     // 在页面onLoad回调事件中创建插屏广告实例
-    // if (uni.createInterstitialAd) {
-    //   interstitialAd = uni.createInterstitialAd({
-    //     adUnitId: 'adunit-3fbbbc8a3e8752c4'
-    //   })
-    //   interstitialAd.onLoad(() => {})
-    //   interstitialAd.onError((err) => {
-    //     console.log(err);
-    //   })
-    //   interstitialAd.onClose(() => {})
-    // }
+    if (uni.createInterstitialAd) {
+      interstitialAd = uni.createInterstitialAd({
+        adUnitId: 'adunit-3fbbbc8a3e8752c4'
+      })
+      interstitialAd.onLoad(() => {})
+      interstitialAd.onError((err) => {
+        console.log(err);
+      })
+      interstitialAd.onClose(() => {})
+    }
 
     // #ifdef MP
     // 在页面onLoad回调事件中创建激励视频广告实例
-    // if (uni.createRewardedVideoAd) {
-    //   videoAd = uni.createRewardedVideoAd({
-    //     adUnitId: 'adunit-18eceb8ba71421d7'
-    //   })
-    //   videoAd.onLoad(() => {
-    //     that.rewardedVideoAdLoaded = true;
-    //   })
-    //   videoAd.onError((err) => {
-    //     // 广告组件出现错误，直接允许用户保存，不做其他复杂处理
-    //     that.rewardedVideoAdLoaded = false;
-    //   })
-    //   videoAd.onClose((res) => {
-    //     if (res && res.isEnded || res === undefined) {
-    //       // 正常播放结束，下发奖励
-    //
-    //     } else {
-    //       // 播放中途退出，进行提示
-    //       that.$toast('请完整观看哦')
-    //     }
-    //   })
-    // }
+    if (uni.createRewardedVideoAd) {
+      videoAd = uni.createRewardedVideoAd({
+        adUnitId: 'adunit-18eceb8ba71421d7'
+      })
+      videoAd.onLoad(() => {
+        that.rewardedVideoAdLoaded = true;
+      })
+      videoAd.onError((err) => {
+        // 广告组件出现错误，直接允许用户保存，不做其他复杂处理
+        that.rewardedVideoAdLoaded = false;
+      })
+      videoAd.onClose((res) => {
+        if (res && res.isEnded || res === undefined) {
+          // 正常播放结束，下发奖励
+          that.getRedPackage(that.currIndex)
+        } else {
+          // 播放中途退出，进行提示
+          that.$toast('请完整观看哦')
+        }
+      })
+    }
     // #endif
   },
   onReady() {},
@@ -117,17 +103,62 @@ export default {
   onShareTimeline(res) {
     return getShareObj();
   },
+
   methods: {
+
     selected(index) {
-      console.log('selected', index);
+      // 看完广告领取
+      let that = this
+      that.currIndex = index
+
+      if (!!videoAd) {
+        that.$loading(false)
+        uni.showModal({
+          title: '领取红包封面',
+          content: '看完视频广告可领取，数量有限',
+          success: function(res) {
+            if (res.confirm) {
+              console.log('用户点击确定');
+              // 用户触发广告后，显示激励视频广告
+              if (videoAd) {
+                videoAd.show().catch(() => {
+                  // 失败重试
+                  videoAd.load()
+                      .then(() => {
+                        videoAd.show();
+                      })
+                      .catch(err => {
+                        console.log(err);
+                        console.log('激励视频 广告显示失败')
+                      })
+                })
+              }
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+              that.$toast('视频很短的 (✪ω✪)')
+              //that.saveCans()
+              return
+            }
+          }
+        });
+      } else {
+        that.$loading(false)
+        that.getRedPackage(that.currIndex);
+      }
     },
-    handleClick() {
+
+    getRedPackage(index) {
+      let that = this
       wx.showRedPackage({
-        url: 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=abcJqTpylEG&check_type=2#wechat_redirect',
+        url: that.itemsList[index].key,
         fail(err) {
-          console.log('拉起红包错误', err);
+          console.log('拉起红包错误,请重试', err);
         }
       });
+    },
+
+    handleClick() {
+      let url = 'https://shop333222202.taobao.com/'
     }
   }
 };

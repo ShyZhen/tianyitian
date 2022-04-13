@@ -34,7 +34,17 @@ function imageSecCheck(filePath) {
     })
 }
 
+function getRedPackage() {
+    return new Promise((resolve, reject) => {
+        request.request('GET', 'V1/mptyt/red-package').then(res => {
+            resolve(res.data)
+        }).catch(e => {
+            reject(e)
+        })
+    })
+}
+
 
 export {
-    uniUploadImage, imageSecCheck
+    uniUploadImage, imageSecCheck, getRedPackage
 }
