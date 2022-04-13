@@ -1,5 +1,6 @@
 <template>
   <view class="container" style="overflow: hidden" :style="{ height: heightVH }">
+    <view class="title margin-tb-sm">点击图片领取，最后更新于 {{getDay()}}</view>
     <view class="margin-tb-xl">
       <view>
         <carousel :img-list="itemsList" @selected="selected" url-key="url" />
@@ -32,7 +33,7 @@ export default {
     return {
       SHOW_TIP: false,
       statusBarHeight: 0,
-      heightVH: '110vh',
+      heightVH: '100vh',
       // 职业（医生教师妈妈爸爸等）、节假日（春节除夕七夕圣诞等）
       itemsList: [],
       currIndex: 0
@@ -106,6 +107,14 @@ export default {
 
   methods: {
 
+    getDay() {
+      let calendar = new Date()
+      let year = calendar.getFullYear()
+      let month = calendar.getMonth() + 1   // 1-12
+      let date = calendar.getDate()         // 1-31
+      return year+'-'+month+'-'+date
+    },
+
     selected(index) {
       // 看完广告领取
       let that = this
@@ -171,7 +180,10 @@ export default {
   margin-top: 30px;
   width: 80%;
 }
-
+.title {
+  @include sc(26, #fff);
+  @include fcc();
+}
 .bottom-bar {
   background-color: #fff;
   position: fixed;

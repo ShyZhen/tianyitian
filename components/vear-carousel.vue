@@ -92,8 +92,8 @@ export default {
   @include sc(26, #fff);
   @include fcc();
   font-weight: bold;
-  height: 80rpx;
-  margin: 80rpx 0;
+  height: 40rpx;
+  margin: 40rpx 0;
 }
 //.btn {
 //  @include wh(435, 100);
