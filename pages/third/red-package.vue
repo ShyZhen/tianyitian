@@ -42,10 +42,13 @@ export default {
   },
   onLoad(option) {
     let that = this;
-
+    that.$loading()
     getRedPackage().then(res => {
       that.itemsList = res.data
-    }).catch(err => {})
+      that.$loading(false)
+    }).catch(err => {
+      that.$loading(false)
+    })
 
     if (this.windowHeight <= 520) {
       this.heightVH = '120vh';
