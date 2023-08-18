@@ -11,6 +11,8 @@ const env = {
     jumpAppPath: 'pages/index/index',
     jumpAppId2: 'wx720ac6d7229813a6',
     jumpAppPath2: 'pages/history/history',
+    jumpAppId3: 'wxf44e0f0793806c93',
+    jumpAppPath3: 'pages/index/navbar',
 
     imageCdn: 'https://cdn.xxx.com',
     apiBaseUrl: 'https://api.xxx.com',

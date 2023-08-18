@@ -126,7 +126,32 @@
       <!-- #endif -->
 
       <!-- #ifdef MP-WEIXIN -->
-      <view class="cu-card article" @click="ganfanzu">
+      <view class="cu-card article" @click="sil">
+        <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx; ">
+          <view class="title">
+            <view class="text-cut">图像识别大师</view>
+          </view>
+          <view class="content">
+            <image style="width: 180rpx;" src="/static/image/logo/every.png" mode="aspectFill"></image>
+            <view class="desc">
+              <view class="text-content">图文识别|拍照翻译|识花草动物|身份证银行卡|你想要的功能我都有！</view>
+              <view>
+                <view class="grid justify-between">
+                  <view>
+                    <view class="cu-tag bg-red light sm round">图像识别</view>
+                    <view class="cu-tag bg-cyan light sm round">良心推荐</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- #endif -->
+
+      <!-- #ifdef MP-WEIXIN -->
+      <!--
+       <view class="cu-card article" @click="ganfanzu">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx; ">
           <view class="title">
             <view class="text-cut">每日外卖红包</view>
@@ -147,6 +172,7 @@
           </view>
         </view>
       </view>
+      -->
       <!-- #endif -->
 
       <!-- #ifdef MP -->
@@ -201,6 +227,7 @@
       </view>
 
       <!-- #ifdef MP -->
+      <!--
       <view class="cu-card article" @click="getRedPackpage">
         <view class="cu-item shadow" style="margin: 30rpx 30rpx 0rpx 30rpx; ">
           <view class="title">
@@ -222,6 +249,7 @@
           </view>
         </view>
       </view>
+      -->
       <!-- #endif -->
 
       <view class="about-actions margin-top cu-list menu sm-border card-menu animation-shake animation-speed-2 animation-delay-3">
@@ -398,6 +426,17 @@ export default {
       uni.navigateToMiniProgram({
         appId: Config.jumpAppId2,
         path: Config.jumpAppPath2,
+        success(res) {
+        },
+        fail(e) {
+          console.log(e);
+        }
+      })
+    },
+    sil: function() {
+      uni.navigateToMiniProgram({
+        appId: Config.jumpAppId3,
+        path: Config.jumpAppPath3,
         success(res) {
         },
         fail(e) {
