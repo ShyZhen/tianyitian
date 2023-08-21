@@ -21,7 +21,7 @@
         <text class="text-white text-bold">{{slogan}}</text>
         <!-- #endif -->
         <!-- #ifdef MP -->
-		    <text class="text-white text-bold">每天可免费保存2次,剩余{{savedCounts}}次</text>
+		    <text class="text-white text-bold">每天可免费保存5次,剩余{{savedCounts}}次</text>
         <!-- #endif -->
       </view>
     </view>

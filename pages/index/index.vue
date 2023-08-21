@@ -177,9 +177,9 @@
 
       <!-- #ifdef MP -->
       <!--   banner广告    -->
-      <view class="ad-container margin-top cu-list menu sm-border card-menu">
-        <ad :unit-id="unitId2" style="z-index: 9"></ad>
-      </view>
+<!--      <view class="ad-container margin-top cu-list menu sm-border card-menu">-->
+<!--        <ad :unit-id="unitId2" style="z-index: 9"></ad>-->
+<!--      </view>-->
       <!-- #endif -->
 
       <view class="cu-card article" @click="addSlogan">
