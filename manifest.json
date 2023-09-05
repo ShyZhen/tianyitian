@@ -93,6 +93,7 @@
         },
         "usingComponents" : true,
         "plugins" : {},
+        "lazyCodeLoading" : "requiredComponents",
         "__usePrivacyCheck__" : true
     },
     "mp-alipay" : {
