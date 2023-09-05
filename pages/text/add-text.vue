@@ -7,7 +7,7 @@
     <view class="grid justify-around action-wrapper">
       <!-- #ifdef MP -->
       <view class="grid col-1">
-        <button id="btn-my-avatar" class="cu-btn round action-btn bg-gradual-blue shadow" open-type="getUserInfo" @tap="getUserInfo">我的头像</button>
+        <button id="btn-my-avatar" class="cu-btn round action-btn bg-gradual-blue shadow" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">我的头像</button>
       </view>
       <!-- #endif -->
       <view class="grid col-2">
@@ -338,7 +338,7 @@ export default {
     /**
      *  获取用户信息回调方法
      */
-    getUserInfo(e) {
+    getUserInfo() {
       let that = this
       this.$loading('头像加载中...')
       uni.getUserProfile({
@@ -363,6 +363,23 @@ export default {
           this.$loading(false)
         }
       })
+    },
+    onChooseAvatar(e) {
+      let that = this
+      if (e.detail.avatarUrl) {
+        let userInfo = e.detail
+        console.log(userInfo)
+        userInfo.avatarUrl = userInfo.avatarUrl.replace("132", "0") // 使用最大分辨率头像 959 * 959
+        getApp().globalData.userAvatarUrl = userInfo.avatarUrl
+        that.downloadAvatarAndPaintAll(userInfo.avatarUrl)
+        that.saveLoginUserInfo(userInfo)
+      } else {
+        uni.showModal({
+          title: '获取用户头像失败',
+          content: '用户信息仅用于创建新的图片，请放心使用',
+          showCancel: false
+        });
+      }
     },
     /**
      *  选择图片
