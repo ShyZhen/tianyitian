@@ -426,7 +426,11 @@ export default {
         console.log(userInfo)
         userInfo.avatarUrl = userInfo.avatarUrl.replace("132", "0") // 使用最大分辨率头像 959 * 959
         getApp().globalData.userAvatarUrl = userInfo.avatarUrl
-        that.downloadAvatarAndPaintAll(userInfo.avatarUrl, true)
+
+        that.avatarPath = userInfo.avatarUrl
+        getApp().globalData.userAvatarFilePath = userInfo.avatarUrl
+        that.tempPath = userInfo.avatarUrl
+
         that.saveLoginUserInfo(userInfo)
       } else {
         uni.showModal({
