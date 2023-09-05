@@ -293,10 +293,17 @@
       <!-- #endif -->
 
     </view>
+
+    <view>
+      <!-- #ifdef MP-WEIXIN -->
+      <ZYPrivacy @cancel="exitMp"></ZYPrivacy>
+      <!-- #endif -->
+    </view>
   </scroll-view>
 </template>
 
 <script>
+import ZYPrivacy from '@/components/zy-privacy/zy-privacy'
 import tuiIcon from "@/components/tui/icon"
 import addTips from "@/components/add-tips"
 import Config from "../../config/config"
@@ -308,7 +315,8 @@ let interstitialAd = null;
 export default {
   components: {
     tuiIcon,
-    addTips
+    addTips,
+    ZYPrivacy
   },
   data() {
     return {
@@ -491,7 +499,20 @@ export default {
         confirmText: '朕知道了',
       });
       // #endif
-    }
+    },
+
+    exitMp() {
+      console.log('退出小程序')
+      wx.exitMiniProgram({
+        success: (e) => {
+          console.log(e)
+        },
+        fail: (error) => {
+          this.$toast(error)
+        }
+      })
+    },
+
   }
 }
 </script>
